@@ -2,9 +2,122 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <link rel="stylesheet" href="./style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+    <title>Star Jack</title>
 </head>
 <body>
-    TEST
+    <div id="leader">
+        <p class="centerpos whiteText upper textCenter" style="font-size: 30px;text-shadow: -1px 3px 40px #ffffff;">The leaderboard is currently unavailable.</p>
+    </div>
+    <div id="main">
+        <div class="container">
+            <div class="whiteText flex" style="justify-content: space-between">
+                <div class="flex align ">
+                    <img src="" alt="" class="profileAvatarImg" style="width: 40px;border-radius: 50%;margin: 10px"/>
+                    <span class="userName"></span>
+                </div>
+                <div class="starParent">
+                    <span class="userStars">321</span>
+                    <span class="starIcon"></span>
+                </div>
+
+            </div>
+            <div id="selectPage" class="whiteText flex">
+                <div class="typeGame flex align selected">
+                    <p class="textCenter starParent" style="width: 100%">25 <span class="starIcon"></span></p>
+                </div>
+                <div class="typeGame flex align">
+                    <p class="textCenter starParent" style="width: 100%">50 <span class="starIcon"></span></p>
+                </div>
+                <div class="typeGame flex align">
+                    <p class="textCenter starParent" style="width: 100%">100 <span class="starIcon"></span></p>
+                </div>
+            </div>
+            <div id="roulette" class="flex align">
+                <div id="rouletteItems" class="flex">
+
+                </div>
+                <div id="RouletteSelector"></div>
+            </div>
+            <div class="whiteText flex align" style="justify-content: space-between; margin-top: 20px">
+                <p>Демо режим</p>
+
+                <label class="switch">
+                    <input type="checkbox" id="demoButton"/>
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <button id="spinButton">Мне повезёт!</button>
+            <div id="chance" class="flex align whiteText">
+<!--                <div id="chances" class="flex whiteText">-->
+
+<!--                </div>-->
+            </div>
+        </div>
+    </div>
+    <div id="sellOrReciveGift" class="hide">
+        <img src="./images/closePage.png" alt="" id="closePage">
+        <div class="whiteText textCenter" style="position: absolute; top: 50%; transform: translateY(-50%); width: 100%">
+            <img src="./images/gift1.gif" alt="" style="width: 200px" id="sellOfReciveImg"/>
+            <p>Подарок</p>
+            <p>Что вы хотите с ним сделать?</p>
+        </div>
+        <div id="buttonSellOrRecive">
+            <div class="container flex" style="justify-content: center">
+                <button id="giftToProfile">Oтправить в профиль</button>
+                <button id="reciveGift">Получить</button>
+                <button class="starParent" id="sellGift">Продать за <span id="priceSell" style="margin-left: 5px">0</span> <span class="starIcon"></span></button>
+            </div>
+        </div>
+    </div>
+    <div id="profile" class="whiteText">
+        <div class="container">
+            <div id="profileAvatar" class="textCenter">
+                <img class="profileAvatarImg" src="" alt="">
+            </div>
+            <br>
+            <p class="textCenter" style="font-size: 20px"><span class="userName"></span></p>
+            <p class="userId textCenter" style="color: hsl(215 20.2% 65.1%)"></p>
+            <div class="starParent">
+                <span class="userStars">321</span>
+                <span class="starIcon"></span>
+            </div>
+            <div class="textCenter">
+                <button id="depositButton">Пополнить баланс</button>
+            </div>
+            <br>
+            <div>
+                <div id="nogift" class="textCenter hide"  style="background-color: #181818; border-radius: 20px">
+                    <img src="./images/empty.png" alt="" style="width: 100px;height: 100px"/>
+                    <p>Нет нераспределённых подарков</p>
+                </div>
+                <div id="giftsUser" ></div>
+            </div>
+
+        </div>
+    </div>
+    <div id="blurEffect" class="hide"></div>
+    <div id="depositPage">
+        <div>
+            <img src="./images/closePage.png" alt="" id="closePageDeposit">
+            <div class="textCenter centerpos perChildSpaceTop" style="width: 100%">
+                <input type="number" placeholder="Введите сумму (min: 1)" id="depositInput"/>
+                <div>
+                    <button id="deposit">Пополнить</button>
+                </div>
+                <p style="color: #aaaaaa">Введите сумму пополнения</p>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="container">
+            <div id="footerButtons">
+            </div>
+        </div>
+    </footer>
+    <script src="script.js"></script>
 </body>
 </html>

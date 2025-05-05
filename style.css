@@ -1,0 +1,362 @@
+*{
+    border: 0;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+body{
+    background-color: #212121;
+}
+.flex{
+    display: flex;
+}
+.align{
+    align-items: center;
+}
+footer{
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 100px;
+    background-color: rgba(33, 33, 33, 0.7);
+    cursor: pointer;
+}
+.container{
+    padding: 20px;
+}
+.spaceAround{
+    justify-content: space-around;
+}
+#footerButtons svg{
+    width: 30px !important;
+    height: 30px !important;
+    fill: #aaaaaa;
+}
+
+.textCenter{
+    text-align: center;
+}
+#footerButtons p{
+    color: #aaaaaa;
+    font-size: 12px;
+    font-weight: bold;
+
+}
+.activeButton svg, .activeButton p{
+    fill: #8774e1 !important;
+    color: #8774e1 !important;
+}
+.hide{
+    display: none;
+}
+.whiteText{
+    color: white;
+}
+.centerpos{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+.upper{
+    text-transform: uppercase;
+}
+.w100{
+    width: 100%;
+}
+#profileAvatar img{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+#nogift{
+    padding: 30px;
+}
+#selectPage{
+    width: 100%;
+    height: 50px;
+    background-color: #181818;
+    border-radius: 10px;
+    padding: 2px;
+}
+.typeGame{
+    width: 33%;
+    height: 100%;
+    border-radius: 10px;
+}
+.selected.typeGame{
+    background-color: #212121;
+}
+#roulette, #chance{
+    margin-top: 30px;
+    height: 190px;
+    position: relative;
+    background-color: #181818;
+    border-radius: 10px;
+    overflow: hidden;
+}
+#RouletteSelector{
+    pointer-events: none;
+    position: absolute;
+    top: 5px;
+    height: calc(100% - 10px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1px;
+    background-color: #8774e1;
+    opacity: .5;
+}
+#RouletteSelector::before, #RouletteSelector::after{
+    content: "";
+    width: 1px;
+    height: 1px;
+    left: 0;
+    position: absolute;
+    background-color: #8774e1;
+
+}
+#RouletteSelector::before{
+    top: 1px;
+    transform: translate(.5px) rotate(-45deg) scale(11.314);
+    transform-origin: bottom left;
+}
+#RouletteSelector::after{
+    bottom: 1px;
+    transform: translate(.5px) rotate(45deg) scale(11.314);
+    transform-origin: top left;
+}
+.overflowHidden {
+    overflow: hidden;
+    width: 300px; /* ширина видимой области рулетки */
+    border: 2px solid #ccc;
+}
+
+#rouletteItems {
+    display: flex;
+    transition: transform 0.3s ease-out;
+    will-change: transform;
+}
+
+
+.rouletteItem{
+    width: 150px;
+    height: 100%;
+    border-radius: 10px;
+    background-color: #212121;
+    padding-top: 10px;
+    margin: 0 5px;
+}
+.rouletteItem img{
+    width: 120px;
+    /*height: 50px;*/
+}
+.price{
+    color: #ba7000;
+    background-color: #f0b40029;
+    display: inline-block;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+
+
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+#main{
+    margin-bottom: 100px;
+}
+#spinButton, #depositButton{
+    background-color: #8774e1;
+    width: 100%;
+    height: 60px;
+    color: white;
+    border-radius: 20px;
+    margin-top: 20px;
+}
+#chance{
+    overflow-x: auto;
+    height: 150px;
+    padding: 10px;
+    font-size: 10px;
+}
+#chance img{
+    width: 50px;
+}
+#chance .rouletteItem{
+    padding: 15px;
+}
+
+.starIcon{
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-image: url("./images/star.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.starParent{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.wrap{
+    flex-wrap: wrap;
+}
+#sellOrReciveGift{
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background-color: rgba(33, 33, 33, 0.7);
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+}
+#closePage, #closePageDeposit{
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+#buttonSellOrRecive{
+    position: absolute;
+    bottom: 50px;
+    left: 10px;
+    width: 100%;
+    height: 50px;
+    z-index: 999;
+}
+#buttonSellOrRecive button{
+    width: 50%;
+    height: 50px;
+    background-color: rgba(135, 116, 225, 0.15);
+    color: white;
+    border-radius: 10px;
+    margin: 10px;
+}
+#depositButton{
+    width: 200px;
+    border-radius: 10px;
+}
+#depositPage{
+    width: 100%;
+    height: 50%;
+    background-color: #212121;
+    position: fixed;
+    bottom:  -50%;
+    left: 0;
+    z-index: 100;
+    transition: 0.2s;
+}
+#depositPage.active{
+    bottom:0;
+}
+#blurEffect{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 5;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(10px);
+}
+#depositInput{
+    border-radius: 14px;
+    box-shadow: 0 0 0 2px hsla(0,0%,100%,.1);
+    padding: 12px 16px;
+    background: transparent;
+    color: white;
+}
+#deposit{
+    background-color: #8774e1;
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+.perChildSpaceTop *{
+    margin-top: 25px;
+}
+#giftsUser{
+    margin-bottom: 80px;
+    justify-content: center;
+}
+.giftsUser{
+    width: 150px;
+    text-align: center;
+    background-color: #181818;
+    border-radius: 20px;
+    padding: 10px;
+    height: 200px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+.giftsUser img{
+    width: 100px;
+    height: 100px;
+}
+.giftsUser > *{
+    margin: 10px;
+}

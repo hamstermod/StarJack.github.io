@@ -303,16 +303,64 @@
 
         const itemWidth = document.querySelector('.rouletteItem').offsetWidth + 10;
         let random = await f("spin", {type: level+1});
+        let spinCheckCount = 20;
         if(!random.ok){
             random = await random.text();
             createMessage(random, 0);
             return;
         }
         random = await random.json();
-        if(random.invoice_link){
-            Telegram.WebApp.openInvoice(random.invoice_link);
-            return;
+        async function checking() {
+            return new Promise((resolve) => {
+                const interval = setInterval(async () => {
+                    if (spinCheckCount <= 0) {
+                        clearInterval(interval);
+                        resolve(false);
+                        return;
+                    }
+
+                    spinCheckCount--;
+
+                    try {
+                        const resCheck = await f("spinCheck", { spinType: level + 1}).then((e) => e.json());
+                        if (resCheck.valid) {
+                            let randomRes = await f("spin", { type: level + 1 }).then((e) => e.json());
+
+                            if (randomRes.invoice_link) { //not pay
+                                const errorText = await randomRes.text();
+                                createMessage(errorText, 0);
+                                clearInterval(interval);
+                                resolve(false);
+                                return;
+                            }
+
+                            random = randomRes;
+                            if (random.status === 'ok') {
+                                clearInterval(interval);
+                                resolve(true);
+                                return;
+                            }
+                        }
+                    } catch (err) {
+                        console.error("Error in checking loop:", err);
+                        clearInterval(interval);
+                        resolve(false);
+                    }
+                }, 1000);
+            });
         }
+
+        if (random.invoice_link) {
+            Telegram.WebApp.openInvoice(random.invoice_link);
+            const result = await checking();
+            if (!result) {
+                createMessage("PAYMENT FAILED", 0);
+                return;
+            }
+            createMessage("PAYMENT SUCCESS");
+
+        }
+
         const randomIndex = isDemo ? Math.floor(Math.random() * (dataGift.length)) + 1 : random.data.giftId;
         const offset = (randomIndex-2) * itemWidth;
         const fullSpin = (dataGift.length * itemWidth) * 3;

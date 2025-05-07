@@ -14,11 +14,12 @@
     const depositButton = document.getElementById("depositButton");
     const giftsUser = document.getElementById("giftsUser");
     const buttonSellOrRecive = document.getElementById("buttonSellOrRecive");
+    const loading = document.getElementById("loading");
+    const bodyElm = document.body;
     let isDemo = false;
     let level = 0;
     let currentGift = null;
     let currentPrice = null;
-    let error = false;
     const search = Telegram.WebApp.initData;
 
     function parseQuery(query) {
@@ -83,14 +84,18 @@
             "credentials": "omit"
         });
     }
-    let giftUser  = await f("user").then((e) => e.json());
+    let giftUser  = await f("user").then((e) => e.json()).catch((e) => {
+        createMessage("USER AUTH ERROR", 0);
+    })
     if(giftUser.status !== "ok"){
         createMessage("USER AUTH ERROR", 0);
         return;
     }
     giftUser = JSON.parse(giftUser.data).gifts;
-    // console.log(giftUser)
-    // const giftUser = //JSON.parse();
+    setTimeout( () => {
+        bodyElm.style.overflow = "auto";
+        loading.className = "hide";
+    }, 2000)
     const dataGift = [
         {
             giftId: 1,
@@ -303,7 +308,7 @@
 
         const itemWidth = document.querySelector('.rouletteItem').offsetWidth + 10;
         let random = await f("spin", {type: level+1});
-        let spinCheckCount = 20;
+        let spinCheckCount = 10;
         if(!random.ok){
             random = await random.text();
             createMessage(random, 0);
@@ -350,52 +355,60 @@
             });
         }
 
-        if (random.invoice_link) {
-            Telegram.WebApp.openInvoice(random.invoice_link);
-            const result = await checking();
-            if (!result) {
-                createMessage("PAYMENT FAILED", 0);
-                return;
+        function getAnim(){
+            const randomIndex = isDemo ? Math.floor(Math.random() * (dataGift.length)) + 1 : random.data.giftId;
+            const offset = (randomIndex-2) * itemWidth;
+            const fullSpin = (dataGift.length * itemWidth) * 3;
+            const finalPosition = fullSpin + offset;
+            // const priceSell =document.getElementById("priceSell");
+            if(isDemo){
+                buttonSellOrRecive.classList.add("hide");
+                closePage.classList.remove('hide');
+            } else{
+                closePage.classList.add('hide');
+                buttonSellOrRecive.classList.remove("hide");
             }
-            createMessage("PAYMENT SUCCESS");
+            spinButton.disabled = true;
+            spinning = true;
+            rouletteItems.style.transition = 'transform 3s ease-out';
+            const rand = Math.random() * (itemWidth-100);
+            rouletteItems.style.transform = `translateX(-${finalPosition + rand}px)`;
 
-        }
-
-        const randomIndex = isDemo ? Math.floor(Math.random() * (dataGift.length)) + 1 : random.data.giftId;
-        const offset = (randomIndex-2) * itemWidth;
-        const fullSpin = (dataGift.length * itemWidth) * 3;
-        const finalPosition = fullSpin + offset;
-        // const priceSell =document.getElementById("priceSell");
-        if(isDemo){
-            buttonSellOrRecive.classList.add("hide");
-            closePage.classList.remove('hide');
-        } else{
-            closePage.classList.add('hide');
-            buttonSellOrRecive.classList.remove("hide");
-        }
-        spinButton.disabled = true;
-        spinning = true;
-        rouletteItems.style.transition = 'transform 3s ease-out';
-        const rand = Math.random() * (itemWidth-100);
-        rouletteItems.style.transform = `translateX(-${finalPosition + rand}px)`;
-
-        setTimeout(() => {
-            rouletteItems.style.transition = 'none';
-            rouletteItems.style.transform = `translateX(-${offset + rand}px)`;
-
-            const price = dataGift[randomIndex-1].price;
-            sellOfReciveImg.src = `./images/gift${(randomIndex)}.gif`;
-            // priceSell.innerText = price;
-            currentPrice = price;
-            currentGift = randomIndex;
             setTimeout(() => {
-                sellOrReciveGift.classList.remove("hide");
-                //setting :)
-                giftToProfile.classList.remove("hide");
-                spinning = false;
-                spinButton.disabled = false;
-            }, 500)
-        }, 3000);
+                rouletteItems.style.transition = 'none';
+                rouletteItems.style.transform = `translateX(-${offset + rand}px)`;
+
+                const price = dataGift[randomIndex-1].price;
+                sellOfReciveImg.src = `./images/gift${(randomIndex)}.gif`;
+                // priceSell.innerText = price;
+                currentPrice = price;
+                currentGift = randomIndex;
+                setTimeout(() => {
+                    sellOrReciveGift.classList.remove("hide");
+                    //setting :)
+                    giftToProfile.classList.remove("hide");
+                    spinning = false;
+                    spinButton.disabled = false;
+                }, 500)
+            }, 3000);
+        }
+        if (random.invoice_link) {
+            Telegram.WebApp.openInvoice(random.invoice_link, async (e) => {
+                if(e === "paid"){
+                    const result = await checking();
+                    if (!result) {
+                        createMessage("PAYMENT FAILED", 0);
+                        return;
+                    }
+                    createMessage("PAYMENT SUCCESS");
+                    getAnim();
+                }
+            });
+
+        }
+        else{
+            getAnim();
+        }
     }
     demoButton.onclick = () => {
         isDemo = !isDemo;

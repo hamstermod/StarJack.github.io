@@ -93,7 +93,7 @@
         createMessage("USER AUTH ERROR", 0);
         return;
     }
-    let fondA  = await f("main").then((e) => e.json());
+    let fondA  = await f("fond").then((e) => e.json());
     if(fondA.status !== "ok"){
         createMessage("SERVER ERROR", 0);
         return;
@@ -157,7 +157,7 @@
 
 
 
-    let page = "fond";
+    let page = "main";
     function closePages(){
         leader.classList.add('hide');
         main.classList.add('hide');

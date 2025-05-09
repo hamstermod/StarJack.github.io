@@ -70,7 +70,7 @@
             dialog.removeChild(div);
         }, 4000)
     }
-    if((userUIdata.user.username).trim().length <= 1){
+    if(userUIdata.user.username === undefined){
         createMessage("Пожалуйста, создайте имя пользователя(username) в профиле Telegram.", 0);
         return;
     }

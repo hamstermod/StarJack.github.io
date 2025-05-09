@@ -1,5 +1,5 @@
 ((async () => {
-    const MAINURL = "https://server-production-33f3.up.railway.app/"//"http://localhost:3000/";
+    const MAINURL = "https://server-production-bb76.up.railway.app/"//"http://localhost:3000/";
     const users = document.getElementById("users");
     const main = document.getElementById("main");
     const profile = document.getElementById("profile");

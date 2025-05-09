@@ -1,5 +1,6 @@
 ((async () => {
     const MAINURL = "https://server-production-bb76.up.railway.app/"//"http://localhost:3000/";
+
     const users = document.getElementById("users");
     const main = document.getElementById("main");
     const profile = document.getElementById("profile");
@@ -32,7 +33,7 @@
     const search = Telegram.WebApp.initData;
     const toFriend = document.getElementById("toFriend");
     const closeSendFriendPage = document.getElementById("closeSendFriendPage");
-
+    Telegram.WebApp.expand();
     function parseQuery(query) {
         const params = new URLSearchParams(query);
         const result = {};
@@ -76,22 +77,13 @@
 
     function f(path, params = {}){
         return fetch(MAINURL + path, {
-            "headers": {
+            method: "POST",
+            headers: {
                 "accept": "*/*",
-                "accept-language": "ru,en-US;q=0.9,en;q=0.8,hy;q=0.7",
-                "cache-control": "no-cache",
-                "content-type": "application/json",
-                "pragma": "no-cache",
-                "sec-fetch-dest": "empty",
-                "sec-fetch-mode": "cors",
-                "sec-fetch-site": "same-site"
+                "content-type": "application/json"
             },
-            "referrer": "http://localhost:63342/",
-            "referrerPolicy": "strict-origin-when-cross-origin",
-            "body": JSON.stringify({initData: search, ...params}),
-            "method": "POST",
-            "mode": "cors",
-            "credentials": "omit"
+            body: JSON.stringify({ initData: search, ...params }),
+            mode: "cors"
         });
     }
     let giftUser  = await f("user").then((e) => e.json()).catch((e) => {

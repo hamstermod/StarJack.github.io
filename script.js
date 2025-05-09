@@ -1,5 +1,5 @@
 ((async () => {
-    const MAINURL = "https://server-3-7bof.onrender.com"//"http://localhost:3000/";
+    const MAINURL = "https://server-3-7bof.onrender.com/"//"http://localhost:3000/";
     const users = document.getElementById("users");
     const main = document.getElementById("main");
     const profile = document.getElementById("profile");

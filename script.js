@@ -33,7 +33,7 @@
     const search = Telegram.WebApp.initData;
     const toFriend = document.getElementById("toFriend");
     const closeSendFriendPage = document.getElementById("closeSendFriendPage");
-    Telegram.WebApp.expand();
+    // Telegram.WebApp.expand();
     function parseQuery(query) {
         const params = new URLSearchParams(query);
         const result = {};
@@ -70,7 +70,7 @@
             dialog.removeChild(div);
         }, 4000)
     }
-    if(!((userUIdata.user.username).trim().length)){
+    if((userUIdata.user.username).trim().length <= 1){
         createMessage("Пожалуйста, создайте имя пользователя(username) в профиле Telegram.", 0);
         return;
     }

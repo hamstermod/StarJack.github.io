@@ -589,6 +589,10 @@ input:checked + .slider:before {
         background: #f1f1f1;
     }
 }
+#usersList{
+    overflow: auto;
+    height: 70vh;
+}
 #usersList .user{
     /*height: 30px;*/
     background-color: #181818;

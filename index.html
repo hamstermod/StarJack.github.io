@@ -8,9 +8,19 @@
 
     <title>Star Jack</title>
 </head>
-<body style="overflow: hidden">
-    <div id="leader">
-        <p class="centerpos whiteText upper textCenter" style="font-size: 30px;text-shadow: -1px 3px 40px #ffffff;">The leaderboard is currently unavailable.</p>
+<body > <!--style="overflow: hidden">-->
+    <div id="users">
+        <div class="container">
+            <form action="" class="search-bar" >
+                <input type="search" name="search" pattern=".*\S.*" required id="searchInput" />
+                <button class="search-btn" type="submit">
+                    <span>Search</span>
+                </button>
+            </form>
+            <div id="usersList"  style="color: white">
+
+            </div>
+        </div>
     </div>
     <div id="main" class="hide">
         <div class="container">
@@ -59,6 +69,29 @@
         </div>
     </div>
     <div id="sellOrReciveGift" class="hide">
+        <div id="sendFriendPage" class="" style="color: white">
+            <div class="container">
+                <p class="textCenter">Отправить другу</p>
+                <img src="./images/closePage.png" alt="" id="closeSendFriendPage">
+
+                <div style="margin-top: 40px">
+                    <h3 style="margin-top: 0;">🎁 Отправить другу</h3>
+                    <p>
+                        С помощью этой функции вы можете отправить подарок другому пользователю.
+                        Просто введите <strong>ID пользователя</strong>, которому хотите отправить подарок, и нажмите кнопку <em>«Отправить»</em>.
+                    </p>
+                    <label for="idInput" style="display: block; margin-bottom: 5px;">ID пользователя:</label>
+                    <div class="textCenter">
+                        <input type="number" placeholder="Напишите ID пользователя, которому хотите отправить подарок." id="idInput" class="textCenter"/>
+                        <div>
+                            <button id="send">Отправить</button>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
         <img src="./images/closePage.png" alt="" id="closePage">
         <div class="whiteText textCenter" style="position: absolute; top: 50%; transform: translateY(-50%); width: 100%">
             <img src="./images/gift1.gif" alt="" style="width: 200px" id="sellOfReciveImg"/>
@@ -68,7 +101,7 @@
         <div id="buttonSellOrRecive">
             <div class="container flex" style="justify-content: center">
                 <button id="giftToProfile">Oтправить в профиль</button>
-<!--                <button id="reciveGift">Получить</button>-->
+                <button id="toFriend">Отправить другу</button>
                 <button class="starParent" id="getGift">Получить подарок</button>
             </div>
         </div>
@@ -80,7 +113,7 @@
             </div>
             <br>
             <p class="textCenter" style="font-size: 20px"><span class="userName"></span></p>
-            <p class="userId textCenter" style="color: hsl(215 20.2% 65.1%)"></p>
+            <p class="userId textCenter starParent" style="color: hsl(215 20.2% 65.1%)" id="profileIdCopy"></p>
 <!--            <div class="starParent">-->
 <!--                <span class="userStars">321</span>-->
 <!--                <span class="starIcon"></span>-->
@@ -101,9 +134,11 @@
     </div>
     <div id="dialog">
     </div>
-    <div id="fond">
-        <div id="fondBackground">
-            <p id="fondText" class="starParent"><span id="fondAmount">0</span> / 50000 <span class="starIcon" style="width: 40px;height: 40px;"></span></p>
+    <div id="fond" >
+
+        <div id="fondBackground" style="position: relative">
+            <div id="fondImage"></div>
+            <p id="fondText" class="starParent"><span id="fondAmount">0</span> / <span id="fondMaxAmount">50000</span> <span class="starIcon" style="width: 40px;height: 40px;"></span></p>
         </div>
         <div class="container">
             <p style="color: white">
@@ -118,19 +153,19 @@
         </div>
     </div>
     <div id="blurEffect" class="hide"></div>
-    <div id="depositPage">
-        <div>
-            <img src="./images/closePage.png" alt="" id="closePageDeposit">
-            <div class="textCenter centerpos perChildSpaceTop" style="width: 100%">
-                <input type="number" placeholder="Введите сумму (min: 1)" id="depositInput"/>
-                <div>
-                    <button id="deposit">Пополнить</button>
-                </div>
-                <p style="color: #aaaaaa">Введите сумму пополнения</p>
-            </div>
-        </div>
-    </div>
-    <div id="loading" class=""></div>
+<!--    <div id="depositPage">-->
+<!--        <div>-->
+<!--            <img src="./images/closePage.png" alt="" id="closePageDeposit">-->
+<!--            <div class="textCenter centerpos perChildSpaceTop" style="width: 100%">-->
+<!--                <input type="number" placeholder="Введите сумму (min: 1)" id="depositInput"/>-->
+<!--                <div>-->
+<!--                    <button id="deposit">Пополнить</button>-->
+<!--                </div>-->
+<!--                <p style="color: #aaaaaa">Введите сумму пополнения</p>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+    <div id="loading" class="hide"></div>
     <footer>
         <div class="container">
             <div id="footerButtons">

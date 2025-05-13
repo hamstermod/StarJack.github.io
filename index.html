@@ -5,7 +5,20 @@
     <link rel="stylesheet" href="./style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
+    <script
+            async
+            src="https://tganalytics.xyz/index.js"
+            onload="initAnalytics()"
+            type="text/javascript"
+    ></script>
+    <script>
+        function initAnalytics() {
+            window.telegramAnalytics.init({
+                token: 'eyJhcHBfbmFtZSI6IlN0YXJKYWNrT3JpZ19ib3QiLCJhcHBfdXJsIjoiaHR0cHM6Ly90Lm1lL1N0YXJKYWNrT3JpZ19ib3QiLCJhcHBfZG9tYWluIjoiaHR0cHM6Ly9oYW1zdGVybW9kLmdpdGh1Yi5pby9TdGFySmFjay5naXRodWIuaW8vIn0=!LngJGLo7WH41JeEze65+RA+u+rPH7T3HjDiFCNTlYXc=', // SDK Auth token received via @DataChief_bot
+                appName: 'StarJackOrig_bot', // The analytics identifier you entered in @DataChief_bot
+            });
+        }
+    </script>
     <title>Star Jack</title>
 </head>
 <body style="overflow: hidden">

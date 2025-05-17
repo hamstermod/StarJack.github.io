@@ -66,7 +66,7 @@
                 <div id="RouletteSelector"></div>
             </div>
             <div class="whiteText flex align" style="justify-content: space-between; margin-top: 20px">
-                <p>Демо режим</p>
+                <p id="demoText">Демо режим</p>
 
                 <label class="switch">
                     <input type="checkbox" id="demoButton"/>
@@ -84,12 +84,12 @@
     <div id="sellOrReciveGift" class="hide">
         <div id="sendFriendPage" class="" style="color: white">
             <div class="container">
-                <p class="textCenter">Отправить другу</p>
+                <p class="textCenter toFriendText">Отправить другу</p>
                 <img src="./images/closePage.png" alt="" id="closeSendFriendPage">
 
                 <div style="margin-top: 40px">
-                    <h3 style="margin-top: 0;">🎁 Отправить другу</h3>
-                    <p>
+                    <h3 style="margin-top: 0;">🎁 <span class="toFriendText"></span></h3>
+                    <p id="textInfoSendFriend">
                         С помощью этой функции вы можете отправить подарок другому пользователю.
                         Просто введите <strong>ID пользователя</strong>, которому хотите отправить подарок, и нажмите кнопку <em>«Отправить»</em>.
                     </p>
@@ -108,18 +108,24 @@
         <img src="./images/closePage.png" alt="" id="closePage">
         <div class="whiteText textCenter" style="position: absolute; top: 50%; transform: translateY(-50%); width: 100%">
             <img src="./images/gift1.gif" alt="" style="width: 200px" id="sellOfReciveImg"/>
-            <p>Подарок</p>
+            <p id="giftTextSellOfRecive">Подарок</p>
 <!--            <p>Что вы хотите с ним сделать?</p>-->
         </div>
         <div id="buttonSellOrRecive">
             <div class="container flex" style="justify-content: center">
                 <button id="giftToProfile">Oтправить в профиль</button>
-                <button id="toFriend">Отправить другу</button>
+                <button id="toFriend" class="toFriendText">Отправить другу</button>
                 <button class="starParent" id="getGift">Получить подарок</button>
             </div>
         </div>
     </div>
     <div id="profile" class="whiteText">
+        <div class="switchLang">
+            <input id="language-toggle" class="check-toggle check-toggle-round-flat" type="checkbox">
+            <label for="language-toggle"></label>
+            <span class="on">RU</span>
+            <span class="off">EN</span>
+        </div>
         <div class="container">
             <div id="profileAvatar" class="textCenter">
                 <img class="profileAvatarImg" src="" alt="">
@@ -138,7 +144,7 @@
             <div>
                 <div id="nogift" class="textCenter hide"  style="background-color: #181818; border-radius: 20px">
                     <img src="./images/empty.png" alt="" style="width: 100px;height: 100px"/>
-                    <p>Нет нераспределённых подарков</p>
+                    <p id="nogiftP">Нет нераспределённых подарков</p>
                 </div>
                 <div id="giftsUser" ></div>
             </div>
@@ -154,7 +160,7 @@
             <p id="fondText" class="starParent"><span id="fondAmount">0</span> / <span id="fondMaxAmount">50000</span> <span class="starIcon" style="width: 40px;height: 40px;"></span></p>
         </div>
         <div class="container">
-            <p style="color: white">
+            <p style="color: white" id="fondInfoText">
                 🎰 Что такое Общий Фонд?
                 <br>
                 Общий фонд — это накопительный приз, который формируется каждый раз, когда игроки крутят рулетку.

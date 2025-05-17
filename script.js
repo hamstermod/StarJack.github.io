@@ -52,7 +52,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             placeHolderSend: "Please enter the user ID of the person you want to send the gift to.",
         }
     }
-    let lang = "en" && localStorage.getItem("lang");
+    let lang = localStorage.getItem("lang") === "en" || localStorage.getItem("lang") === "ru" ? localStorage.getItem("lang") : "en";
     let text = dataText[lang];
     const fondInfoText = document.getElementById("fondInfoText");
     const users = document.getElementById("users");

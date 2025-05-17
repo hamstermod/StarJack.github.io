@@ -665,12 +665,16 @@ input.check-toggle-round-flat:checked ~ .on {
 
 .switchLang > span.on {
     left: 0;
+    top: 50%;
+    transform: translateY(-50%);
     padding-left: 2px;
     color: #8774e1;
 }
 
 .switchLang > span.off {
     right: 0;
+    top: 50%;
+    transform: translateY(-50%);
     padding-right: 4px;
     color: #fff;
 }

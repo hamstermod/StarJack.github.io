@@ -783,6 +783,9 @@ input.check-toggle-round-flat:checked + label:after {
     width: 100px;
     /*height: 100px;*/
 }
+#selectCasePage{
+    justify-content: center;
+}
 #casesHeaderUserInfo{
     transition: 1s;
 }

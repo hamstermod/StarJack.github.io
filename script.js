@@ -728,7 +728,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             spinButton.disabled = true;
             spinning = true;
             rouletteItems.style.transition = 'transform 3s ease-out';
-            const rand = 15 + Math.random() * (itemWidth - 15);
+            const rand = 30 + Math.random() * (itemWidth - 100);
             rouletteItems.style.transform = `translateX(-${finalPosition + rand}px)`;
 
             setTimeout(() => {

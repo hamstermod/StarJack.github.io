@@ -1,5 +1,9 @@
 ((async () => {
-    const MAINURL = "https://server-production-bb76.up.railway.app/"//"http://localhost:3000/";
+    const test = true;
+
+
+
+    const MAINURL = test ? "http://localhost:3000/" : "https://server-production-bb76.up.railway.app/";
     const dataText = {
         ru: {
             errorParsing: "ОШИБКА анализа пользователя",
@@ -24,7 +28,8 @@
             infoSendFriend: `С помощью этой функции вы можете отправить подарок другому пользователю.
                         Просто введите <strong>ID пользователя</strong>, которому хотите отправить подарок, и нажмите кнопку <em>«Отправить»</em>.`,
             sendText: "Отправить",
-            placeHolderSend: "Напишите ID пользователя, которому хотите отправить подарок."
+            placeHolderSend: "Напишите ID пользователя, которому хотите отправить подарок.",
+            caseText: "Кейс",
         },
         en: {
             errorParsing: "ERROR parsing user",
@@ -50,6 +55,7 @@ The more you spin — the higher your chances to win!`,
 Simply enter the <strong>user ID</strong> of the person you want to send it to, then click <em>“Send”</em>.`,
             sendText: "Send",
             placeHolderSend: "Please enter the user ID of the person you want to send the gift to.",
+            caseText: "Case",
         }
     }
     let lang = localStorage.getItem("lang") === "en" || localStorage.getItem("lang") === "ru" ? localStorage.getItem("lang") : "en";
@@ -80,6 +86,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
     const sendElm = document.getElementById("send");
     let isDemo = false;
     let level = 0;
+    let caseId = 0;
     let currentGift = null;
     let currentPrice = null;
     let selectedGiftIndex = null;
@@ -128,6 +135,10 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
     const toFriendText = document.querySelectorAll(".toFriendText");
     const demoText = document.getElementById("demoText");
     const textInfoSendFriend= document.getElementById("textInfoSendFriend");
+    const selectCasePage = document.getElementById("selectCasePage");
+    const casePage = document.getElementById("casePage");
+    const headerCases = document.getElementById("headerCases");
+    const closeCases = document.getElementById("closeCases");
 
     const listRender = [
         {
@@ -176,6 +187,11 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             elmsRefs: idInput,
             to: "placeHolderSend",
             place: true
+        },
+        {
+            elmsRefs: ".caseText",
+            to: "caseText",
+            upgrade: true,
         }
     ]
 
@@ -230,7 +246,10 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
     }
     function renderListLang(){
         listRender.map((el) => {
-            let {elmsRefs, to, html, place} = el;
+            let {elmsRefs, to, html, place, upgrade} = el;
+            if(upgrade){
+                elmsRefs = document.querySelectorAll(elmsRefs);
+            }
             to = text[to];
             if(elmsRefs.length){
                 elmsRefs.forEach((el) => {
@@ -256,64 +275,215 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             }
         })
     }
-    renderListLang();
+
 
     giftUser = JSON.parse(giftUser.data);
     setTimeout( () => {
         bodyElm.style.overflow = "auto";
         loading.className = "hide";
     }, 2000)
-    const dataGift = [
+    const giftsData = [
         {
-            giftId: 1,
-            price: 100,
+          caseName: "Among Us",
+          caseImg: "./images/gift11.gif",
+            status: "NFT",
+          cases: [
+              {
+                  giftId: 1,
+                  price: 100,
+              },
+              {
+                  giftId: 2,
+                  price: 25,
+              },
+              {
+                  giftId: 3,
+                  price: 50,
+              },
+              {
+                  giftId: 4,
+                  price: 15,
+              },
+              {
+                  giftId: 5,
+                  price: 15,
+              },
+              {
+                  giftId: 6,
+                  price: 25,
+              },
+              {
+                  giftId: 7,
+                  price: 50,
+              },
+              {
+                  giftId: 8,
+                  price: 100,
+              },
+              {
+                  giftId: 9,
+                  price: 50,
+              },
+              {
+                  giftId: 10,
+                  price: 100,
+              },
+              {
+                  giftId: 11,
+                  price: 999,
+                  isNft: true
+              },
+              {
+                  giftId: 12,
+                  price: 50,
+              },
+          ]
         },
         {
-            giftId: 2,
-            price: 25,
+            caseName: "Durov’s Cap",
+            caseImg: "./images/gift13.gif",
+            status: "NEW",
+            cases: [
+                {
+                    giftId: 1,
+                    price: 100,
+                },
+                {
+                    giftId: 2,
+                    price: 25,
+                },
+                {
+                    giftId: 3,
+                    price: 50,
+                },
+                {
+                    giftId: 4,
+                    price: 15,
+                },
+                {
+                    giftId: 5,
+                    price: 15,
+                },
+                {
+                    giftId: 6,
+                    price: 25,
+                },
+                {
+                    giftId: 7,
+                    price: 50,
+                },
+                {
+                    giftId: 8,
+                    price: 100,
+                },
+                {
+                    giftId: 9,
+                    price: 50,
+                },
+                {
+                    giftId: 10,
+                    price: 100,
+                },
+                {
+                    giftId: 13,
+                    price: 999,
+                    isNft: true
+                },
+                {
+                    giftId: 12,
+                    price: 50,
+                },
+            ]
         },
         {
-            giftId: 3,
-            price: 50,
-        },
-        {
-            giftId: 4,
-            price: 15,
-        },
-        {
-            giftId: 5,
-            price: 15,
-        },
-        {
-            giftId: 6,
-            price: 25,
-        },
-        {
-            giftId: 7,
-            price: 50,
-        },
-        {
-            giftId: 8,
-            price: 100,
-        },
-        {
-            giftId: 9,
-            price: 50,
-        },
-        {
-            giftId: 10,
-            price: 100,
-        },
-        {
-            giftId: 11,
-            price: 999,
-            isNft: true
-        },
-        {
-            giftId: 12,
-            price: 50,
+            caseName: "Ion Gem",
+            caseImg: "./images/gift14.gif",
+            status: "NEW",
+            cases: [
+                {
+                    giftId: 1,
+                    price: 100,
+                },
+                {
+                    giftId: 2,
+                    price: 25,
+                },
+                {
+                    giftId: 3,
+                    price: 50,
+                },
+                {
+                    giftId: 4,
+                    price: 15,
+                },
+                {
+                    giftId: 5,
+                    price: 15,
+                },
+                {
+                    giftId: 6,
+                    price: 25,
+                },
+                {
+                    giftId: 7,
+                    price: 50,
+                },
+                {
+                    giftId: 8,
+                    price: 100,
+                },
+                {
+                    giftId: 9,
+                    price: 50,
+                },
+                {
+                    giftId: 10,
+                    price: 100,
+                },
+                {
+                    giftId: 14,
+                    price: 999,
+                    isNft: true
+                },
+                {
+                    giftId: 12,
+                    price: 50,
+                },
+            ]
         },
     ];
+
+    function renderCases(){
+        selectCasePage.innerHTML = '';
+        for(let i = 0; i < giftsData.length; i++){
+            const {caseName, caseImg, status} = giftsData[i];
+            const caseElm = document.createElement("div");
+            caseElm.className = "case";
+            caseElm.onclick = () => {
+                headerCases.classList.add("active");
+                selectCasePage.classList.add("hide");
+                casePage.classList.remove("hide");
+                caseId = i;
+                renderRoulette();
+            }
+            caseElm.innerHTML = `<div class="statusGift">${status}</div>
+                    <div style="width: 120px;" class="textCenter">
+                        <div style="min-height: 120px">
+                         <img src="${caseImg}" alt="" class="caseImg" />
+                        </div>
+                        <p>${caseName} <span class="caseText"></span></p>
+                    </div>`;
+            selectCasePage.appendChild(caseElm);
+        }
+
+
+    }
+    renderCases();
+    closeCases.onclick = () => {
+        headerCases.classList.remove("active");
+        selectCasePage.classList.remove("hide");
+        casePage.classList.add("hide");
+    }
     if(lang === "en"){
         language_toggle.checked = true;
     }
@@ -433,9 +603,10 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
                 if(t.fnc){
                     t.fnc();
                 }
-                if(div.classList.contains("activeButton")) {
+                if(div.classList.contains("activeButton") || spinning) {
                     return;
                 }
+
                 const children = html.querySelectorAll("div");
                 children.forEach((e) => {
                     e.classList.remove("activeButton");
@@ -485,16 +656,19 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         })
     }
     typeGameFunctional();
+    let dataGift = giftsData[caseId].cases;
     function renderRoulette(){
         const chanceE = document.getElementById("chance");
         let html = '';
         let html2 = '';
         const scale = 10 + level;
-        const maxPrice = 600 * (level+1);
+        const maxPrice = 500 - 100 * (level+1);
         let sum = 0;
+        dataGift = giftsData[caseId].cases;
         const dataGift2 = [...dataGift];
         dataGift2.sort((a,b) => {
             return a.price - b.price;
+            // return  b.price - a.price;
         })
         // console.log(dataGift2)
         for(let i = 0; i < dataGift.length; i++){
@@ -503,8 +677,11 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             const giftId2 = dataGift2[i].giftId;
             const isNft2 = dataGift2[i].isNft;
             let chance = Math.max(0, ((maxPrice - price2) / (maxPrice * scale)) * 100);
+            if(dataGift2.length === 1){
+                chance = 100;
+            }
             if(chance === 0){
-                chance =  100 - sum;
+                chance =  (100 - sum) / 3
             }
             sum += chance;
             html += `<div class="rouletteItem textCenter">
@@ -524,13 +701,13 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
                         <p class="price starParent"><span class="starIcon"></span> ${price2 >= 999 ? "???" : price2}</p>
                     </div>`;
         }
-        // console.log(sum)
         rouletteItems.innerHTML = html + html + html + html;
         chanceE.innerHTML = html2;
     }
     spinButton.onclick = spinRoulette;
     async function spinRoulette() {
         rouletteItems.style.transform = `translateX(0)`;
+        rouletteItems.classList.remove("animate")
         const closePage = document.getElementById("closePage");
         const sellOfReciveImg = document.getElementById("sellOfReciveImg");
 
@@ -551,15 +728,16 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             spinButton.disabled = true;
             spinning = true;
             rouletteItems.style.transition = 'transform 3s ease-out';
-            const rand = Math.random() * (itemWidth-100);
+            const rand = 15 + Math.random() * (itemWidth - 15);
             rouletteItems.style.transform = `translateX(-${finalPosition + rand}px)`;
 
             setTimeout(() => {
                 rouletteItems.style.transition = 'none';
                 rouletteItems.style.transform = `translateX(-${offset + rand}px)`;
-
-                const price = dataGift[randomIndex-1].price;
-                sellOfReciveImg.src = `./images/gift${(randomIndex)}.gif`;
+                const randGft = dataGift[randomIndex-1];
+                const price = randGft.price;
+                // console.log(randomIndex)
+                sellOfReciveImg.src = `./images/gift${(randGft.giftId)}.gif`;
                 // priceSell.innerText = price;
                 currentPrice = price;
                 currentGift = randomIndex;
@@ -570,6 +748,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
 
                     toFriend.classList.add("hide");
                     spinning = false;
+                    rouletteItems.classList.add("animate")
                     spinButton.disabled = false;
                 }, 500)
             }, 3000);
@@ -578,7 +757,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             getAnim();
             return;
         }
-        let random = await f("spin", {type: level+1});
+        let random = await f("spin", {type: level+1, case: caseId});
         let spinCheckCount = 10;
         if(!random.ok){
             random = await random.text();
@@ -729,13 +908,18 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         for(let i = 0; i < giftUser.length; i++){ // I'm not begginer proggramer :) I'm olympic proggramer and this way is very fast ...
             const {giftId, price, byFriend} = giftUser[i];
             const div = document.createElement("div");
+            const mainPathImg = "./images/gift";
             div.className = "giftsUser";
-            div.innerHTML = `${byFriend ? '<div class="statusGift">Oт друга</div>' : ''} <img src="./images/gift${giftId}.gif" alt="">
+            div.innerHTML = `${byFriend ? '<div class="statusGift">Oт друга</div>' : ''} <img src="${mainPathImg}${giftId}.gif"  onerror="this.onerror=null; this.src='./images/gift${giftId}.png';" alt="">
                 <p class="price starParent"><span class="starIcon"></span> ${price}</p>`;
             div.onclick = () => {
                 document.getElementById("sellOrReciveGift").classList.remove("hide");
                 giftToProfile.classList.add("hide");
-                sellOfReciveImg.src = `./images/gift${giftId}.gif`;
+                sellOfReciveImg.src = `${mainPathImg}${giftId}.gif`;
+                sellOfReciveImg.onerror = () => {
+                    sellOfReciveImg.onerror = null;
+                    sellOfReciveImg.src = `${mainPathImg}${giftId}.png`;
+                };
                 buttonSellOrRecive.classList.remove("hide");
                 toFriend.classList.remove("hide");
                 closePage.classList.remove("hide");
@@ -761,5 +945,5 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
     profileIdCopy.ontouchend = () => {
         profileIdCopy.classList.remove("activeCopy")
     }
-
+    renderListLang();
 })())

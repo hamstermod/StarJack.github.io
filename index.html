@@ -37,8 +37,11 @@
     </div>
     <div id="main" class="hide">
         <div class="container">
-            <div class="whiteText flex" style="justify-content: space-between">
-                <div class="flex align ">
+            <div class="whiteText flex" style="justify-content: space-between" id="headerCases">
+                <div  class="flex align" id="closeCasesParent">
+                    <button id="closeCases" class="close-btn" >×</button>
+                </div>
+                <div class="flex align" style="" id="casesHeaderUserInfo">
                     <img src="" alt="" class="profileAvatarImg" style="width: 40px;border-radius: 50%;margin: 10px"/>
                     <span class="userName"></span>
                 </div>
@@ -48,36 +51,41 @@
 <!--                </div>-->
 
             </div>
-            <div id="selectPage" class="whiteText flex">
-                <div class="typeGame flex align selected">
-                    <p class="textCenter starParent" style="width: 100%">25 <span class="starIcon"></span></p>
-                </div>
-                <div class="typeGame flex align">
-                    <p class="textCenter starParent" style="width: 100%">50 <span class="starIcon"></span></p>
-                </div>
-                <div class="typeGame flex align">
-                    <p class="textCenter starParent" style="width: 100%">100 <span class="starIcon"></span></p>
-                </div>
-            </div>
-            <div id="roulette" class="flex align">
-                <div id="rouletteItems" class="flex">
+            <div id="selectCasePage" class="flex whiteText wrap">
 
+            </div>
+            <div id="casePage" class="hide">
+                <div id="selectPage" class="whiteText flex">
+                    <div class="typeGame flex align selected">
+                        <p class="textCenter starParent" style="width: 100%">25 <span class="starIcon"></span></p>
+                    </div>
+                    <div class="typeGame flex align">
+                        <p class="textCenter starParent" style="width: 100%">50 <span class="starIcon"></span></p>
+                    </div>
+                    <div class="typeGame flex align">
+                        <p class="textCenter starParent" style="width: 100%">100 <span class="starIcon"></span></p>
+                    </div>
                 </div>
-                <div id="RouletteSelector"></div>
-            </div>
-            <div class="whiteText flex align" style="justify-content: space-between; margin-top: 20px">
-                <p id="demoText">Демо режим</p>
+                <div id="roulette" class="flex align">
+                    <div id="rouletteItems" class="flex animate">
 
-                <label class="switch">
-                    <input type="checkbox" id="demoButton"/>
-                    <span class="slider round"></span>
-                </label>
-            </div>
-            <button id="spinButton">Мне повезёт!</button>
-            <div id="chance" class="flex align whiteText">
-<!--                <div id="chances" class="flex whiteText">-->
+                    </div>
+                    <div id="RouletteSelector"></div>
+                </div>
+                <div class="whiteText flex align" style="justify-content: space-between; margin-top: 20px">
+                    <p id="demoText">Демо режим</p>
 
-<!--                </div>-->
+                    <label class="switch">
+                        <input type="checkbox" id="demoButton"/>
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <button id="spinButton">Мне повезёт!</button>
+                <div id="chance" class="flex align whiteText">
+                    <!--                <div id="chances" class="flex whiteText">-->
+
+                    <!--                </div>-->
+                </div>
             </div>
         </div>
     </div>
@@ -184,7 +192,7 @@
 <!--            </div>-->
 <!--        </div>-->
 <!--    </div>-->
-    <div id="loading" class=""></div>
+    <div id="loading" class="hide"></div>
     <footer>
         <div class="container">
             <div id="footerButtons">

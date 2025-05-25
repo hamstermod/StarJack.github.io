@@ -12,7 +12,8 @@ body{
     background: linear-gradient(90deg, #1E1E2F, #2B2B3C);
     /*background: linear-gradient(145deg, #0f0f1a, #1c1c2b, #4b0082);*/
 
-
+    width: 100vw;
+    height: 100vh;
 
 
 

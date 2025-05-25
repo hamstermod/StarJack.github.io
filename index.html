@@ -35,6 +35,24 @@
             </div>
         </div>
     </div>
+    <div id="fond" >
+
+        <div id="fondBackground" style="position: relative">
+            <div id="fondImage"></div>
+            <p id="fondText" class="starParent"><span id="fondAmount">0</span> / <span id="fondMaxAmount">50000</span> <span class="starIcon" style="width: 40px;height: 40px;"></span></p>
+        </div>
+        <div class="container">
+            <p style="color: white" id="fondInfoText">
+                🎰 Что такое Общий Фонд?
+                <br>
+                Общий фонд — это накопительный приз, который формируется каждый раз, когда игроки крутят рулетку.
+                Часть потраченных монет при каждом вращении добавляется в этот фонд.
+                <br>
+                Когда фонд достигает максимума, среди всех участников, внесших вклад, проводится розыгрыш суперприза!
+                Чем больше ты крутишь — тем больше твой шанс выиграть!
+            </p>
+        </div>
+    </div>
     <div id="main" class="hide">
         <div class="container">
             <div class="whiteText flex" style="justify-content: space-between" id="headerCases">
@@ -45,10 +63,10 @@
                     <img src="" alt="" class="profileAvatarImg" style="width: 40px;border-radius: 50%;margin: 10px"/>
                     <span class="userName"></span>
                 </div>
-<!--                <div class="starParent">-->
-<!--                    <span class="userStars">321</span>-->
-<!--                    <span class="starIcon"></span>-->
-<!--                </div>-->
+                <!--                <div class="starParent">-->
+                <!--                    <span class="userStars">321</span>-->
+                <!--                    <span class="starIcon"></span>-->
+                <!--                </div>-->
 
             </div>
             <div id="selectCasePage" class="flex whiteText wrap">
@@ -89,6 +107,39 @@
             </div>
         </div>
     </div>
+    <div id="profile" class="whiteText">
+        <div class="switchLang">
+            <input id="language-toggle" class="check-toggle check-toggle-round-flat" type="checkbox">
+            <label for="language-toggle"></label>
+            <span class="on">RU</span>
+            <span class="off">EN</span>
+        </div>
+        <div class="container">
+            <div id="profileAvatar" class="textCenter">
+                <img class="profileAvatarImg" src="" alt="">
+            </div>
+            <br>
+            <p class="textCenter" style="font-size: 20px"><span class="userName"></span></p>
+            <p class="userId textCenter starParent" style="color: hsl(215 20.2% 65.1%)" id="profileIdCopy"></p>
+            <!--            <div class="starParent">-->
+            <!--                <span class="userStars">321</span>-->
+            <!--                <span class="starIcon"></span>-->
+            <!--            </div>-->
+            <!--            <div class="textCenter">-->
+            <!--                <button id="depositButton">Пополнить баланс</button>-->
+            <!--            </div>-->
+            <br>
+            <div>
+                <div id="nogift" class="textCenter hide"  style="background-color: #181818; border-radius: 20px">
+                    <img src="./images/empty.png" alt="" style="width: 100px;height: 100px"/>
+                    <p id="nogiftP">Нет нераспределённых подарков</p>
+                </div>
+                <div id="giftsUser" ></div>
+            </div>
+
+        </div>
+    </div>
+
     <div id="sellOrReciveGift" class="hide">
         <div id="sendFriendPage" class="" style="color: white">
             <div class="container">
@@ -117,7 +168,7 @@
         <div class="whiteText textCenter" style="position: absolute; top: 50%; transform: translateY(-50%); width: 100%">
             <img src="./images/gift1.gif" alt="" style="width: 200px" id="sellOfReciveImg"/>
             <p id="giftTextSellOfRecive">Подарок</p>
-<!--            <p>Что вы хотите с ним сделать?</p>-->
+            <!--            <p>Что вы хотите с ним сделать?</p>-->
         </div>
         <div id="buttonSellOrRecive">
             <div class="container flex" style="justify-content: center">
@@ -127,58 +178,9 @@
             </div>
         </div>
     </div>
-    <div id="profile" class="whiteText">
-        <div class="switchLang">
-            <input id="language-toggle" class="check-toggle check-toggle-round-flat" type="checkbox">
-            <label for="language-toggle"></label>
-            <span class="on">RU</span>
-            <span class="off">EN</span>
-        </div>
-        <div class="container">
-            <div id="profileAvatar" class="textCenter">
-                <img class="profileAvatarImg" src="" alt="">
-            </div>
-            <br>
-            <p class="textCenter" style="font-size: 20px"><span class="userName"></span></p>
-            <p class="userId textCenter starParent" style="color: hsl(215 20.2% 65.1%)" id="profileIdCopy"></p>
-<!--            <div class="starParent">-->
-<!--                <span class="userStars">321</span>-->
-<!--                <span class="starIcon"></span>-->
-<!--            </div>-->
-<!--            <div class="textCenter">-->
-<!--                <button id="depositButton">Пополнить баланс</button>-->
-<!--            </div>-->
-            <br>
-            <div>
-                <div id="nogift" class="textCenter hide"  style="background-color: #181818; border-radius: 20px">
-                    <img src="./images/empty.png" alt="" style="width: 100px;height: 100px"/>
-                    <p id="nogiftP">Нет нераспределённых подарков</p>
-                </div>
-                <div id="giftsUser" ></div>
-            </div>
-
-        </div>
-    </div>
     <div id="dialog">
     </div>
-    <div id="fond" >
 
-        <div id="fondBackground" style="position: relative">
-            <div id="fondImage"></div>
-            <p id="fondText" class="starParent"><span id="fondAmount">0</span> / <span id="fondMaxAmount">50000</span> <span class="starIcon" style="width: 40px;height: 40px;"></span></p>
-        </div>
-        <div class="container">
-            <p style="color: white" id="fondInfoText">
-                🎰 Что такое Общий Фонд?
-                <br>
-                Общий фонд — это накопительный приз, который формируется каждый раз, когда игроки крутят рулетку.
-                Часть потраченных монет при каждом вращении добавляется в этот фонд.
-                <br>
-                Когда фонд достигает максимума, среди всех участников, внесших вклад, проводится розыгрыш суперприза!
-                Чем больше ты крутишь — тем больше твой шанс выиграть!
-            </p>
-        </div>
-    </div>
     <div id="blurEffect" class="hide"></div>
 <!--    <div id="depositPage">-->
 <!--        <div>-->

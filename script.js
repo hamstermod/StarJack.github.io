@@ -193,7 +193,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             to: "caseText",
             upgrade: true,
         }
-    ]
+    ];
 
     if(userUIdata.user.username === undefined){
         createMessage(text.errorCreateUsername, 0);
@@ -661,28 +661,46 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         const chanceE = document.getElementById("chance");
         let html = '';
         let html2 = '';
-        const scale = 10 + level;
-        const maxPrice = 500 - 100 * (level+1);
+        // const scale = 10 + level;
+       
+        const maxPrice = 999//500 - 100 * (level+1);
         let sum = 0;
         dataGift = giftsData[caseId].cases;
+        const biasPower = 1 - (level / 10); // higher level => lower power => less penalty for high prices
+
+        const weights = dataGift.map(c => 1 / Math.pow(c.price, biasPower));
+        const totalWeight = weights.reduce((sum, w) => sum + w, 0);
+
+        dataGift =  dataGift.map((c, i) => ({
+            giftId: c.giftId,
+            price: c.price,
+            chance: +(weights[i] / totalWeight * 100).toFixed(3)
+        }));
         const dataGift2 = [...dataGift];
         dataGift2.sort((a,b) => {
             return a.price - b.price;
             // return  b.price - a.price;
         })
         // console.log(dataGift2)
+
         for(let i = 0; i < dataGift.length; i++){
             const {giftId, price, isNft} = dataGift[i];
             const price2 = dataGift2[i].price;
             const giftId2 = dataGift2[i].giftId;
             const isNft2 = dataGift2[i].isNft;
-            let chance = Math.max(0, ((maxPrice - price2) / (maxPrice * scale)) * 100);
-            if(dataGift2.length === 1){
-                chance = 100;
-            }
-            if(chance === 0){
-                chance =  (100 - sum) / 3
-            }
+            const chance =  dataGift2[i].chance;
+            // let chance = Math.max(0, ((maxPrice - price2) / (maxPrice * scale)) * 100);
+            // const ratio = (maxPrice - price2) / maxPrice;
+
+            // let chance =;
+
+            // chance =  Math.max(0, Math.min(100, chance));
+            // if(dataGift2.length === 1){
+            //     chance = 100;
+            // }
+            // if(chance === 0){
+            //     chance =  (100 - sum) / 3
+            // }
             sum += chance;
             html += `<div class="rouletteItem textCenter">
                         ${isNft ? `<div style="overflow: hidden;width: 100%; height: 100%;position: absolute;left: 0;top: 0;">
@@ -701,6 +719,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
                         <p class="price starParent"><span class="starIcon"></span> ${price2 >= 999 ? "???" : price2}</p>
                     </div>`;
         }
+        // console.log(sum)
         rouletteItems.innerHTML = html + html + html + html;
         chanceE.innerHTML = html2;
     }
@@ -728,7 +747,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             spinButton.disabled = true;
             spinning = true;
             rouletteItems.style.transition = 'transform 3s ease-out';
-            const rand = 15 + Math.random() * (itemWidth - 15);
+            const rand = 30 + Math.random() * (itemWidth - 100);
             rouletteItems.style.transform = `translateX(-${finalPosition + rand}px)`;
 
             setTimeout(() => {

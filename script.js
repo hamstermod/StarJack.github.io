@@ -1,5 +1,5 @@
 ((async () => {
-    const test = false;
+    const test = true;
 
 
 
@@ -30,6 +30,7 @@
             sendText: "Отправить",
             placeHolderSend: "Напишите ID пользователя, которому хотите отправить подарок.",
             caseText: "Кейс",
+            giftWithdraw: "Подарок будет доставлен в течение 1 минуты – 24 часов. Пожалуйста, подождите — вы получите уведомление, как только он будет доставлен.",
         },
         en: {
             errorParsing: "ERROR parsing user",
@@ -56,6 +57,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             sendText: "Send",
             placeHolderSend: "Please enter the user ID of the person you want to send the gift to.",
             caseText: "Case",
+            giftWithdraw: "The gift will be delivered within 1 minute to 24 hours. Please wait — you will receive a notification as soon as it is delivered."
         }
     }
     let lang = localStorage.getItem("lang") === "en" || localStorage.getItem("lang") === "ru" ? localStorage.getItem("lang") : "en";
@@ -882,7 +884,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         if(!res.ok){
             createMessage(await res.text(), 0);
         } else{
-            createMessage("Подарок будет доставлен в течение 1 минуты – 24 часов. Пожалуйста, подождите — вы получите уведомление, как только он будет доставлен.", 1);
+            createMessage(text.giftWithdraw, 1);
             sellOrReciveGift.classList.add("hide");
             giftUser  = await f("user").then((e) => e.json());
             if(giftUser.status !== "ok"){

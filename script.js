@@ -288,185 +288,19 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         bodyElm.style.overflow = "auto";
         loading.className = "hide";
     }, 2000)
-    const giftsData = [
-        {
-          caseName: "Among Us",
-          caseImg: "./images/gift11.gif",
-            status: "NFT",
-          cases: [
-              {
-                  giftId: 1,
-                  price: 100,
-              },
-              {
-                  giftId: 2,
-                  price: 25,
-              },
-              {
-                  giftId: 3,
-                  price: 50,
-              },
-              {
-                  giftId: 4,
-                  price: 15,
-              },
-              {
-                  giftId: 5,
-                  price: 15,
-              },
-              {
-                  giftId: 6,
-                  price: 25,
-              },
-              {
-                  giftId: 7,
-                  price: 50,
-              },
-              {
-                  giftId: 8,
-                  price: 100,
-              },
-              {
-                  giftId: 9,
-                  price: 50,
-              },
-              {
-                  giftId: 10,
-                  price: 100,
-              },
-              {
-                  giftId: 11,
-                  price: 999,
-                  isNft: true,
-                  exclusive: true,
-              },
-              {
-                  giftId: 12,
-                  price: 50,
-              },
-          ]
-        },
-        {
-            caseName: "Durov’s Cap",
-            caseImg: "./images/gift13.gif",
-            status: "NEW",
-            cases: [
-                {
-                    giftId: 1,
-                    price: 100,
-                },
-                {
-                    giftId: 2,
-                    price: 25,
-                },
-                {
-                    giftId: 3,
-                    price: 50,
-                },
-                {
-                    giftId: 4,
-                    price: 15,
-                },
-                {
-                    giftId: 5,
-                    price: 15,
-                },
-                {
-                    giftId: 6,
-                    price: 25,
-                },
-                {
-                    giftId: 7,
-                    price: 50,
-                },
-                {
-                    giftId: 8,
-                    price: 100,
-                },
-                {
-                    giftId: 9,
-                    price: 50,
-                },
-                {
-                    giftId: 10,
-                    price: 100,
-                },
-                {
-                    giftId: 13,
-                    price: 999,
-                    isNft: true
-                },
-                {
-                    giftId: 12,
-                    price: 50,
-                },
-            ]
-        },
-        {
-            caseName: "Ion Gem",
-            caseImg: "./images/gift14.gif",
-            status: "NEW",
-            cases: [
-                {
-                    giftId: 1,
-                    price: 100,
-                },
-                {
-                    giftId: 2,
-                    price: 25,
-                },
-                {
-                    giftId: 3,
-                    price: 50,
-                },
-                {
-                    giftId: 4,
-                    price: 15,
-                },
-                {
-                    giftId: 5,
-                    price: 15,
-                },
-                {
-                    giftId: 6,
-                    price: 25,
-                },
-                {
-                    giftId: 7,
-                    price: 50,
-                },
-                {
-                    giftId: 8,
-                    price: 100,
-                },
-                {
-                    giftId: 9,
-                    price: 50,
-                },
-                {
-                    giftId: 10,
-                    price: 100,
-                },
-                {
-                    giftId: 14,
-                    price: 999,
-                    isNft: true
-                },
-                {
-                    giftId: 12,
-                    price: 50,
-                },
-            ]
-        },
-    ];
+    let giftsData = await f("gifts").then((e) => e.json())
+    giftsData = giftsData.data;
 
     function renderCases(){
         selectCasePage.innerHTML = '';
         for(let i = 0; i < giftsData.length; i++){
-            const {caseName, caseImg, status} = giftsData[i];
+            const {caseName, caseImg, status, isClosed} = giftsData[i];
             const caseElm = document.createElement("div");
             caseElm.className = "case";
             caseElm.onclick = () => {
+                if(isClosed){
+                    return;
+                }
                 headerCases.classList.add("active");
                 selectCasePage.classList.add("hide");
                 casePage.classList.remove("hide");
@@ -731,7 +565,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
 
         const itemWidth = document.querySelector('.rouletteItem').offsetWidth + 10;
         function getAnim(){
-            const randomIndex = isDemo ? Math.floor(Math.random() * (dataGift.length)) + 1 : random.data.giftId;
+            const randomIndex = isDemo ? dataGift[Math.floor(Math.random() * (dataGift.length))].giftId: random.data.giftId;
             const offset = (randomIndex-2) * itemWidth;
             const fullSpin = (dataGift.length * itemWidth) * 3;
             const finalPosition = fullSpin + offset;
@@ -752,7 +586,14 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             setTimeout(() => {
                 rouletteItems.style.transition = 'none';
                 rouletteItems.style.transform = `translateX(-${offset + rand}px)`;
-                const randGft = dataGift[randomIndex-1];
+                // const randGft = dataGift[randomIndex-1];
+                let randGft ;
+                for(let i = 0; i < dataGift.length; i++){
+                    if(dataGift[i].giftId === randomIndex){
+                        randGft = dataGift[i];
+                        break;
+                    }
+                }
                 const price = randGft.price;
                 // console.log(randomIndex)
                 sellOfReciveImg.src = `./images/gift${(randGft.giftId)}.gif`;

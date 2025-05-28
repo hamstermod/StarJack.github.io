@@ -411,7 +411,7 @@ input:checked + .slider:before {
     color: white;
     z-index: 999;
 }
-#loading{
+#loading, #maintenance{
     width: 100%;
     height: 100%;
     position: fixed;
@@ -423,6 +423,11 @@ input:checked + .slider:before {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+}
+#maintenance{
+    background-image: url("./images/maintenance.png");
+    background-size: contain;
+    background-color: black;
 }
 .message{
     width: 300px;
@@ -827,3 +832,4 @@ input.check-toggle-round-flat:checked + label:after {
         transform: translateX(-25%);
     }
 }
+

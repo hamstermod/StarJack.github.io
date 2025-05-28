@@ -1,8 +1,8 @@
 ((async () => {
-    const test = true;
+    const test = false;
 
 
-
+    const maintenance = true;
     const MAINURL = test ? "http://localhost:3000/" : "https://server-production-bb76.up.railway.app/";
     const dataText = {
         ru: {
@@ -141,7 +141,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
     const casePage = document.getElementById("casePage");
     const headerCases = document.getElementById("headerCases");
     const closeCases = document.getElementById("closeCases");
-
+    const maintenanceElm = document.getElementById("maintenance");
     const listRender = [
         {
             elmsRefs: toFriendText,
@@ -196,7 +196,10 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             upgrade: true,
         }
     ];
-
+    if(maintenance){
+        maintenanceElm.classList.remove("hide");
+        return;
+    }
     if(userUIdata.user.username === undefined){
         createMessage(text.errorCreateUsername, 0);
         return;

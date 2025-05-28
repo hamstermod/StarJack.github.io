@@ -2,7 +2,7 @@
     const test = false;
 
 
-    const maintenance = false;
+    const maintenance = true;
     const MAINURL = test ? "http://localhost:3000/" : "https://server-production-bb76.up.railway.app/";
     const dataText = {
         ru: {

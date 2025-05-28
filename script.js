@@ -508,16 +508,6 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         renderFooter();
     }
 
-    document.querySelector("form").onsubmit = (e) => {
-        e.preventDefault();
-        const text = searchInput.value.trim();
-        searchUser(text);
-    }
-    searchInput.oninput = (e) => {
-        if(!(searchInput.value.trim())){
-            searchUser('');
-        }
-    }
     let page = "main";
     function closePages(){
         users.classList.add('hide');

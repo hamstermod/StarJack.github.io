@@ -2,7 +2,7 @@
     const test = false;
 
 
-    const maintenance = true;
+    const maintenance = false;
     const MAINURL = test ? "http://localhost:3000/" : "https://server-production-bb76.up.railway.app/";
     const dataText = {
         ru: {
@@ -30,7 +30,7 @@
             sendText: "Отправить",
             placeHolderSend: "Напишите ID пользователя, которому хотите отправить подарок.",
             caseText: "Кейс",
-            giftWithdraw: "Подарок будет доставлен в течение 1 минуты – 24 часов. Пожалуйста, подождите — вы получите уведомление, как только он будет доставлен.",
+            giftWithdraw: "Успех",
         },
         en: {
             errorParsing: "ERROR parsing user",
@@ -57,7 +57,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             sendText: "Send",
             placeHolderSend: "Please enter the user ID of the person you want to send the gift to.",
             caseText: "Case",
-            giftWithdraw: "The gift will be delivered within 1 minute to 24 hours. Please wait — you will receive a notification as soon as it is delivered."
+            giftWithdraw: "Success"
         }
     }
     let lang = localStorage.getItem("lang") === "en" || localStorage.getItem("lang") === "ru" ? localStorage.getItem("lang") : "en";

@@ -2,7 +2,7 @@
     const test = false;
 
 
-    const maintenance = true;
+    const maintenance = false;
     const MAINURL = test ? "http://localhost:3000/" : "https://server-production-bb76.up.railway.app/";
     const dataText = {
         ru: {
@@ -197,6 +197,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         }
     ];
     if(maintenance){
+        loading.classList.add("hide");
         maintenanceElm.classList.remove("hide");
         return;
     }
@@ -336,7 +337,8 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
               {
                   giftId: 11,
                   price: 999,
-                  isNft: true
+                  isNft: true,
+                  exclusive: true,
               },
               {
                   giftId: 12,
@@ -669,7 +671,8 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         dataGift =  dataGift.map((c, i) => ({
             giftId: c.giftId,
             price: c.price,
-            chance: +(weights[i] / totalWeight * 100).toFixed(3)
+            chance: +(weights[i] / totalWeight * 100).toFixed(3),
+            isNft: c.isNft
         }));
         const dataGift2 = [...dataGift];
         dataGift2.sort((a,b) => {
@@ -679,7 +682,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         // console.log(dataGift2)
 
         for(let i = 0; i < dataGift.length; i++){
-            const {giftId, price, isNft} = dataGift[i];
+            const {giftId, price, isNft, exclusive} = dataGift[i];
             const price2 = dataGift2[i].price;
             const giftId2 = dataGift2[i].giftId;
             const isNft2 = dataGift2[i].isNft;
@@ -697,12 +700,13 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             //     chance =  (100 - sum) / 3
             // }
             sum += chance;
+            // console.log(dataGift[i])
             html += `<div class="rouletteItem textCenter">
                         ${isNft ? `<div style="overflow: hidden;width: 100%; height: 100%;position: absolute;left: 0;top: 0;">
                             <div class="statusGift">NFT</div>
                           </div>` : ''}
                         <img src="./images/gift${giftId}.gif" alt="">
-                        <p class="price starParent"><span class="starIcon"></span> ${price >= 999 ? "???" : price}</p>
+                        <p class="price starParent"><span class="starIcon"></span> ${isNft ? "???" : price}</p>
                     </div>`;
             html2 += ` <div class="rouletteItem textCenter">
                        ${isNft2 ? `<div style="overflow: hidden;width: 100%; height: 100%;position: absolute;left: 0;top: 0;">
@@ -711,7 +715,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
 
                         <p>${Math.abs(+(chance).toFixed(3))}% </p>
                         <img src="./images/gift${giftId2}.gif" alt="">
-                        <p class="price starParent"><span class="starIcon"></span> ${price2 >= 999 ? "???" : price2}</p>
+                        <p class="price starParent"><span class="starIcon"></span> ${isNft2 ? "???" : price2}</p>
                     </div>`;
         }
         // console.log(sum)

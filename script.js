@@ -1,5 +1,5 @@
 ((async () => {
-    const test = false;
+    const test = true;
 
 
     const maintenance = false;
@@ -35,6 +35,12 @@
             giveawayPayText: "Платные",
             giveawayFreeText: "Бесплатные",
             giveawayEnteredText: "Участвую",
+            tickets: "Ваши билеты",
+            totalTicket: "Всего билетов",
+            price: "Цена",
+            participants : "Участники",
+            giveawayBy: "Розыгрыш от",
+            enterGiveAway: "Принять участие",
         },
         en: {
             errorParsing: "ERROR parsing user",
@@ -66,6 +72,12 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             giveawayPayText: "Paid",
             giveawayFreeText: "Free",
             giveawayEnteredText: "Entered",
+            tickets: "Your tickets",
+            totalTicket: "Total tickets",
+            price: "Price",
+            participants: "Participants",
+            giveawayBy: "Giveaway by",
+            enterGiveAway: "Enter Giveaway",
         }
     }
     let lang = localStorage.getItem("lang") === "en" || localStorage.getItem("lang") === "ru" ? localStorage.getItem("lang") : "en";
@@ -156,7 +168,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
     const giveawayEntered = document.getElementById("giveawayEntered");
     const giveawayBttTab = document.querySelectorAll(".giveawayBttTab");
     const animateAds = document.getElementById("animateAds");
-    // const animateAds =
+    const giveawayCard = document.getElementById("giveaway-cards");
     const listRender = [
         {
             elmsRefs: toFriendText,
@@ -375,7 +387,166 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
     }
 
     let page ="giveaway" && "main";
-    let giveawayPage = "giveawayPay";
+    let giveawayPage = "giveawayFree";
+    function renderGiveAway(){
+        const dataGiveAway = {
+            free: [
+                {
+                    id: 1,
+                    byUser: "Hayk5545",
+                    imageGift: "https://nft.fragment.com/gift/durovscap-1896",
+                    price: 0,
+                    priceBoost: 1,
+                    users: {},
+                    ticket: 0,
+                }
+            ],
+            paid: []
+        }
+        giveawayCard.innerHTML = '';
+        let html = document.createElement("div");
+        const dataReplace = {
+            giveawayFree: "free",
+            giveawayPay: "paid",
+        };
+       const arr = dataGiveAway[dataReplace[giveawayPage]];
+       if(!arr || arr.length === 0){
+           return;
+       }
+        arr.map((el) => {
+            const {byUser, imageGift, price, priceBoost, users, ticket} = el;
+            const giveawayContent = document.createElement("div");
+            giveawayContent.className = "giveaway-content giveaway-card";
+            const innerDiv = document.createElement("div");
+            const giveawayHeader = document.createElement("div");
+            giveawayHeader.className = "giveaway-header";
+
+            const giveawayLink = document.createElement("a");
+            giveawayLink.href = "#";
+            giveawayLink.className = "giveaway-link";
+            giveawayLink.textContent = `@${byUser}`;
+
+            giveawayHeader.textContent = `${text.giveawayBy} `;
+            giveawayHeader.appendChild(giveawayLink);
+            const flexDiv = document.createElement("div");
+            flexDiv.className = "flex";
+
+            const giveawayImage = document.createElement("div");
+            giveawayImage.className = "giveaway-image";
+
+            const lottiePlayer = document.createElement("lottie-player");
+            lottiePlayer.src = `${imageGift}.lottie.json`;
+            lottiePlayer.setAttribute("background", "transparent");
+            lottiePlayer.setAttribute("speed", "1");
+            lottiePlayer.setAttribute("loop", "");
+            lottiePlayer.setAttribute("autoplay", "");
+            lottiePlayer.style.width = "100px";
+
+            giveawayImage.appendChild(lottiePlayer);
+
+// Giveaway info
+            const giveawayInfo = document.createElement("div");
+            giveawayInfo.className = "giveaway-info";
+
+// Info items
+            const ticketsInfo = document.createElement("p");
+            ticketsInfo.className = "giveaway-info-item";
+            ticketsInfo.textContent = `${text.tickets}: 0`;
+
+            const totalTicketsInfo = document.createElement("p");
+            totalTicketsInfo.className = "giveaway-info-item";
+            totalTicketsInfo.textContent = `${text.totalTicket}: 9`;
+
+            const participantsInfo = document.createElement("p");
+            participantsInfo.className = "giveaway-info-item";
+            participantsInfo.textContent = `${text.participants}: 6`;
+
+// Price info
+            const priceContainer = document.createElement("div");
+            priceContainer.className = "giveaway-info-item";
+
+            const priceFlex = document.createElement("div");
+            priceFlex.className = "flex";
+
+            const priceText = document.createElement("p");
+            priceText.className = "flex";
+            priceText.style.marginBottom = "5px";
+            priceText.innerText = text.price + " : "
+            const freeText = document.createElement("p");
+            freeText.className = "flex align";
+            freeText.style.color = "#4cd964";
+            freeText.style.marginLeft = "5px";
+            freeText.innerHTML = price === 0 ? "Free" : `<svg width="15" height="15" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" class="_iconTon_w1159_129"><path d="M19.4687 6.33953L11.7971 18.52C11.7037 18.6671 11.5745 18.7882 11.4216 18.8721C11.2686 18.956 11.0969 19 10.9223 19C10.7464 19.0003 10.5732 18.956 10.4193 18.8711C10.2653 18.7862 10.1356 18.6636 10.0423 18.5148L2.5209 6.33437C2.31019 5.99296 2.19906 5.59977 2.19996 5.1989C2.2095 4.60707 2.45412 4.04319 2.88016 3.63099C3.30619 3.21879 3.87883 2.99194 4.47243 3.00022H17.5378C18.7854 3.00022 19.8 3.98085 19.8 5.19374C19.8 5.59631 19.6861 5.99373 19.4687 6.33953ZM4.3689 5.93179L9.96466 14.5355V5.06471H4.95384C4.37407 5.06471 4.11525 5.44664 4.3689 5.93179ZM12.0352 14.5355L17.631 5.93179C17.8898 5.44664 17.6258 5.06471 17.0461 5.06471H12.0352V14.5355Z" fill="#0a84ff"></path></svg> <span style="color: #0a84ff">${price}</span>`;
+
+            priceText.appendChild(freeText);
+            priceFlex.appendChild(priceText);
+            priceContainer.appendChild(priceFlex);
+
+// Timer
+            const timerDiv = document.createElement("div");
+            timerDiv.className = "giveaway-complete";
+            timerDiv.style.display = "inline-block";
+
+            const timerIcon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            timerIcon.setAttribute("width", "13");
+            timerIcon.setAttribute("height", "12");
+            timerIcon.setAttribute("viewBox", "0 0 13 12");
+            timerIcon.setAttribute("fill", "none");
+            timerIcon.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+            timerIcon.classList.add("_timerIcon_yl712_14");
+
+            const circlePath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            circlePath.setAttribute("d", "M6.5 11.5C9.53757 11.5 12 9.03757 12 6C12 2.96243 9.53757 0.5 6.5 0.5C3.46243 0.5 1 2.96243 1 6C1 9.03757 3.46243 11.5 6.5 11.5Z");
+            circlePath.setAttribute("stroke", "#F7F7F8");
+            circlePath.setAttribute("stroke-linecap", "round");
+            circlePath.setAttribute("stroke-linejoin", "round");
+            const handPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            handPath.setAttribute("d", "M6.5 3.88452V5.99991L8.64923 8.50452");
+            handPath.setAttribute("stroke", "#F7F7F8");
+            handPath.setAttribute("stroke-linecap", "round");
+            handPath.setAttribute("stroke-linejoin", "round");
+
+            timerIcon.appendChild(circlePath);
+            timerIcon.appendChild(handPath);
+            timerIcon.style.marginRight = "2px"
+            const timerText = document.createElement("span");
+            timerText.className = "whiteText";
+            timerText.textContent = "00:04:37";
+
+            timerDiv.appendChild(timerIcon);
+            timerDiv.appendChild(timerText);
+
+            priceContainer.appendChild(timerDiv);
+
+// Append all info items
+            giveawayInfo.appendChild(ticketsInfo);
+            giveawayInfo.appendChild(totalTicketsInfo);
+            giveawayInfo.appendChild(participantsInfo);
+            giveawayInfo.appendChild(priceContainer);
+
+// Assemble flex
+            flexDiv.appendChild(giveawayImage);
+            flexDiv.appendChild(giveawayInfo);
+
+// Assemble main content
+            innerDiv.appendChild(giveawayHeader);
+            innerDiv.appendChild(flexDiv);
+
+// Giveaway button
+            const button = document.createElement("a");
+            button.href = "#";
+            button.className = "giveaway-button";
+            button.textContent = text.enterGiveAway;
+            giveawayContent.appendChild(innerDiv);
+            giveawayContent.appendChild(button);
+
+// Append to body or specific container
+            html.appendChild(giveawayContent);
+
+        })
+        giveawayCard.appendChild(html)
+    }
+    renderGiveAway();
     function closePages(){
         users.classList.add('hide');
         main.classList.add('hide');
@@ -457,9 +628,9 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
 </svg>`,
                 text:  text.giveaway,
                 ref: "giveaway" && '',
-                status: "SOON",
+                status: "SOON" || "NEW",
                 fnc: async () => {
-
+                    renderGiveAway();
                 }
             },
             {
@@ -615,7 +786,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
                     </div>`;
         }
         // console.log(sum)
-        rouletteItems.innerHTML = html.repeat(4);
+        rouletteItems.innerHTML = html.repeat(7);
         chanceE.innerHTML = html2;
     }
     spinButton.onclick = spinRoulette;
@@ -628,7 +799,16 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         const itemWidth = document.querySelector('.rouletteItem').offsetWidth + 10;
         function getAnim(){
             const randomIndex = isDemo ? dataGift[Math.floor(Math.random() * (dataGift.length))].giftId: random.data.giftId;
-            const offset = (randomIndex-2) * itemWidth;
+            let randomI;
+            for(let i = 0; i < dataGift.length; i++){
+                if(dataGift[i].giftId === randomIndex){
+                    randomI = i;
+                    break;
+                }
+
+            }
+            // = randomIndex
+            const offset = (randomI-2) * itemWidth;
             const fullSpin = (dataGift.length * itemWidth) * 3;
             const finalPosition = fullSpin + offset;
             // const priceSell =document.getElementById("priceSell");
@@ -642,26 +822,27 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             spinButton.disabled = true;
             spinning = true;
             rouletteItems.style.transition = 'transform 3s ease-out';
-            const rand = 30 + Math.random() * (itemWidth - 100);
+            const rand = 0//30 + Math.random() * (itemWidth - 100);
             rouletteItems.style.transform = `translateX(-${finalPosition + rand}px)`;
 
             setTimeout(() => {
                 rouletteItems.style.transition = 'none';
                 rouletteItems.style.transform = `translateX(-${offset + rand}px)`;
                 // const randGft = dataGift[randomIndex-1];
-                let randGft ;
-                for(let i = 0; i < dataGift.length; i++){
-                    if(dataGift[i].giftId === randomIndex){
-                        randGft = dataGift[i];
-                        break;
-                    }
-                }
+                let randGft =  dataGift[randomI];
+                // for(let i = 0; i < dataGift.length; i++){
+                //     if(dataGift[i].giftId === randomIndex){
+                //         randGft = dataGift[ind];
+                //         break;
+                //     }
+                // }
                 const price = randGft.price;
                 // console.log(randomIndex)
                 sellOfReciveImg.src = `./images/gift${(randGft.giftId)}.gif`;
                 // priceSell.innerText = price;
                 currentPrice = price;
                 currentGift = randomIndex;
+                selectedGiftIndex = -5545;
                 setTimeout(() => {
                     sellOrReciveGift.classList.remove("hide");
                     //setting :)
@@ -754,6 +935,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         if(!id || isNaN(id)){
             return;
         }
+
         const res = await f("sendUser", { id: id, index: selectedGiftIndex });
         if(!res.ok){
             createMessage(await res.text(), 0);
@@ -780,6 +962,11 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
     }
     getGift.onclick = async () => {
         sellOrReciveGift.classList.add("hide");
+        if(selectedGiftIndex === -5545){
+            await f("user").then(e => e.json()).then((e) => {
+                selectedGiftIndex = JSON.parse(e.data).length;
+            })
+        }
         const res = await f("getGift", { index: selectedGiftIndex });
         if(!res.ok){
             createMessage(await res.text(), 0);
@@ -876,6 +1063,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
                 el.classList.remove("giveawayBttActive");
             })
             e.classList.add("giveawayBttActive");
+            renderGiveAway();
         }
     })
     let translateXAds = 0;

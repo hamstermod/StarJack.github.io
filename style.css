@@ -885,7 +885,7 @@ input.check-toggle-round-flat:checked + label:after {
 }
 
 .giveaway-info-item {
-    display: block;
+    /*display: block;*/
     margin: 5px
 }
 

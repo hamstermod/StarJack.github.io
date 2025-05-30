@@ -1,5 +1,5 @@
 ((async () => {
-    const test = false;
+    const test = true;
 
 
     const maintenance = false;
@@ -560,7 +560,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         let html = "";
         for(let i = 0; i < res.length; i++){
             const t = res[i];
-            html += `<div class="user ${(t.id == userUIdata.user.id ? 'selected' : '')}">
+            html += `<div class="user ${(t.id === userUIdata.user.id ? 'selected' : '')}">
                     <p>#${t.id}</p>
                     <div>
                         <p>${t.giftCount} ${text.gift + (lang === "en" && t.giftCount > 1 ? 's' : '')}</p>
@@ -808,7 +808,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
 
             }
             // = randomIndex
-            const offset = (randomI-2) * itemWidth;
+            const offset = (randomI - 1) * itemWidth;
             const fullSpin = (dataGift.length * itemWidth) * 3;
             const finalPosition = fullSpin + offset;
             // const priceSell =document.getElementById("priceSell");
@@ -822,7 +822,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             spinButton.disabled = true;
             spinning = true;
             rouletteItems.style.transition = 'transform 3s ease-out';
-            const rand = 0//30 + Math.random() * (itemWidth - 100);
+            const rand = 30 + Math.random() * (itemWidth - 100);
             rouletteItems.style.transform = `translateX(-${finalPosition + rand}px)`;
 
             setTimeout(() => {
@@ -1067,7 +1067,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         }
     })
     let translateXAds = 0;
-    const aviablesAds = ["ads1.jpg", "ads2.jpg"];
+    const aviablesAds = ["ads3.jpg"]//["ads1.jpg", "ads2.jpg"];
     function renderAds(){
         let html = "";
         aviablesAds.map((el) => {

@@ -1,7 +1,7 @@
 ((async () => {
     const test = false;
 
-
+    const isHotChances = false;
     const maintenance = false;
     const MAINURL = test ? "http://localhost:3000/" : "https://server-production-bb76.up.railway.app/";
     const dataText = {
@@ -730,7 +730,9 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         const maxPrice = 999//500 - 100 * (level+1);
         let sum = 0;
         dataGift = giftsData[caseId].cases;
-        const biasPower = 1 - (level / 10); // higher level => lower power => less penalty for high prices
+        // console.log(level+(isHotChances ? 0 : 0))
+        //+(isHotChances ? 0.04 : 0)
+        const biasPower = 1 - ((level + (isHotChances ? 10 : 0)) / 10); // higher level => lower power => less penalty for high prices
 
         const weights = dataGift.map(c => 1 / Math.pow(c.price, biasPower));
         const totalWeight = weights.reduce((sum, w) => sum + w, 0);
@@ -1067,7 +1069,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         }
     })
     let translateXAds = 0;
-    const aviablesAds = ["ads3.jpg"]//["ads1.jpg", "ads2.jpg"];
+    const aviablesAds = ["ads1.jpg", "ads2.jpg"];
     function renderAds(){
         let html = "";
         aviablesAds.map((el) => {

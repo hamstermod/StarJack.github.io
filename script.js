@@ -860,7 +860,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         dataGift = giftsData[caseId].cases;
         // console.log(level+(isHotChances ? 0 : 0))
         //+(isHotChances ? 0.04 : 0)
-        const biasPower = 1 - ((level + (isHotChances ? 10 : 0)) / 10); // higher level => lower power => less penalty for high prices
+        const biasPower = 1 - ((level + (isHotChances ? 3 : 0)) / 10); // higher level => lower power => less penalty for high prices
 
         const weights = dataGift.map(c => 1 / Math.pow(c.price, biasPower));
         const totalWeight = weights.reduce((sum, w) => sum + w, 0);

@@ -629,6 +629,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
                         const a = document.createElement("a");
                         a.href = el.link;
                         a.target = "_blank";
+                        a.style.fontSize = "15px";
                         a.textContent = `@${el.channel}`;
                         div.className = "action";
                         div.innerText = text[el.description];

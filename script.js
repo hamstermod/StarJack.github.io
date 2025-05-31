@@ -1,7 +1,7 @@
 ((async () => {
     const test = false;
 
-    const isHotChances = false;
+    const isHotChances = true;
     const maintenance = false;
     const MAINURL = test ? "http://localhost:3000/" : "https://server-production-bb76.up.railway.app/";
     const dataText = {
@@ -41,6 +41,11 @@
             participants : "Участники",
             giveawayBy: "Розыгрыш от",
             enterGiveAway: "Принять участие",
+            free: "Бесплатно",
+            finished: "ЗАВЕРШЕН",
+            followTo: "Подпишитесь на ",
+            areInGiveAway: "Вы участвуете ",
+            likeTo: "Проголосовать",
         },
         en: {
             errorParsing: "ERROR parsing user",
@@ -78,6 +83,11 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             participants: "Participants",
             giveawayBy: "Giveaway by",
             enterGiveAway: "Enter Giveaway",
+            free: "Free",
+            finished: "FINISHED",
+            followTo: "Subscribe to the",
+            areInGiveAway: "You Are In ",
+            likeTo: "Vote"
         }
     }
     let lang = localStorage.getItem("lang") === "en" || localStorage.getItem("lang") === "ru" ? localStorage.getItem("lang") : "en";
@@ -169,6 +179,12 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
     const giveawayBttTab = document.querySelectorAll(".giveawayBttTab");
     const animateAds = document.getElementById("animateAds");
     const giveawayCard = document.getElementById("giveaway-cards");
+    const modelImg = document.getElementById("modelImg");
+    const blurEffectGiveAway = document.getElementById("blurEffectGiveAway");
+    const model = document.getElementById("model");
+    const closePageGiveaway = document.getElementById("closePageGiveaway");
+    const tasksGiveAway = document.getElementById("tasksGiveAway");
+    const enterGiveAway = document.getElementById("enterGiveAway");
     const listRender = [
         {
             elmsRefs: toFriendText,
@@ -233,6 +249,10 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         {
             elmsRefs: giveawayEntered,
             to: "giveawayEnteredText",
+        },
+        {
+            elmsRefs: enterGiveAway,
+            to: "enterGiveAway",
         }
     ];
     const giveaway = document.getElementById("giveaway");
@@ -386,35 +406,59 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         renderFooter();
     }
 
-    let page ="giveaway" && "main";
+    let page ="main";
     let giveawayPage = "giveawayFree";
-    function renderGiveAway(){
-        const dataGiveAway = {
-            free: [
-                {
-                    id: 1,
-                    byUser: "Hayk5545",
-                    imageGift: "https://nft.fragment.com/gift/durovscap-1896",
-                    price: 0,
-                    priceBoost: 1,
-                    users: {},
-                    ticket: 0,
-                }
-            ],
-            paid: []
-        }
+    async function renderGiveAway(){
+        let dataGiveAway;
+        // = {
+        //     free: [
+        //         {
+        //             id: 1,
+        //             byUser: "Hayk5545",
+        //             imageGift: "https://nft.fragment.com/gift/durovscap-1896",
+        //             price: 0,
+        //             priceBoost: 1,
+        //             users: {},
+        //             ticket: 0,
+        //             year: 2025,
+        //             month: 5,
+        //             day: 5,
+        //             tasks: [
+        //                 {
+        //                     // html: "📨 Подпишитесь на <a href=\"https://t.me/tongolos\" target=\"_blank\">@Hayk5545</a>",
+        //                     description: "followTo",
+        //                     channel: "Hayk5545",
+        //                 },
+        //                 // {
+        //                 //     description: "📨 Подпишитесь на ",
+        //                 //     channel: "Hayk5545",
+        //                 // }
+        //             ]
+        //         }
+        //     ],
+        //     paid: []
+        // }
+        await f("getGiveAway").then((e) => e.json()).then((e) => {
+            dataGiveAway = e;
+        }).catch((e) => {
+            createMessage("Giveaway error", 0);
+        })
+        // console.log(JSON.stringify(dataGiveAway));
         giveawayCard.innerHTML = '';
         let html = document.createElement("div");
         const dataReplace = {
             giveawayFree: "free",
             giveawayPay: "paid",
         };
-       const arr = dataGiveAway[dataReplace[giveawayPage]];
-       if(!arr || arr.length === 0){
+       let arr = dataGiveAway[dataReplace[giveawayPage]];
+       if(giveawayPage === "giveawayEntered"){
+           arr = dataGiveAway.free.filter((e) => e.users[userUIdata.user.username]);
+       }
+       else if(!arr || arr.length === 0){
            return;
        }
         arr.map((el) => {
-            const {byUser, imageGift, price, priceBoost, users, ticket} = el;
+            const {byUser, imageGift, price, priceBoost, users, ticket, year, month, day, tasks, id} = el;
             const giveawayContent = document.createElement("div");
             giveawayContent.className = "giveaway-content giveaway-card";
             const innerDiv = document.createElement("div");
@@ -451,15 +495,15 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
 // Info items
             const ticketsInfo = document.createElement("p");
             ticketsInfo.className = "giveaway-info-item";
-            ticketsInfo.textContent = `${text.tickets}: 0`;
+            ticketsInfo.textContent = `${text.tickets}: ${users[userUIdata.user.username] || 0}`;
 
             const totalTicketsInfo = document.createElement("p");
             totalTicketsInfo.className = "giveaway-info-item";
-            totalTicketsInfo.textContent = `${text.totalTicket}: 9`;
+            totalTicketsInfo.textContent = `${text.totalTicket}: ${Object.values(users).reduce((a,e) => a + e, 0)}`;
 
             const participantsInfo = document.createElement("p");
             participantsInfo.className = "giveaway-info-item";
-            participantsInfo.textContent = `${text.participants}: 6`;
+            participantsInfo.textContent = `${text.participants}: ${Object.keys(users).length}`;
 
 // Price info
             const priceContainer = document.createElement("div");
@@ -476,7 +520,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             freeText.className = "flex align";
             freeText.style.color = "#4cd964";
             freeText.style.marginLeft = "5px";
-            freeText.innerHTML = price === 0 ? "Free" : `<svg width="15" height="15" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" class="_iconTon_w1159_129"><path d="M19.4687 6.33953L11.7971 18.52C11.7037 18.6671 11.5745 18.7882 11.4216 18.8721C11.2686 18.956 11.0969 19 10.9223 19C10.7464 19.0003 10.5732 18.956 10.4193 18.8711C10.2653 18.7862 10.1356 18.6636 10.0423 18.5148L2.5209 6.33437C2.31019 5.99296 2.19906 5.59977 2.19996 5.1989C2.2095 4.60707 2.45412 4.04319 2.88016 3.63099C3.30619 3.21879 3.87883 2.99194 4.47243 3.00022H17.5378C18.7854 3.00022 19.8 3.98085 19.8 5.19374C19.8 5.59631 19.6861 5.99373 19.4687 6.33953ZM4.3689 5.93179L9.96466 14.5355V5.06471H4.95384C4.37407 5.06471 4.11525 5.44664 4.3689 5.93179ZM12.0352 14.5355L17.631 5.93179C17.8898 5.44664 17.6258 5.06471 17.0461 5.06471H12.0352V14.5355Z" fill="#0a84ff"></path></svg> <span style="color: #0a84ff">${price}</span>`;
+            freeText.innerHTML = price === 0 ? text.free : `<svg width="15" height="15" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" class="_iconTon_w1159_129"><path d="M19.4687 6.33953L11.7971 18.52C11.7037 18.6671 11.5745 18.7882 11.4216 18.8721C11.2686 18.956 11.0969 19 10.9223 19C10.7464 19.0003 10.5732 18.956 10.4193 18.8711C10.2653 18.7862 10.1356 18.6636 10.0423 18.5148L2.5209 6.33437C2.31019 5.99296 2.19906 5.59977 2.19996 5.1989C2.2095 4.60707 2.45412 4.04319 2.88016 3.63099C3.30619 3.21879 3.87883 2.99194 4.47243 3.00022H17.5378C18.7854 3.00022 19.8 3.98085 19.8 5.19374C19.8 5.59631 19.6861 5.99373 19.4687 6.33953ZM4.3689 5.93179L9.96466 14.5355V5.06471H4.95384C4.37407 5.06471 4.11525 5.44664 4.3689 5.93179ZM12.0352 14.5355L17.631 5.93179C17.8898 5.44664 17.6258 5.06471 17.0461 5.06471H12.0352V14.5355Z" fill="#0a84ff"></path></svg> <span style="color: #0a84ff">${price}</span>`;
 
             priceText.appendChild(freeText);
             priceFlex.appendChild(priceText);
@@ -511,7 +555,36 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             timerIcon.style.marginRight = "2px"
             const timerText = document.createElement("span");
             timerText.className = "whiteText";
-            timerText.textContent = "00:04:37";
+            const targetDate = new Date(year, month, day);
+            const now = new Date();
+            const diffMs = targetDate - now;
+            const diffSec = Math.floor(diffMs / 1000);
+            let hours =  Math.floor(diffSec / 3600);
+            let minute = Math.floor((diffSec % 3600) / 60);
+            let sec = diffSec % 60;
+            let isEnded = false;
+            const button = document.createElement("a");
+            const intervalDay = setInterval((e) => {
+                sec--;
+                if(sec < 0){
+                    sec = 59;
+                    minute--;
+                    if(minute < 0){
+                        minute = 59;
+                        hours--;
+                        if(hours < 0){
+                            clearInterval(intervalDay);
+                            timerText.textContent = text.finished
+                            isEnded = true;
+                            button.classList.add("completedTask");
+                            button.innerText = text.finished;
+                            return;
+                        }
+                    }
+                }
+                timerText.textContent = `${hours >= 10 ? hours : "0" + hours}:${minute >= 10 ? minute : "0" + minute}:${sec >= 10 ? sec : "0" + sec}`;
+            }, 1000)
+
 
             timerDiv.appendChild(timerIcon);
             timerDiv.appendChild(timerText);
@@ -532,11 +605,65 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             innerDiv.appendChild(giveawayHeader);
             innerDiv.appendChild(flexDiv);
 
-// Giveaway button
-            const button = document.createElement("a");
+
             button.href = "#";
             button.className = "giveaway-button";
             button.textContent = text.enterGiveAway;
+            enterGiveAway.classList.add("complatedTask")
+            enterGiveAway.onclick = () => {}
+            if(isEnded){
+                button.classList.add("completedTask");
+                button.innerText = text.finished;
+                return;
+            }
+             if(users[userUIdata.user.username]){
+                button.textContent = text.areInGiveAway;
+                button.classList.add("complatedTask")
+            }
+           else{
+                button.onclick = () => {
+                    tasksGiveAway.innerHTML = '';
+                    let completed = 0;
+                    tasks.map((el) => {
+                        const div = document.createElement("div");
+                        const a = document.createElement("a");
+                        a.href = el.link;
+                        a.target = "_blank";
+                        a.textContent = `@${el.channel}`;
+                        div.className = "action";
+                        div.innerText = text[el.description];
+                        a.onclick = () => {
+                            div.classList.add("complatedTask");
+                            completed++;
+                            if(completed >= tasks.length){
+                                enterGiveAway.classList.remove("complatedTask")
+                                enterGiveAway.onclick = () => {
+                                    f("enterGiveAway", {id});
+                                    blurEffectGiveAway.classList.add("hide");
+                                    model.classList.add("hide");
+                                    renderGiveAway();
+                                }
+                            }
+                        }
+                        div.appendChild(a);
+                        tasksGiveAway.appendChild(div);
+                    })
+
+
+
+                    const lottiePlayer2 = document.createElement("lottie-player");
+                    lottiePlayer2.src = `${imageGift}.lottie.json`;
+                    lottiePlayer2.setAttribute("background", "transparent");
+                    lottiePlayer2.setAttribute("speed", "1");
+                    lottiePlayer2.setAttribute("loop", "");
+                    lottiePlayer2.setAttribute("autoplay", "");
+                    lottiePlayer2.style.width = "100px";
+                    modelImg.innerHTML = '';
+                    modelImg.appendChild(lottiePlayer2)
+                    blurEffectGiveAway.classList.remove("hide");
+                    model.classList.remove("hide");
+                }
+            }
             giveawayContent.appendChild(innerDiv);
             giveawayContent.appendChild(button);
 
@@ -627,8 +754,8 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
 <path fill="#aaaaaa" opacity="1.000000" stroke="none" d=" M426.711121,428.666138   C433.646576,429.282166 436.252838,431.837219 436.314362,438.077393   C436.412964,448.075806 436.417419,458.076691 436.311737,468.074951   C436.247345,474.164490 433.129486,477.296295 426.998901,477.307220   C395.501007,477.363281 364.002838,477.359680 332.504944,477.290253   C326.889404,477.277893 323.781891,474.207916 323.707703,468.642303   C323.572205,458.478027 323.600861,448.310303 323.681458,438.144958   C323.733704,431.556702 326.814331,428.682312 333.752869,428.675903   C364.584320,428.647491 395.415802,428.663483 426.711121,428.666138  M397.499969,445.338257   C381.533081,445.340057 365.566010,445.298737 349.599335,445.359009   C339.159912,445.398438 340.691956,444.065216 340.242645,454.702667   C340.031738,459.696991 341.882721,460.797913 346.538666,460.748749   C367.492859,460.527435 388.451019,460.719330 409.407166,460.629944   C421.095184,460.580078 419.349548,462.423492 419.731018,450.281433   C419.861511,446.127686 418.218811,445.123199 414.464172,445.287384   C409.152130,445.519684 403.822174,445.341431 397.499969,445.338257  z"/>
 </svg>`,
                 text:  text.giveaway,
-                ref: "giveaway" && '',
-                status: "SOON" || "NEW",
+                ref: "giveaway",
+                status:  "NEW",
                 fnc: async () => {
                     renderGiveAway();
                 }
@@ -782,7 +909,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
                             <div class="statusGift">NFT</div>
                           </div>` : ''}
 
-                        <p>${Math.abs(+(chance).toFixed(3))}% </p>
+                        <p class="${isHotChances ? 'fire-text' : ''}">${Math.abs(+(chance).toFixed(3))}% </p>
                         <img src="./images/gift${giftId2}.gif" alt="">
                         <p class="price starParent"><span class="starIcon"></span> ${isNft2 ? "???" : price2}</p>
                     </div>`;
@@ -844,7 +971,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
                 // priceSell.innerText = price;
                 currentPrice = price;
                 currentGift = randomIndex;
-                selectedGiftIndex = -5545;
+                selectedGiftIndex = 0;
                 setTimeout(() => {
                     sellOrReciveGift.classList.remove("hide");
                     //setting :)
@@ -964,11 +1091,6 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
     }
     getGift.onclick = async () => {
         sellOrReciveGift.classList.add("hide");
-        if(selectedGiftIndex === -5545){
-            await f("user").then(e => e.json()).then((e) => {
-                selectedGiftIndex = JSON.parse(e.data).length;
-            })
-        }
         const res = await f("getGift", { index: selectedGiftIndex });
         if(!res.ok){
             createMessage(await res.text(), 0);
@@ -1016,12 +1138,12 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         html.className = "flex wrap";
         html.style.justifyContent = "center";
         for(let i = 0; i < giftUser.length; i++){ // I'm not begginer proggramer :) I'm olympic proggramer and this way is very fast ...
-            const {giftId, price, byFriend} = giftUser[i];
+            const {giftId, price, byFriend, isNft} = giftUser[i];
             const div = document.createElement("div");
             const mainPathImg = "./images/gift";
             div.className = "giftsUser";
             div.innerHTML = `${byFriend ? '<div class="statusGift">Oт друга</div>' : ''} <img src="${mainPathImg}${giftId}.gif"  onerror="this.onerror=null; this.src='./images/gift${giftId}.png';" alt="">
-                <p class="price starParent"><span class="starIcon"></span> ${price}</p>`;
+                <p class="price starParent"><span class="starIcon"></span> ${isNft ? "???" : price}</p>`;
             div.onclick = () => {
                 document.getElementById("sellOrReciveGift").classList.remove("hide");
                 giftToProfile.classList.add("hide");
@@ -1087,5 +1209,13 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             translateXAds = 0;
         }
     }, 5000)
+    blurEffectGiveAway.onclick = () => {
+        model.classList.add('hide');
+        blurEffectGiveAway.classList.add("hide");
+    }
+    closePageGiveaway.onclick = () => {
+        model.classList.add('hide');
+        blurEffectGiveAway.classList.add("hide");
+    }
     renderListLang();
 })())

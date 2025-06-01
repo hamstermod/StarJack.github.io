@@ -1,5 +1,5 @@
 ((async () => {
-    const test = false;
+    const test = true;
 
     const isHotChances = true;
     const maintenance = false;
@@ -46,6 +46,7 @@
             followTo: "Подпишитесь на ",
             areInGiveAway: "Вы участвуете ",
             likeTo: "Проголосовать",
+            errorIsNotSubscribe: "Ты не подписался на канал",
         },
         en: {
             errorParsing: "ERROR parsing user",
@@ -87,7 +88,8 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             finished: "FINISHED",
             followTo: "Subscribe to the",
             areInGiveAway: "You Are In ",
-            likeTo: "Vote"
+            likeTo: "Vote",
+            errorIsNotSubscribe: "You didn't subscribe to the channel"
         }
     }
     let lang = localStorage.getItem("lang") === "en" || localStorage.getItem("lang") === "ru" ? localStorage.getItem("lang") : "en";
@@ -633,7 +635,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
                         a.textContent = `@${el.channel}`;
                         div.className = "action";
                         div.innerText = text[el.description];
-                        a.onclick = () => {
+                        function check(){
                             div.classList.add("complatedTask");
                             completed++;
                             if(completed >= tasks.length){
@@ -645,6 +647,22 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
                                     renderGiveAway();
                                 }
                             }
+                        }
+                        a.onclick = () => {
+                            setTimeout(() => {
+                                if(el.description === "followTo"){
+                                    f("isInTheChannel", {channel: `@${el.channel}`, id: userUIdata.user.id}).then((el) => el.json()).then((el) => {
+                                        if(el.data){
+                                            check();
+                                        } else{
+                                            createMessage(text.errorIsNotSubscribe, 0);
+                                        }
+                                    })
+                                }else{
+                                    check();
+                                }
+
+                            }, 2000)
                         }
                         div.appendChild(a);
                         tasksGiveAway.appendChild(div);

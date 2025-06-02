@@ -1,5 +1,5 @@
 ((async () => {
-    const test = false;
+    const test = true;
 
     const isHotChances = false;
     const maintenance = false;
@@ -766,10 +766,12 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
                 }
                 buyTicketsElm.onclick = () => {
                     f("buyTickets", {id, tickets: count}).then((el) => {
-                        createMessage(text.giftWithdraw, 1);
-                        setTimeout(() => {
-                            renderGiveAway();
-                        }, 1000)
+                        if(el.ok) {
+                            createMessage(text.giftWithdraw, 1);
+                            setTimeout(() => {
+                                renderGiveAway();
+                            }, 1000)
+                        }
                     })
                     model.classList.add('hide');
                     blurEffectGiveAway.classList.add("hide");

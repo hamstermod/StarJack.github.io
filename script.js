@@ -1,5 +1,5 @@
 ((async () => {
-    const test = true;
+    const test = false;
 
     const isHotChances = false;
     const maintenance = false;

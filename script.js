@@ -455,7 +455,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         renderFooter();
     }
 
-    let page ="main" && "giveaway";
+    let page ="main";
     let giveawayPage = "giveawayFree";
     async function renderGiveAway(){
         let dataGiveAway;

@@ -426,7 +426,7 @@ input:checked + .slider:before {
     z-index: 100;
     background-color: midnightblue;
     /*background-image: url("./images/loadingImage.jpg");*/
-    background-image: url("./images/loadingImageEvent.png");
+    background-image: url("./images/loadingImageEvent2.jpg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -811,7 +811,9 @@ input.check-toggle-round-flat:checked + label:after {
 #headerCases.active #casesHeaderUserInfo{
     flex-direction: row-reverse;
 }
-
+#headerCases.active .starParent{
+    display: none;
+}
 
 .close-btn {
     width: 32px;
@@ -1108,3 +1110,35 @@ input.check-toggle-round-flat:checked + label:after {
                 0 0 50px #cc0000;
     }
 }
+
+
+
+
+
+
+#depositInput {
+    width: 250px;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.3s;
+    color: black;
+}
+
+#depositInput:focus {
+    border-color: #8774e1;
+}
+
+#deposit {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #8774e1;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+

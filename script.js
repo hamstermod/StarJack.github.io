@@ -1,7 +1,7 @@
 ((async () => {
     const test = false;
 
-    const isHotChances = true;
+    const isHotChances = false;
     const maintenance = false;
     const MAINURL = test ? "http://localhost:3000/" : "https://server-production-bb76.up.railway.app/";
     const dataText = {
@@ -47,6 +47,13 @@
             areInGiveAway: "Вы участвуете ",
             likeTo: "Проголосовать",
             errorIsNotSubscribe: "Ты не подписался на канал",
+            topUpBalance: "Пополнить баланс",
+            topUp: "Пополнить",
+            enterAmountText: "Введите сумму пополнения",
+            enterAmountPlace: "Введите сумму (min: 1)",
+            errorValidNumber: "Пожалуйста, введите корректное число больше 1.",
+            paymentError: "Платёж не прошёл",
+            paymentSuccess: "Платёж прошёл успешно"
         },
         en: {
             errorParsing: "ERROR parsing user",
@@ -89,7 +96,14 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             followTo: "Subscribe to the",
             areInGiveAway: "You Are In ",
             likeTo: "Vote",
-            errorIsNotSubscribe: "You didn't subscribe to the channel"
+            errorIsNotSubscribe: "You didn't subscribe to the channel",
+            topUpBalance: "Top up balance",
+            topUp: "Top up",
+            enterAmountText: "Enter the top-up amount",
+            enterAmountPlace: "Enter the amount (min: 1)",
+            errorValidNumber: "Please enter a valid number greater than 1.",
+            paymentError: "Payment failed",
+            paymentSuccess: "Payment success"
         }
     }
     let lang = localStorage.getItem("lang") === "en" || localStorage.getItem("lang") === "ru" ? localStorage.getItem("lang") : "en";
@@ -187,6 +201,9 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
     const closePageGiveaway = document.getElementById("closePageGiveaway");
     const tasksGiveAway = document.getElementById("tasksGiveAway");
     const enterGiveAway = document.getElementById("enterGiveAway");
+    const depositButton = document.getElementById("depositButton");
+    const userStars = document.querySelectorAll(".userStars");
+    // const
     const listRender = [
         {
             elmsRefs: toFriendText,
@@ -255,6 +272,23 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         {
             elmsRefs: enterGiveAway,
             to: "enterGiveAway",
+        },
+        {
+            elmsRefs: depositButton,
+            to: "topUpBalance"
+        },
+        {
+            elmsRefs: deposit,
+            to: "topUp"
+        },
+        {
+            elmsRefs: enterAmountText,
+            to: "enterAmountText"
+        },
+        {
+            elmsRefs: depositInput,
+            to: "enterAmountPlace",
+            place: true,
         }
     ];
     const giveaway = document.getElementById("giveaway");
@@ -408,7 +442,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         renderFooter();
     }
 
-    let page ="main";
+    let page ="main" && "profile";
     let giveawayPage = "giveawayFree";
     async function renderGiveAway(){
         let dataGiveAway;
@@ -790,6 +824,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
                         return;
                     }
                     giftUser = JSON.parse(giftUser.data);
+
                     renderUserGift();
                 }
             }
@@ -1130,19 +1165,29 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
     giftToProfile.onclick = () => {
         sellOrReciveGift.classList.add("hide");
     }
-    // depositButton.onclick = () => {
-    //     depositPage.classList.add("active");
-    //     blurEffect.classList.remove("hide");
-    // }
+    depositButton.onclick = () => {
+        depositPage.classList.add("active");
+        blurEffect.classList.remove("hide");
+    }
     function closeDepositPage(){
         depositPage.classList.remove("active");
         blurEffect.classList.add("hide");
     }
-    // closePageDeposit.onclick = () => closeDepositPage();
-    // blurEffect.onclick = () => closeDepositPage();
+    closePageDeposit.onclick = () => closeDepositPage();
+    blurEffect.onclick = () => closeDepositPage();
     renderRoulette();
+    function renderUserBalance(){
+        f("getBalance").then((e) => e.json()).then((e) => {
+            userStars.forEach((el) => {
+                el.innerText = e.balance
+            })
+        }).catch((e) => {
+            createMessage("Balance Error", 0);
+        })
+    }
     function renderUserGift(){
         const sellOfReciveImg = document.getElementById("sellOfReciveImg");
+        renderUserBalance();
         // const priceSell =document.getElementById("priceSell");
         const nogift = document.getElementById("nogift");
         let html = document.createElement("div");
@@ -1184,6 +1229,29 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         giftsUser.append(html);
     }
     renderUserGift();
+    deposit.onclick = () => {
+        const input = +depositInput.value;
+        if(input < 1 || !input){
+            createMessage(text.errorValidNumber, 0)
+            return;
+        }
+        f("deposit", {stars: input}).then((el) => el.json()).then((el) => {
+            Telegram.WebApp.openInvoice(el.invoice_link, async (e) => {
+                if(e === "paid"){
+                    setTimeout(() => {
+                        renderUserBalance();
+                    }, 2000)
+                    createMessage(text.paymentSuccess);
+                } else{
+                    createMessage(text.paymentError, 0);
+                }
+                closeDepositPage();
+            });
+            // console.log(el.invoice_link)
+        }).catch(() => {
+            createMessage(text.paymentError, 0);
+        })
+    }
     closePage.onclick = () => {
         sellOrReciveGift.classList.add("hide");
     }
@@ -1237,4 +1305,5 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         blurEffectGiveAway.classList.add("hide");
     }
     renderListLang();
+
 })())

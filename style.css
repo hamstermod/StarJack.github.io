@@ -999,6 +999,20 @@ input.check-toggle-round-flat:checked + label:after {
     overflow: hidden;
 
 }
+.posRelative{
+    position: relative;
+}
+/*.buyTickets{*/
+/*    position: absolute;*/
+/*    right: 10px;*/
+/*    top: 5px;*/
+/*}*/
+
+.buyTickets {
+    padding: 10px;
+    background-color: #8774e1;
+    border-radius: 10px;
+}
 .buttonsFooter .statusGift{
     width: 100px;
     height: 15px;
@@ -1141,4 +1155,59 @@ input.check-toggle-round-flat:checked + label:after {
     cursor: pointer;
     transition: background-color 0.3s;
 }
+
+
+
+
+
+.ticket-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.counter {
+    display: flex;
+    align-items: center;
+    background-color: #0a0a0a;
+    padding: 8px 16px;
+    border-radius: 12px;
+    border: 2px solid #222;
+    font-weight: bold;
+    color: white;
+}
+
+.btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    width: 24px;
+    cursor: pointer;
+}
+
+.count {
+    margin: 0 12px;
+    min-width: 20px;
+    text-align: center;
+}
+
+.sweep-button {
+    background-color: #1e90ff;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s ease;
+}
+
+.sweep-button:hover {
+    background-color: #187bd6;
+}
+
 

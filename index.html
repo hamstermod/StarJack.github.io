@@ -63,10 +63,10 @@
                     <img src="" alt="" class="profileAvatarImg" style="width: 40px;border-radius: 50%;margin: 10px"/>
                     <span class="userName"></span>
                 </div>
-                                <div class="starParent">
-                                    <span class="userStars">0</span>
-                                    <span class="starIcon"></span>
-                                </div>
+                <div class="starParent">
+                    <span class="userStars">0</span>
+                    <span class="starIcon"></span>
+                </div>
 
             </div>
             <div id="ads">
@@ -165,13 +165,20 @@
                 <div id="tasksGiveAway">
 
                 </div>
-<!--                <div class="action">-->
-<!--                    📨 Подпишитесь на <a href="https://t.me/tongolos" target="_blank">@Hayk5545</a>-->
-<!--                </div>-->
-<!--                <div class="action complatedTask">-->
-<!--                    🚀 Забустите <a href="https://t.me/tongolos" target="_blank">@Hayk5545</a>-->
-<!--                </div>-->
-
+                <div id="buyTicketBoard">
+                    <div class="ticket-container">
+                        <div class="counter">
+                            <button class="btn" id="decrementTicketCount">−</button>
+                            <span class="count" id="ticketsCount">1</span>
+                            <button class="btn" id="incrementTicketCount">+</button>
+                        </div>
+                        <button class="sweep-button" ><p id="buyTickets"></p>  <div class="starParent">
+                            (<span id="buyTicketsStar">10</span>)
+                            <span class="starIcon"></span>
+                        </div></button>
+                    </div>
+                </div>
+<!--                <div class="button" id="buyTickets"></div>-->
                 <div class="button complatedTask" id="enterGiveAway">Принять Участие</div>
             </div>
         </div>

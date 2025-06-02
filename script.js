@@ -53,7 +53,9 @@
             enterAmountPlace: "Введите сумму (min: 1)",
             errorValidNumber: "Пожалуйста, введите корректное число больше 1.",
             paymentError: "Платёж не прошёл",
-            paymentSuccess: "Платёж прошёл успешно"
+            paymentSuccess: "Платёж прошёл успешно",
+            buyTickets: "Купить больше билетов",
+            butTicketsText: "Купить билеты",
         },
         en: {
             errorParsing: "ERROR parsing user",
@@ -103,7 +105,9 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             enterAmountPlace: "Enter the amount (min: 1)",
             errorValidNumber: "Please enter a valid number greater than 1.",
             paymentError: "Payment failed",
-            paymentSuccess: "Payment success"
+            paymentSuccess: "Payment success",
+            buyTickets: "Buy More Tickets",
+            butTicketsText: "Buy tickets",
         }
     }
     let lang = localStorage.getItem("lang") === "en" || localStorage.getItem("lang") === "ru" ? localStorage.getItem("lang") : "en";
@@ -203,7 +207,12 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
     const enterGiveAway = document.getElementById("enterGiveAway");
     const depositButton = document.getElementById("depositButton");
     const userStars = document.querySelectorAll(".userStars");
-    // const
+    const buyTicketsElm = document.getElementById("buyTickets");
+    const buyTicketsBoard = document.getElementById("buyTicketsBoard");
+    const decrementTicketCount = document.getElementById("decrementTicketCount");
+    const ticketsCount = document.getElementById("ticketsCount");
+    const incrementTicketCount = document.getElementById("incrementTicketCount");
+    const buyTicketsStar = document.getElementById("buyTicketsStar");
     const listRender = [
         {
             elmsRefs: toFriendText,
@@ -289,6 +298,10 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             elmsRefs: depositInput,
             to: "enterAmountPlace",
             place: true,
+        },
+        {
+            elmsRefs: buyTicketsElm,
+            to: "butTicketsText"
         }
     ];
     const giveaway = document.getElementById("giveaway");
@@ -442,7 +455,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         renderFooter();
     }
 
-    let page ="main" && "profile";
+    let page ="main" && "giveaway";
     let giveawayPage = "giveawayFree";
     async function renderGiveAway(){
         let dataGiveAway;
@@ -486,9 +499,9 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             giveawayFree: "free",
             giveawayPay: "paid",
         };
-       let arr = dataGiveAway[dataReplace[giveawayPage]];
+       let arr = dataGiveAway//[dataReplace[giveawayPage]];
        if(giveawayPage === "giveawayEntered"){
-           arr = dataGiveAway.free.filter((e) => e.users[userUIdata.user.username]);
+           arr = dataGiveAway.filter((e) => e.users[userUIdata.user.username]);
        }
        else if(!arr || arr.length === 0){
            return;
@@ -562,10 +575,17 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             priceFlex.appendChild(priceText);
             priceContainer.appendChild(priceFlex);
 
-// Timer
             const timerDiv = document.createElement("div");
+            // const timeDivChild = document.createElement("div");
             timerDiv.className = "giveaway-complete";
             timerDiv.style.display = "inline-block";
+            // timerDiv.className = "posRelative";
+            // timerDiv.appendChild(timeDivChild);
+
+            const buyTickets = document.createElement("div");
+            buyTickets.className = "buyTickets textCenter";
+            buyTickets.innerText = text.buyTickets;
+            // timerDiv.appendChild(buyTickets);
 
             const timerIcon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
             timerIcon.setAttribute("width", "13");
@@ -637,7 +657,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             flexDiv.appendChild(giveawayImage);
             flexDiv.appendChild(giveawayInfo);
 
-// Assemble main content
+
             innerDiv.appendChild(giveawayHeader);
             innerDiv.appendChild(flexDiv);
 
@@ -654,10 +674,15 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             }
              if(users[userUIdata.user.username]){
                 button.textContent = text.areInGiveAway;
-                button.classList.add("complatedTask")
+                button.classList.add("complatedTask");
+                innerDiv.appendChild(buyTickets)
             }
            else{
                 button.onclick = () => {
+                    tasksGiveAway.classList.remove("hide");
+                    enterGiveAway.classList.remove("hide");
+                    buyTicketsElm.classList.add("hide");
+                    buyTicketBoard.classList.add("hide");
                     tasksGiveAway.innerHTML = '';
                     let completed = 0;
                     tasks.map((el) => {
@@ -675,10 +700,13 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
                             if(completed >= tasks.length){
                                 enterGiveAway.classList.remove("complatedTask")
                                 enterGiveAway.onclick = () => {
-                                    f("enterGiveAway", {id});
+                                    f("enterGiveAway", {id}).then(() => {
+                                        setTimeout(() => {
+                                            renderGiveAway();
+                                        }, 1000)
+                                    })
                                     blurEffectGiveAway.classList.add("hide");
                                     model.classList.add("hide");
-                                    renderGiveAway();
                                 }
                             }
                         }
@@ -716,6 +744,52 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
                     blurEffectGiveAway.classList.remove("hide");
                     model.classList.remove("hide");
                 }
+            }
+            buyTickets.onclick = () => {
+                let count = 1;
+               function updateCount(){
+                   buyTicketsStar.innerText = count * priceBoost;
+                   ticketsCount.innerText = count;
+               }
+
+                updateCount();
+                decrementTicketCount.onclick = () => {
+                    if(count <= 1){
+                        return;
+                    }
+                    count--;
+                    updateCount()
+                }
+                incrementTicketCount.onclick = () => {
+                    count++;
+                    updateCount()
+                }
+                buyTicketsElm.onclick = () => {
+                    f("buyTickets", {id, tickets: count}).then((el) => {
+                        createMessage(text.giftWithdraw, 1);
+                        setTimeout(() => {
+                            renderGiveAway();
+                        }, 1000)
+                    })
+                    model.classList.add('hide');
+                    blurEffectGiveAway.classList.add("hide");
+                }
+                tasksGiveAway.classList.add("hide");
+                enterGiveAway.classList.add("hide");
+                buyTicketsElm.classList.remove("hide");
+                buyTicketBoard.classList.remove("hide");
+
+                const lottiePlayer2 = document.createElement("lottie-player");
+                lottiePlayer2.src = `${imageGift}.lottie.json`;
+                lottiePlayer2.setAttribute("background", "transparent");
+                lottiePlayer2.setAttribute("speed", "1");
+                lottiePlayer2.setAttribute("loop", "");
+                lottiePlayer2.setAttribute("autoplay", "");
+                lottiePlayer2.style.width = "100px";
+                modelImg.innerHTML = '';
+                modelImg.appendChild(lottiePlayer2)
+                blurEffectGiveAway.classList.remove("hide");
+                model.classList.remove("hide");
             }
             giveawayContent.appendChild(innerDiv);
             giveawayContent.appendChild(button);

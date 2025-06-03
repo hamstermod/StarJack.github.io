@@ -838,7 +838,7 @@ input.check-toggle-round-flat:checked + label:after {
         transform: translateX(0);
     }
     100%{
-        transform: translateX(-25%);
+        transform: translateX(-14.2857142857%);
     }
 }
 

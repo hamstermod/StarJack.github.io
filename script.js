@@ -1543,8 +1543,10 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         if(onGame){
             return;
         }
-        onGame = true;
+
         f("flipGame", {flip: 1, bet: flipCoinBet}).then((el) => el.json()).then((el) => {
+
+            onGame = true;
             if(el.result){
                 flip(1800);
                 createMessage("You Win " +(flipCoinBet * 2), 1)
@@ -1560,8 +1562,9 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         if(onGame){
             return;
         }
-        onGame = true;
+
         f("flipGame", {flip: 0, bet: flipCoinBet}).then((el) => el.json()).then((el) => {
+            onGame = true;
             if(el.result){
                 flip(1980);
                 createMessage("You Win " +(flipCoinBet * 2), 1)

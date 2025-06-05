@@ -56,6 +56,12 @@
             paymentSuccess: "Платёж прошёл успешно",
             buyTickets: "Купить больше билетов",
             butTicketsText: "Купить билеты",
+            fromFriend: "Oт друга",
+            cases: "Кейсы",
+            gamesText: "Игры",
+            betOn: "Ставьте на",
+            heads: "Орел",
+            tails: "Решка"
         },
         en: {
             errorParsing: "ERROR parsing user",
@@ -108,9 +114,16 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             paymentSuccess: "Payment success",
             buyTickets: "Buy More Tickets",
             butTicketsText: "Buy tickets",
+            fromFriend: "From a friend",
+            cases: "Cases",
+            gamesText: "Games",
+            betOn: "Bet on",
+            heads: "Heads",
+            tails: "Tails",
         }
     }
     let lang = localStorage.getItem("lang") === "en" || localStorage.getItem("lang") === "ru" ? localStorage.getItem("lang") : "en";
+
     let text = dataText[lang];
     const fondInfoText = document.getElementById("fondInfoText");
     const users = document.getElementById("users");
@@ -213,6 +226,18 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
     const ticketsCount = document.getElementById("ticketsCount");
     const incrementTicketCount = document.getElementById("incrementTicketCount");
     const buyTicketsStar = document.getElementById("buyTicketsStar");
+    const cases = document.getElementById("cases");
+    const games = document.getElementById("games");
+    const toCasesPageButton = document.getElementById("toCasesPageButton");
+    const toGamesPageButton = document.getElementById("toGamesPageButton");
+    const openGamePage = document.getElementById("openGamePage");
+    const betsFlipCoin = document.getElementById("betsFlipCoin");
+    const betOn = document.getElementById("betOn");
+    const headsText = document.getElementById("headsText");
+    const tailsText = document.getElementById("tailsText");
+    const closeGame = document.getElementById("closeGame");
+    const gameFlipCoin = document.getElementById("gameFlipCoin");
+    // const
     const listRender = [
         {
             elmsRefs: toFriendText,
@@ -302,8 +327,29 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         {
             elmsRefs: buyTicketsElm,
             to: "butTicketsText"
+        },
+        {
+            elmsRefs: toCasesPageButton,
+            to: "cases"
+        },
+        {
+            elmsRefs: toGamesPageButton,
+            to: "gamesText"
+        },
+        {
+            elmsRefs: betOn,
+            to: "betOn"
+        },
+        {
+            elmsRefs: headsText,
+            to: "heads"
+        },
+        {
+            elmsRefs: tailsText,
+            to: "tails"
         }
     ];
+
     const giveaway = document.getElementById("giveaway");
     if(maintenance){
         loading.classList.add("hide");
@@ -457,6 +503,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
 
     let page ="main";
     let giveawayPage = "giveawayFree";
+    let mainPage = "cases";
     async function renderGiveAway(){
         let dataGiveAway;
         // = {
@@ -611,7 +658,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             timerIcon.style.marginRight = "2px"
             const timerText = document.createElement("span");
             timerText.className = "whiteText";
-            const targetDate = new Date(year, month, day);
+            const targetDate = new Date(Date.UTC(year, month, day));
             const now = new Date();
             const diffMs = targetDate - now;
             const diffSec = Math.floor(diffMs / 1000);
@@ -620,7 +667,9 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             let sec = diffSec % 60;
             let isEnded = false;
             const button = document.createElement("a");
+            let first = true;
             const intervalDay = setInterval((e) => {
+                first = false;
                 sec--;
                 if(sec < 0){
                     sec = 59;
@@ -634,12 +683,14 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
                             isEnded = true;
                             button.classList.add("completedTask");
                             button.innerText = text.finished;
+                            buyTickets.classList.add('hide');
+                            button.onclick = () => {};
                             return;
                         }
                     }
                 }
                 timerText.textContent = `${hours >= 10 ? hours : "0" + hours}:${minute >= 10 ? minute : "0" + minute}:${sec >= 10 ? sec : "0" + sec}`;
-            }, 1000)
+            }, first ? 0 : 1000)
 
 
             timerDiv.appendChild(timerIcon);
@@ -670,6 +721,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             if(isEnded){
                 button.classList.add("completedTask");
                 button.innerText = text.finished;
+                button.onclick = () => {};
                 return;
             }
              if(users[userUIdata.user.username]){
@@ -793,6 +845,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
                 blurEffectGiveAway.classList.remove("hide");
                 model.classList.remove("hide");
             }
+
             giveawayContent.appendChild(innerDiv);
             giveawayContent.appendChild(button);
 
@@ -809,6 +862,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         profile.classList.add('hide');
         fond.classList.add('hide');
         giveaway.classList.add("hide");
+        gameFlipCoin.classList.add("hide");
     }
     closePages();
     openPage(page);
@@ -960,6 +1014,62 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
     }
     userProfile();
 
+    function openGameFlip() {
+        openGamePage.classList.remove("hide");
+        openGamePage.style.backgroundImage = "url('./images/games/flipCoinGameEventVertical.jpg')";
+        gameFlipCoin.classList.remove("hide");
+        setTimeout(() => {
+            openGamePage.classList.add("hide");
+        }, 2000)
+        // alert("Игра Flip Coin запущена!");
+    }
+
+    function renderGames() {
+        const gamesInfo = [
+            {
+                name: "Flip Coin Game",
+                img: "./images/games/flipCoinGameEvent.jpg",
+                refF: openGameFlip
+            },
+
+        ];
+
+        const games = document.getElementById("games");
+        games.innerHTML = '';
+
+        gamesInfo.forEach((el) => {
+            const gameContainer = document.createElement("div");
+            gameContainer.className = "game-container";
+
+            const img = document.createElement("img");
+            img.src = el.img;
+            img.className = "gamesImg";
+            img.alt = el.name;
+
+            const title = document.createElement("h3");
+            title.textContent = el.name;
+            title.className = "game-title";
+
+            const playBtn = document.createElement("button");
+            playBtn.textContent = text.playText;
+            playBtn.className = "play-button";
+            playBtn.addEventListener('click', (event) => {
+                event.stopPropagation();
+                el.refF();
+            });
+
+            gameContainer.appendChild(img);
+            gameContainer.appendChild(title);
+            gameContainer.appendChild(playBtn);
+            gameContainer.addEventListener('click', el.refF);
+
+            games.appendChild(gameContainer);
+        });
+    }
+
+    renderGames();
+
+
     function typeGameFunctional(){
         const typeGame = document.querySelectorAll(".typeGame");
         typeGame.forEach((e, i) => {
@@ -998,7 +1108,8 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             giftId: c.giftId,
             price: c.price,
             chance: +(weights[i] / totalWeight * 100).toFixed(3),
-            isNft: c.isNft
+            isNft: c.isNft,
+            ref: c.ref,
         }));
         const dataGift2 = [...dataGift];
         dataGift2.sort((a,b) => {
@@ -1008,10 +1119,11 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         // console.log(dataGift2)
 
         for(let i = 0; i < dataGift.length; i++){
-            const {giftId, price, isNft, exclusive} = dataGift[i];
+            const {giftId, price, isNft, exclusive, ref} = dataGift[i];
             const price2 = dataGift2[i].price;
             const giftId2 = dataGift2[i].giftId;
             const isNft2 = dataGift2[i].isNft;
+            const ref2 = dataGift2[i].ref;
             const chance =  dataGift2[i].chance;
             // let chance = Math.max(0, ((maxPrice - price2) / (maxPrice * scale)) * 100);
             // const ratio = (maxPrice - price2) / maxPrice;
@@ -1027,11 +1139,12 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             // }
             sum += chance;
             // console.log(dataGift[i])
+            // alert("FCK")
             html += `<div class="rouletteItem textCenter">
                         ${isNft ? `<div style="overflow: hidden;width: 100%; height: 100%;position: absolute;left: 0;top: 0;">
                             <div class="statusGift">NFT</div>
                           </div>` : ''}
-                        <img src="./images/gift${giftId}.gif" alt="">
+                        <img src="./images/gift${ref || giftId}.gif" alt="" class="gift${giftId}">
                         <p class="price starParent"><span class="starIcon"></span> ${isNft ? "???" : price}</p>
                     </div>`;
             html2 += ` <div class="rouletteItem textCenter">
@@ -1040,7 +1153,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
                           </div>` : ''}
 
                         <p class="${isHotChances ? 'fire-text' : ''}">${Math.abs(+(chance).toFixed(3))}% </p>
-                        <img src="./images/gift${giftId2}.gif" alt="">
+                        <img src="./images/gift${ref2 || giftId2}.gif" alt="" class="gift${giftId2}">
                         <p class="price starParent"><span class="starIcon"></span> ${isNft2 ? "???" : price2}</p>
                     </div>`;
         }
@@ -1282,7 +1395,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             const div = document.createElement("div");
             const mainPathImg = "./images/gift";
             div.className = "giftsUser";
-            div.innerHTML = `${byFriend ? '<div class="statusGift">Oт друга</div>' : ''} <img src="${mainPathImg}${giftId}.gif"  onerror="this.onerror=null; this.src='./images/gift${giftId}.png';" alt="">
+            div.innerHTML = `${byFriend ? '<div class="statusGift" style="font-size: 11px;">' + text.fromFriend + '</div>' : ''} <img src="${mainPathImg}${giftId}.gif"  onerror="this.onerror=null; this.src='./images/gift${giftId}.png';" alt="">
                 <p class="price starParent"><span class="starIcon"></span> ${isNft ? "???" : price}</p>`;
             div.onclick = () => {
                 document.getElementById("sellOrReciveGift").classList.remove("hide");
@@ -1354,7 +1467,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         }
     })
     let translateXAds = 0;
-    const aviablesAds = ["ads1.jpg", "ads2.jpg"];
+    const aviablesAds = ["ads4.jpg", "ads5.jpg"]//["ads1.jpg", "ads2.jpg"];
     function renderAds(){
         let html = "";
         aviablesAds.map((el) => {
@@ -1380,6 +1493,88 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         model.classList.add('hide');
         blurEffectGiveAway.classList.add("hide");
     }
+
+    toCasesPageButton.onclick = () => {
+        toCasesPageButton.classList.add("mainBttActive");
+        games.classList.add("hide");
+
+        toGamesPageButton.classList.remove("mainBttActive");
+        cases.classList.remove("hide");
+
+    }
+    toGamesPageButton.onclick = () => {
+        toCasesPageButton.classList.remove("mainBttActive");
+        games.classList.remove("hide");
+
+        toGamesPageButton.classList.add("mainBttActive");
+        cases.classList.add("hide");
+        renderGames();
+    }
     renderListLang();
+
+    let flipCoinBet = 5;
+    const bttns = betsFlipCoin.querySelectorAll("button");
+    const head = document.getElementById("head");
+    const tail = document.getElementById("tail");
+    bttns.forEach((el) => {
+        el.onclick = () => {
+            if(el.value == flipCoinBet){
+                return;
+            }
+            flipCoinBet = +(el.value);
+            bttns.forEach((e) => {
+                e.className = '';
+            })
+            el.className = "selected";
+        }
+    })
+    function flip(random) {
+        const coin = document.querySelector('.coin');
+        coin.style.transform = `rotateY(0deg)`;
+        setTimeout((e) => {
+            coin.style.transform = `rotateY(${random + 1800}deg)`;
+        }, 500)
+        setTimeout((e) => {
+            onGame = false;
+        }, 2000)
+    }
+    let onGame = false;
+    head.onclick = () => {
+        if(onGame){
+            return;
+        }
+        onGame = true;
+        f("flipGame", {flip: 1, bet: flipCoinBet}).then((el) => el.json()).then((el) => {
+            if(el.result){
+                flip(1800);
+                createMessage("You Win " +(flipCoinBet * 2), 1)
+            } else{
+                flip(1980);
+                createMessage("You Loss ", 0)
+            }
+        }).catch(() => {
+            createMessage("Balance unavailable", 0)
+        })
+    }
+    tail.onclick = () => {
+        if(onGame){
+            return;
+        }
+        onGame = true;
+        f("flipGame", {flip: 0, bet: flipCoinBet}).then((el) => el.json()).then((el) => {
+            if(el.result){
+                flip(1980);
+                createMessage("You Win " +(flipCoinBet * 2), 1)
+            } else{
+                flip(1800);
+                createMessage("You Loss ", 0)
+            }
+        }).catch(() => {
+            createMessage("Balance unavailable", 0)
+        })
+    }
+    closeGame.onclick = () => {
+        gameFlipCoin.classList.add("hide");
+    }
 
 })())

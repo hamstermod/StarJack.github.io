@@ -2,8 +2,29 @@
     const test = false;
 
     const isHotChances = false;
-    const maintenance = false;
+    const maintenance = true;
     const MAINURL = test ? "http://localhost:3000/" : "https://server-production-bb76.up.railway.app/";
+    function parseQuery(query) {
+        const params = new URLSearchParams(query);
+        const result = {};
+
+        for (const [key, value] of params.entries()) {
+            result[key] = value;
+        }
+
+        if (result.user) {
+            try {
+                result.user = JSON.parse(decodeURIComponent(result.user));
+            } catch (e) {
+                createMessage(text.errorParsing + " " + e, 0);
+                console.error("Ошибка при парсинге user JSON:", e);
+            }
+        }
+
+        return result;
+    }
+    const search = Telegram.WebApp.initData;
+    const userUIdata = parseQuery(search);
     const dataText = {
         ru: {
             errorParsing: "ОШИБКА анализа пользователя",
@@ -61,7 +82,14 @@
             gamesText: "Игры",
             betOn: "Ставьте на",
             heads: "Орел",
-            tails: "Решка"
+            tails: "Решка",
+            transfer: "Передать",
+            sell: "Продать",
+            owner: "Владелец",
+            model: "Модель",
+            fonText: "Фон",
+            uzorText: "Узор",
+            commentGift: `Подарок от <span class="highlight">StarJackCommunity</span> для <span class="highlight">${userUIdata?.user?.username}</span>, отправлен ${new Date().getDate()}/${new Date().getMonth() + 1}/${new Date().getFullYear()}.</div>`
         },
         en: {
             errorParsing: "ERROR parsing user",
@@ -120,6 +148,13 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             betOn: "Bet on",
             heads: "Heads",
             tails: "Tails",
+            transfer: "Transfer",
+            sell: "Sell",
+            owner: "Owner",
+            model: "Model",
+            fonText: "Backdrop",
+            uzorText: "Symbol",
+            commentGift: `Gift from <span class="highlight">StarJackCommunity</span> to <span class="highlight">${userUIdata?.user?.username}</span>, sent on ${new Date().getDate()}/${new Date().getMonth()+1}/${new Date().getFullYear()}`
         }
     }
     let lang = localStorage.getItem("lang") === "en" || localStorage.getItem("lang") === "ru" ? localStorage.getItem("lang") : "en";
@@ -156,7 +191,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
     let currentPrice = null;
     let selectedGiftIndex = null;
     const searchInput = document.getElementById("searchInput");
-    const search = Telegram.WebApp.initData;
+
     const toFriend = document.getElementById("toFriend");
     const language_toggle = document.getElementById("language-toggle");
     const closeSendFriendPage = document.getElementById("closeSendFriendPage");
@@ -174,29 +209,9 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             dialog.removeChild(div);
         }, 4000)
     }
-    function parseQuery(query) {
-        const params = new URLSearchParams(query);
-        const result = {};
-
-        for (const [key, value] of params.entries()) {
-            result[key] = value;
-        }
-
-        if (result.user) {
-            try {
-                result.user = JSON.parse(decodeURIComponent(result.user));
-            } catch (e) {
-                createMessage(text.errorParsing + " " + e, 0);
-                console.error("Ошибка при парсинге user JSON:", e);
-            }
-        }
-
-        return result;
-    }
     const spinButton = document.getElementById("spinButton");
     const demoButton = document.getElementById("demoButton");
     const rouletteItems = document.getElementById("rouletteItems");
-    const userUIdata = parseQuery(search);
     const toFriendText = document.querySelectorAll(".toFriendText");
     const demoText = document.getElementById("demoText");
     const textInfoSendFriend= document.getElementById("textInfoSendFriend");
@@ -237,7 +252,21 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
     const tailsText = document.getElementById("tailsText");
     const closeGame = document.getElementById("closeGame");
     const gameFlipCoin = document.getElementById("gameFlipCoin");
-    // const
+    const imgCase = document.getElementById("imgCase");
+    const videoCase = document.getElementById("videoCase");
+    const footerGiftDesign = document.getElementById("footerGiftDesign");
+    const blurEffectGift = document.getElementById("blurEffectGift");
+    const closeGift = document.getElementById("closeGift");
+    const imgGiftModel = document.getElementById("imgGiftModel");
+    const giftOfUser = document.getElementById("giftOfUser");
+    const casePrice = document.getElementById("casePrice");
+    const transfer = document.getElementById("transfer");
+    const sell = document.getElementById("sell");
+    // const owner = document.getElementById("owner");
+    const modelText = document.getElementById("modelText");
+    const fonText = document.getElementById("fonText");
+    const uzorText = document.getElementById("uzorText");
+    const commentGift = document.getElementById("commentGift");
     const listRender = [
         {
             elmsRefs: toFriendText,
@@ -347,6 +376,31 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         {
             elmsRefs: tailsText,
             to: "tails"
+        },
+        {
+            elmsRefs: transfer,
+            to: "transfer"
+        },
+        {
+            elmsRefs: sell,
+            to: "sell"
+        },
+        {
+            elmsRefs: modelText,
+            to: "model",
+        },
+        {
+            elmsRefs: fonText,
+            to: "fonText"
+        },
+        {
+            elmsRefs: uzorText,
+            to: "uzorText"
+        },
+        {
+            elmsRefs: commentGift,
+            to: "commentGift",
+            html: true
         }
     ];
 
@@ -451,7 +505,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
     function renderCases(){
         selectCasePage.innerHTML = '';
         for(let i = 0; i < giftsData.length; i++){
-            const {caseName, caseImg, status, isClosed} = giftsData[i];
+            const {caseName, caseImg, status, isClosed, price} = giftsData[i];
             const caseElm = document.createElement("div");
             caseElm.className = "case";
             caseElm.onclick = () => {
@@ -462,6 +516,8 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
                 selectCasePage.classList.add("hide");
                 casePage.classList.remove("hide");
                 caseId = i;
+                casePrice.innerText = price || 0;
+                // isEventSquid
                 renderRoulette();
             }
             caseElm.innerHTML = `<div class="statusGift">${status}</div>
@@ -469,7 +525,11 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
                         <div style="min-height: 120px">
                          <img src="${caseImg}" alt="" class="caseImg" />
                         </div>
-                        <p>${caseName} <span class="caseText"></span></p>
+                        <p style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">${caseName} <span class="caseText"></span></p>
+                        <div class="starParent" >
+                            <span>${price || 0}</span>
+                            <span class="starIcon"></span>
+                        </div>
                     </div>`;
             selectCasePage.appendChild(caseElm);
         }
@@ -1096,6 +1156,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
        
         const maxPrice = 999//500 - 100 * (level+1);
         let sum = 0;
+
         dataGift = giftsData[caseId].cases;
         // console.log(level+(isHotChances ? 0 : 0))
         //+(isHotChances ? 0.04 : 0)
@@ -1111,11 +1172,17 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             isNft: c.isNft,
             ref: c.ref,
         }));
+
         const dataGift2 = [...dataGift];
         dataGift2.sort((a,b) => {
             return a.price - b.price;
             // return  b.price - a.price;
         })
+        if(giftsData[caseId].isEventSquid){
+            imgCase.src = "./images/closedCaseSquidGame.png";
+        } else{
+            imgCase.src = "./images/closedCaseBasic.png";
+        }
         // console.log(dataGift2)
 
         for(let i = 0; i < dataGift.length; i++){
@@ -1140,13 +1207,13 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             sum += chance;
             // console.log(dataGift[i])
             // alert("FCK")
-            html += `<div class="rouletteItem textCenter">
-                        ${isNft ? `<div style="overflow: hidden;width: 100%; height: 100%;position: absolute;left: 0;top: 0;">
-                            <div class="statusGift">NFT</div>
-                          </div>` : ''}
-                        <img src="./images/gift${ref || giftId}.gif" alt="" class="gift${giftId}">
-                        <p class="price starParent"><span class="starIcon"></span> ${isNft ? "???" : price}</p>
-                    </div>`;
+            // html += `<div class="rouletteItem textCenter">
+            //             ${isNft ? `<div style="overflow: hidden;width: 100%; height: 100%;position: absolute;left: 0;top: 0;">
+            //                 <div class="statusGift">NFT</div>
+            //               </div>` : ''}
+            //             <img src="./images/gift${ref || giftId}.gif" alt="" class="gift${giftId}">
+            //             <p class="price starParent"><span class="starIcon"></span> ${isNft ? "???" : price}</p>
+            //         </div>`;
             html2 += ` <div class="rouletteItem textCenter">
                        ${isNft2 ? `<div style="overflow: hidden;width: 100%; height: 100%;position: absolute;left: 0;top: 0;">
                             <div class="statusGift">NFT</div>
@@ -1158,17 +1225,17 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
                     </div>`;
         }
         // console.log(sum)
-        rouletteItems.innerHTML = html.repeat(7);
+        // rouletteItems.innerHTML = html.repeat(7);
         chanceE.innerHTML = html2;
     }
     spinButton.onclick = spinRoulette;
     async function spinRoulette() {
-        rouletteItems.style.transform = `translateX(0)`;
-        rouletteItems.classList.remove("animate")
+        // rouletteItems.style.transform = `translateX(0)`;
+        // rouletteItems.classList.remove("animate")
         const closePage = document.getElementById("closePage");
         const sellOfReciveImg = document.getElementById("sellOfReciveImg");
 
-        const itemWidth = document.querySelector('.rouletteItem').offsetWidth + 10;
+        // const itemWidth = document.querySelector('.rouletteItem').offsetWidth + 10;
         function getAnim(){
             const randomIndex = isDemo ? dataGift[Math.floor(Math.random() * (dataGift.length))].giftId: random.data.giftId;
             let randomI;
@@ -1179,10 +1246,18 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
                 }
 
             }
+            imgCase.classList.add("hide");
+            videoCase.classList.remove("hide");
+            if(giftsData[caseId].isEventSquid){
+                videoCase.src = "./images/caseAnimation/squidGameCase.mp4";
+            } else{
+                videoCase.src = "./images/caseAnimation/basicCase.mp4";
+            }
+
             // = randomIndex
-            const offset = (randomI - 1) * itemWidth;
-            const fullSpin = (dataGift.length * itemWidth) * 3;
-            const finalPosition = fullSpin + offset;
+            // const offset = (randomI - 1) * itemWidth;
+            // const fullSpin = (dataGift.length * itemWidth) * 3;
+            // const finalPosition = fullSpin + offset;
             // const priceSell =document.getElementById("priceSell");
             if(isDemo){
                 buttonSellOrRecive.classList.add("hide");
@@ -1193,13 +1268,13 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             }
             spinButton.disabled = true;
             spinning = true;
-            rouletteItems.style.transition = 'transform 3s ease-out';
-            const rand = 30 + Math.random() * (itemWidth - 100);
-            rouletteItems.style.transform = `translateX(-${finalPosition + rand}px)`;
+            // rouletteItems.style.transition = 'transform 3s ease-out';
+            // const rand = 30 + Math.random() * (itemWidth - 100);
+            // rouletteItems.style.transform = `translateX(-${finalPosition + rand}px)`;
 
             setTimeout(() => {
-                rouletteItems.style.transition = 'none';
-                rouletteItems.style.transform = `translateX(-${offset + rand}px)`;
+                // rouletteItems.style.transition = 'none';
+                // rouletteItems.style.transform = `translateX(-${offset + rand}px)`;
                 // const randGft = dataGift[randomIndex-1];
                 let randGft =  dataGift[randomI];
                 // for(let i = 0; i < dataGift.length; i++){
@@ -1210,22 +1285,26 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
                 // }
                 const price = randGft.price;
                 // console.log(randomIndex)
-                sellOfReciveImg.src = `./images/gift${(randGft.giftId)}.gif`;
+                giftOfUser.src = `./images/gift${(randGft.giftId)}.gif`;
+                footerGiftDesign.classList.add("active")
+                blurEffectGift.classList.remove("hide");
+                // sellOfReciveImg.src = `./images/gift${(randGft.giftId)}.gif`;
                 // priceSell.innerText = price;
                 currentPrice = price;
                 currentGift = randomIndex;
                 selectedGiftIndex = 0;
-                setTimeout(() => {
-                    sellOrReciveGift.classList.remove("hide");
-                    //setting :)
-                    giftToProfile.classList.remove("hide");
 
-                    toFriend.classList.add("hide");
-                    spinning = false;
-                    rouletteItems.classList.add("animate")
-                    spinButton.disabled = false;
-                }, 500)
-            }, 3000);
+                // sellOrReciveGift.classList.remove("hide");
+                //setting :)
+                giftToProfile.classList.remove("hide");
+
+                toFriend.classList.add("hide");
+                spinning = false;
+                rouletteItems.classList.add("animate")
+                spinButton.disabled = false;
+                imgCase.classList.remove("hide");
+                videoCase.classList.add("hide")
+            }, 2000);
         }
         if(isDemo){
             getAnim();
@@ -1236,67 +1315,8 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         if(!random.ok){
             random = await random.text();
             createMessage(random, 0);
-            return;
-        }
-        random = await random.json();
-        async function checking() {
-            return new Promise((resolve) => {
-                const interval = setInterval(async () => {
-                    if (spinCheckCount <= 0) {
-                        clearInterval(interval);
-                        resolve(false);
-                        return;
-                    }
-
-                    spinCheckCount--;
-
-                    try {
-                        const resCheck = await f("spinCheck", { spinType: level + 1}).then((e) => e.json());
-                        if (resCheck.valid) {
-                            let randomRes = await f("spin", { type: level + 1 }).then((e) => e.json());
-
-                            if (randomRes.invoice_link) { //not pay
-                                const errorText = await randomRes.text();
-                                createMessage(errorText, 0);
-                                clearInterval(interval);
-                                resolve(false);
-                                return;
-                            }
-
-                            random = randomRes;
-                            if (random.status === 'ok') {
-                                clearInterval(interval);
-                                resolve(true);
-                                return;
-                            }
-                        }
-                    } catch (err) {
-                        console.error("Error in checking loop:", err);
-                        clearInterval(interval);
-                        resolve(false);
-                    }
-                }, 1000);
-            });
         }
 
-
-        if (random.invoice_link) {
-            Telegram.WebApp.openInvoice(random.invoice_link, async (e) => {
-                if(e === "paid"){
-                    const result = await checking();
-                    if (!result) {
-                        createMessage("PAYMENT FAILED", 0);
-                        return;
-                    }
-                    createMessage("PAYMENT SUCCESS");
-                    getAnim();
-                }
-            });
-
-        }
-        else{
-            getAnim();
-        }
     }
     demoButton.onclick = () => {
         isDemo = !isDemo;
@@ -1579,5 +1599,11 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
     closeGame.onclick = () => {
         gameFlipCoin.classList.add("hide");
     }
+    function closeGiftPage(){
+        blurEffectGift.classList.add("hide");
+        footerGiftDesign.classList.remove("active");
+    }
+    closeGift.onclick = closeGiftPage;
+    blurEffectGift.onclick = closeGiftPage;
 
 })())

@@ -6,20 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-    <script
-            async
-            src="https://unpkg.com/@telegram-apps/analytics@latest/dist/index.js"
-            onload="initAnalytics()"
-            type="text/javascript"
-    ></script>
-    <script>
-        function initAnalytics() {
-            window.telegramAnalytics.init({
-                token: 'eyJhcHBfbmFtZSI6IlN0YXJKYWNrT3JpZ19ib3QiLCJhcHBfdXJsIjoiaHR0cHM6Ly90Lm1lL1N0YXJKYWNrT3JpZ19ib3QiLCJhcHBfZG9tYWluIjoiaHR0cHM6Ly9oYW1zdGVybW9kLmdpdGh1Yi5pby9TdGFySmFjay5naXRodWIuaW8vIn0=!LngJGLo7WH41JeEze65+RA+u+rPH7T3HjDiFCNTlYXc=', // SDK Auth token received via @DataChief_bot
-                appName: 'StarJackOrig_bot', // The analytics identifier you entered in @DataChief_bot
-            });
-        }
-    </script>
+<!--    <script-->
+<!--            async-->
+<!--            src="https://unpkg.com/@telegram-apps/analytics@latest/dist/index.js"-->
+<!--            onload="initAnalytics()"-->
+<!--            type="text/javascript"-->
+<!--    ></script>-->
+<!--    <script>-->
+<!--        function initAnalytics() {-->
+<!--            window.telegramAnalytics.init({-->
+<!--                token: 'eyJhcHBfbmFtZSI6IlN0YXJKYWNrT3JpZ19ib3QiLCJhcHBfdXJsIjoiaHR0cHM6Ly90Lm1lL1N0YXJKYWNrT3JpZ19ib3QiLCJhcHBfZG9tYWluIjoiaHR0cHM6Ly9oYW1zdGVybW9kLmdpdGh1Yi5pby9TdGFySmFjay5naXRodWIuaW8vIn0=!LngJGLo7WH41JeEze65+RA+u+rPH7T3HjDiFCNTlYXc=', // SDK Auth token received via @DataChief_bot-->
+<!--                appName: 'StarJackOrig_bot', // The analytics identifier you entered in @DataChief_bot-->
+<!--            });-->
+<!--        }-->
+<!--    </script>-->
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <title>Star Jack</title>
 </head>
@@ -86,7 +86,10 @@
 
                 </div>
                 <div id="casePage" class="hide">
-                    <div id="selectPage" class="whiteText flex">
+                    <div class="">
+                        <p class="textCenter starParent" style="width: 100%;padding: 10px;font-size: 25px;"><span id="casePrice">25</span> <span class="starIcon" style="width: 25px; height: 25px"></span></p>
+                    </div>
+                    <div id="" class="whiteText flex hide">
                         <div class="typeGame flex align selected">
                             <p class="textCenter starParent" style="width: 100%">25 <span class="starIcon"></span></p>
                         </div>
@@ -98,6 +101,8 @@
                         </div>
                     </div>
                     <div id="roulette" class="flex align">
+                        <img src="./images/closedCaseSquidGame.png" alt="" style="width: 100%" id="imgCase">
+                        <video src="./images/caseAnimation/basisqcCase.mp4" autoplay muted style="width: 100%;" id="videoCase" class="hide"></video>
                         <div id="rouletteItems" class="flex animate">
 
                         </div>
@@ -319,7 +324,63 @@
             </div>
         </div>
     </div>
-    <footer>
+    <div id="giftDesign">
+        <div id="blurEffectGift" class="hide"></div>
+        <div id="footerGiftDesign" class="">
+            <div class="headerGift">
+                <div class="textCenter">
+                    <div id="uzor">
+                        <p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p>
+                    </div>
+                    <img src="./images/gifts/gift1.png" alt="" id="giftOfUser"/>
+                </div>
+                <div class="flex giftHeaderButtons">
+                    <div>
+                        <div>
+                            <img src="./images/icons/send.png" alt="" style="width: 30px; height: 30px; filter: invert(1);" id="imgGiftModel"/>
+                            <p id="transfer">Передать</p>
+                        </div>
+                    </div>
+                    <div>
+                       <div style="width: 100%; display: flex; align-items: center; flex-direction: column">
+                           <div class="posRelative posCenterAll" style="width: 100px; height: 35px;">
+                               <img src="./images/icons/sell.svg" alt="">
+                               <p class="notDesignLine hide"></p>
+                           </div>
+                           <p id="sell">Продать</p>
+                       </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="card">
+<!--                <div class="row">-->
+<!--                    <div class="label" id="owner">Владелец</div>-->
+<!--                    <div class="value">{this.getUser()?.username} <span>🤖</span></div>-->
+<!--                </div>-->
+                <div class="row">
+                    <div class="label" id="modelText">Модель</div>
+                    <div class="value">Amogus <span class="tag">2%</span></div>
+                </div>
+                <div class="row">
+                    <div class="label" id="fonText">Фон</div>
+                    <div class="value">Silver Blue <span class="tag">1%</span></div>
+                </div>
+                <div class="row">
+                    <div class="label" id="uzorText">Узор</div>
+                    <div class="value">Arabian Horse <span class="tag">0.5%</span></div>
+                </div>
+
+                <div class="footer textCenter" id="commentGift">
+                    Подарок от <span class="highlight">Удалённый аккаунт</span> для <span class="highlight">{this.getUser()?.username} null</span>, отправлен 01/04/25 с комментарием «The Matrix hacked by Hayk5545».
+                </div>
+
+                <button class="ok-button" id="closeGift">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="">
         <div class="container">
             <div id="footerButtons">
             </div>

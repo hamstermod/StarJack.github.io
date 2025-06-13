@@ -1751,3 +1751,9 @@ input:checked + .slider:before {
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
+.no-control {
+    pointer-events: none; /* Запрещает любые действия с элементом */
+    user-select: none;    /* Нельзя выделить */
+    -webkit-user-select: none;
+    -webkit-touch-callout: none; /* Отключает всплывающее меню на iPhone */
+}

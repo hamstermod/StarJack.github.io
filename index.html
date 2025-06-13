@@ -34,22 +34,11 @@
             </div>
         </div>
     </div>
-    <div id="fond" >
+    <div id="market" >
+        <div class="container ">
+            <div id="giftsMarket">
 
-        <div id="fondBackground" style="position: relative">
-            <div id="fondImage"></div>
-            <p id="fondText" class="starParent"><span id="fondAmount">0</span> / <span id="fondMaxAmount">50000</span> <span class="starIcon" style="width: 40px;height: 40px;"></span></p>
-        </div>
-        <div class="container">
-            <p style="color: white" id="fondInfoText">
-                🎰 Что такое Общий Фонд?
-                <br>
-                Общий фонд — это накопительный приз, который формируется каждый раз, когда игроки крутят рулетку.
-                Часть потраченных монет при каждом вращении добавляется в этот фонд.
-                <br>
-                Когда фонд достигает максимума, среди всех участников, внесших вклад, проводится розыгрыш суперприза!
-                Чем больше ты крутишь — тем больше твой шанс выиграть!
-            </p>
+            </div>
         </div>
     </div>
     <div id="main" class="hide">
@@ -102,7 +91,7 @@
                     </div>
                     <div id="roulette" class="flex align">
                         <img src="./images/closedCaseSquidGame.png" alt="" style="width: 100%" id="imgCase">
-                        <video src="./images/caseAnimation/basisqcCase.mp4" autoplay muted style="width: 100%;" id="videoCase" class="hide"></video>
+                        <video src="./images/caseAnimation/basicCase.mp4" autoplay muted style="width: 100%;" id="videoCase" class="hide"></video>
                         <div id="rouletteItems" class="flex animate">
 
                         </div>
@@ -220,6 +209,10 @@
                         </div>
                         <div class="textCenter">
                             <button id="depositButton">Пополнить баланс</button>
+                            <button id="withdraw-button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right w-4 h-4">
+                                <path d="M7 7h10v10"></path>
+                                <path d="M7 17 17 7"></path>
+                            </svg></button>
                         </div>
             <br>
             <div>
@@ -232,31 +225,53 @@
 
         </div>
     </div>
+    <div id="sendFriendPage" class="" style="color: white">
+        <div class="container">
+            <p class="textCenter toFriendText">Отправить другу</p>
+            <img src="./images/closePage.png" alt="" id="closeSendFriendPage">
 
-    <div id="sellOrReciveGift" class="hide">
-        <div id="sendFriendPage" class="" style="color: white">
-            <div class="container">
-                <p class="textCenter toFriendText">Отправить другу</p>
-                <img src="./images/closePage.png" alt="" id="closeSendFriendPage">
-
-                <div style="margin-top: 40px">
-                    <h3 style="margin-top: 0;">🎁 <span class="toFriendText"></span></h3>
-                    <p id="textInfoSendFriend">
-                        С помощью этой функции вы можете отправить подарок другому пользователю.
-                        Просто введите <strong>ID пользователя</strong>, которому хотите отправить подарок, и нажмите кнопку <em>«Отправить»</em>.
-                    </p>
-                    <label for="idInput" style="display: block; margin-bottom: 5px;">ID пользователя:</label>
-                    <div class="textCenter">
-                        <input type="number" placeholder="Напишите ID пользователя, которому хотите отправить подарок." id="idInput" class="textCenter"/>
-                        <div>
-                            <button id="send">Отправить</button>
-                        </div>
+            <div style="margin-top: 40px">
+                <h3 style="margin-top: 0;">🎁 <span class="toFriendText"></span></h3>
+                <p id="textInfoSendFriend">
+                    С помощью этой функции вы можете отправить подарок другому пользователю.
+                    Просто введите <strong>ID пользователя</strong>, которому хотите отправить подарок, и нажмите кнопку <em>«Отправить»</em>.
+                </p>
+                <label for="idInput" style="display: block; margin-bottom: 5px;">ID пользователя:</label>
+                <div class="textCenter">
+                    <input type="number" placeholder="Напишите ID пользователя, которому хотите отправить подарок." id="idInput" class="textCenter"/>
+                    <div>
+                        <button id="send">Отправить</button>
                     </div>
-
-
                 </div>
+
+
             </div>
         </div>
+    </div>
+    <div id="sellOrReciveGift" class="hide">
+<!--        <div id="sendFriendPage" class="" style="color: white">-->
+<!--            <div class="container">-->
+<!--                <p class="textCenter toFriendText">Отправить другу</p>-->
+<!--                <img src="./images/closePage.png" alt="" id="closeSendFriendPage">-->
+
+<!--                <div style="margin-top: 40px">-->
+<!--                    <h3 style="margin-top: 0;">🎁 <span class="toFriendText"></span></h3>-->
+<!--                    <p id="textInfoSendFriend">-->
+<!--                        С помощью этой функции вы можете отправить подарок другому пользователю.-->
+<!--                        Просто введите <strong>ID пользователя</strong>, которому хотите отправить подарок, и нажмите кнопку <em>«Отправить»</em>.-->
+<!--                    </p>-->
+<!--                    <label for="idInput" style="display: block; margin-bottom: 5px;">ID пользователя:</label>-->
+<!--                    <div class="textCenter">-->
+<!--                        <input type="number" placeholder="Напишите ID пользователя, которому хотите отправить подарок." id="idInput" class="textCenter"/>-->
+<!--                        <div>-->
+<!--                            <button id="send">Отправить</button>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
         <img src="./images/closePage.png" alt="" id="closePage">
         <div class="whiteText textCenter" style="position: absolute; top: 50%; transform: translateY(-50%); width: 100%">
             <img src="./images/gift1.gif" alt="" style="width: 200px" id="sellOfReciveImg"/>
@@ -327,25 +342,29 @@
     <div id="giftDesign">
         <div id="blurEffectGift" class="hide"></div>
         <div id="footerGiftDesign" class="">
-            <div class="headerGift">
+            <div class="headerGift" id="backdropDiv">
+                <div class="starParent hide" style="position: absolute; left: 10px; top: 10px;" id="priceGiftPos">
+                    <span id="priceGiftNumber">0</span>
+                    <span class="starIcon"></span>
+                </div>
                 <div class="textCenter">
                     <div id="uzor">
                         <p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p>
                     </div>
                     <img src="./images/gifts/gift1.png" alt="" id="giftOfUser"/>
                 </div>
-                <div class="flex giftHeaderButtons">
-                    <div>
+                <div class="flex giftHeaderButtons" id="sellOrSendFriend">
+                    <div id="toFriendModel">
                         <div>
                             <img src="./images/icons/send.png" alt="" style="width: 30px; height: 30px; filter: invert(1);" id="imgGiftModel"/>
                             <p id="transfer">Передать</p>
                         </div>
                     </div>
-                    <div>
+                    <div id="openSalePage">
                        <div style="width: 100%; display: flex; align-items: center; flex-direction: column">
                            <div class="posRelative posCenterAll" style="width: 100px; height: 35px;">
                                <img src="./images/icons/sell.svg" alt="">
-                               <p class="notDesignLine hide"></p>
+                               <p class="hide" id="notDesignLine"></p>
                            </div>
                            <p id="sell">Продать</p>
                        </div>
@@ -360,26 +379,55 @@
 <!--                </div>-->
                 <div class="row">
                     <div class="label" id="modelText">Модель</div>
-                    <div class="value">Amogus <span class="tag">2%</span></div>
+                    <div class="value"><span id="modelTextGift">Silver Blue</span> <span class="tag hide">2%</span></div>
                 </div>
                 <div class="row">
                     <div class="label" id="fonText">Фон</div>
-                    <div class="value">Silver Blue <span class="tag">1%</span></div>
+                    <div class="value" ><span id="fonTextGift">Silver Blue</span> <span class="tag hide ">1%</span></div>
                 </div>
                 <div class="row">
                     <div class="label" id="uzorText">Узор</div>
-                    <div class="value">Arabian Horse <span class="tag">0.5%</span></div>
+                    <div class="value"><span id="uzorTextGift">Arabian Horse</span> <span class="tag hide">0.5%</span></div>
                 </div>
 
-                <div class="footer textCenter" id="commentGift">
+                <div class="footer textCenter hide" id="commentGift">
                     Подарок от <span class="highlight">Удалённый аккаунт</span> для <span class="highlight">{this.getUser()?.username} null</span>, отправлен 01/04/25 с комментарием «The Matrix hacked by Hayk5545».
                 </div>
 
                 <button class="ok-button" id="closeGift">OK</button>
+                <button class="ok-button starParent flex hide" id="buyItem">
+                    <span id="priceStarToBuy">20</span>
+                    <span class="starIcon"></span></button>
             </div>
         </div>
     </div>
+    <div id="blurCloseSalePage" class="hide">
 
+    </div>
+    <div class="container hide" id="salePage">
+
+        <div  class="flex align" style="position: absolute; right: 10px; top: 10px;">
+            <button class="close-btn" id="closePageSaleButton">×</button>
+        </div>
+        <h2 id="priceInStars">Цена в звёздах</h2>
+        <label id="enterPrice">Укажите цену в звёздах</label>
+        <div class="input-group starParent">
+            <span class="starIcon"></span>
+<!--            <input type="number" value="125" max="100000" maxlength="6" id="inputSaleGift"/>-->
+            <input id="inputSaleGift"
+                   type="number"
+                   min="10"
+                   max="100000"
+                   step="1"
+                   value="100"
+                   onkeydown="if(event.key==='.'||event.key===','||event.key==='e'){event.preventDefault()}"
+                   oninput="this.value = this.value.replace(/[.,]/g, '')">
+        </div>
+<!--        <div class="subtext">-->
+<!--           <span> ≈<span>1,30</span> $</span>-->
+<!--        </div>-->
+        <button id="toSaleButton">Выставить на продажу</button>
+    </div>
     <footer class="">
         <div class="container">
             <div id="footerButtons">

@@ -21,7 +21,7 @@ body{
     font-family: 'Segoe UI', sans-serif;
 }
 .flex{
-    display: flex;
+    display: flex !important;
 }
 .align{
     align-items: center;
@@ -35,6 +35,7 @@ footer{
     background-color: rgba(33, 33, 33, 0.7);
     cursor: pointer;
     backdrop-filter: blur(2px);
+    z-index: 20;
 }
 footer p{
     white-space: nowrap;
@@ -115,6 +116,7 @@ footer p{
     /*background-color: #181818;*/
     /*border-radius: 10px;*/
     /*overflow: hidden;*/
+    /*height: 160px;*/
 }
 #RouletteSelector{
     /*pointer-events: none;*/
@@ -186,6 +188,8 @@ footer p{
     box-shadow: 0 0 8px #ffdd0077;
     font-weight: 600;
     border-radius: 12px;
+    /*position: absolute;*/
+    bottom: 5px;
 }
 
 
@@ -266,13 +270,14 @@ input:checked + .slider:before {
 }
 #chance{
     overflow-x: auto;
-    height: 150px;
+    height: 160px;
     padding: 10px;
     font-size: 10px;
     /*flex-direction: row-reverse;*/
 }
 #chance img{
     width: 50px;
+    height: 60px;
 }
 #chance .rouletteItem{
     padding: 15px;
@@ -346,7 +351,7 @@ input:checked + .slider:before {
 #depositPage.active{
     bottom:0;
 }
-#blurEffect, #blurEffectGiveAway{
+#blurEffect, #blurEffectGiveAway, #blurCloseSalePage{
     position: fixed;
     top: 0;
     left: 0;
@@ -406,6 +411,8 @@ input:checked + .slider:before {
 .giftsUser img{
     width: 100px;
     height: 100px;
+    position: relative;
+    z-index: 5;
 }
 .giftsUser > *{
     margin: 10px;
@@ -419,7 +426,7 @@ input:checked + .slider:before {
     flex-direction: column;
     align-items: center;
     color: white;
-    z-index: 999;
+    z-index: 50000;
 }
 #loading, #maintenance{
     width: 100%;
@@ -652,7 +659,7 @@ input:checked + .slider:before {
     bottom: 0;
     transform: translateY(100%);
     border-radius: 10px;
-    z-index: 2000;
+    z-index: 10001;
     transition: 0.3s;
 }
 #sendFriendPage.active{
@@ -807,21 +814,7 @@ input.check-toggle-round-flat:checked + label:after {
 #casesHeaderUserInfo{
     transition: 1s;
 }
-#closeCasesParent{
-    display: none;
-}
-#headerCases.active #closeCasesParent{
-    display:  flex;
-}
-#headerCases.active #casesHeaderUserInfo{
-    flex-direction: row-reverse;
-}
-#headerCases.active .mainBttTabContainer{
-    display: none;
-}
-#headerCases.active .starParent{
-    display: none;
-}
+
 
 .close-btn {
     width: 32px;
@@ -1302,7 +1295,6 @@ input.check-toggle-round-flat:checked + label:after {
     border-radius: 15px;
     text-align: center;
     width: 90%;
-    max-width: 400px;
     box-shadow: 0 0 20px rgba(255,255,255,0.1);
 }
 
@@ -1484,7 +1476,7 @@ input:checked + .slider:before {
     background-color: #262b3e;
     border-radius: 0 0 16px 16px;
     padding: 20px;
-    max-width: 400px;
+    /*max-width: 400px;*/
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
@@ -1551,7 +1543,7 @@ input:checked + .slider:before {
     background-color: #708fa4;
     border-radius: 16px 16px 0 0;
     position: relative;
-    max-width: 400px;
+    /*max-width: 400px;*/
 }
 
 .giftHeaderButtons > div{
@@ -1572,7 +1564,7 @@ input:checked + .slider:before {
     top: 50%;
     transform: translate(-50%, -50%);
 }
-.notDesignLine {
+#notDesignLine {
     width: 30px;
     height: 2px;
     background-color: white;
@@ -1580,10 +1572,13 @@ input:checked + .slider:before {
 }
 #giftOfUser{
     position: relative;
-    width: 150px;
+    /*width: 150px;*/
+    width: 130px;
+    height: 147px;
+
     z-index: 1000;
 }
-#uzor{
+#uzor, .uzor{
     position: absolute;
     left: 50%;
     top: 0;
@@ -1593,7 +1588,7 @@ input:checked + .slider:before {
     display: flex;
     flex-wrap: wrap;
 }
-#uzor p{
+#uzor p, .uzor p{
     width: 20px;
     height: 20px;
     display: inline-block;
@@ -1601,12 +1596,17 @@ input:checked + .slider:before {
     background-size: cover;
     background-position: center;
     margin: 10px;
-    filter: opacity(0.2);
+    /*filter: opacity(0.2);*/
+    filter: invert(0.5) opacity(0.4);
+}
+.uzor p{
+    margin: 5px;
 }
 #uzor p:nth-child(odd){
     transform: translateY(40px);
 }
 #footerGiftDesign{
+    width: 100%;
     transition: 0.4s;
     position: fixed;
     bottom: 0;
@@ -1621,5 +1621,133 @@ input:checked + .slider:before {
     width: 100%;
     height: 100%;
     top: 0;
+    position: fixed;
+    z-index: 10;
+}
+
+
+
+#salePage{
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10005;
+}
+#salePage.container {
+    background-color: #181818;
+    border-radius: 16px;
+    padding: 24px;
+    width: 100%;
+    /*height: 100%;*/
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+#salePage h2 {
+    margin-top: 0;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+#salePage .input-group {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+#salePage .input-group input {
+    width: 100%;
+    padding: 10px 10px 10px 40px;
+    border-radius: 12px;
+    border: 2px solid #6a61d1;
+    background-color: transparent;
+    color: white;
+    font-size: 16px;
+}
+
+#salePage .input-group .starIcon {
     position: absolute;
+    left: 10px;
+    top: 8px;
+    width: 24px;
+    height: 24px;
+}
+
+#salePage .subtext {
+    display: flex;
+    justify-content: space-between;
+    color: #9aa0c0;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+#salePage #toSaleButton {
+    width: 100%;
+    background-color: #7a84ff;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 12px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#blurCloseSalePage{
+    z-index: 10001;
+}
+
+
+
+
+
+#market {
+    /*background-color: #111827;*/
+    color: white;
+    /*padding: 20px;*/
+    font-family: Arial, sans-serif;
+
+}
+#market{
+    height: calc(100% - 100px);
+}
+#market .container, #giftsMarket{
+    height: 100%;
+}
+#giftsMarket{
+    overflow-y: auto;
+}
+#giftsMarket > div{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+#buyItem{
+    background-color: green;
+}
+
+#closeCasesParent{
+    display: none !important;
+}
+#headerCases.active #closeCasesParent{
+    display:  flex !important;
+}
+#headerCases.active #casesHeaderUserInfo{
+    flex-direction: row-reverse;
+}
+#headerCases.active .mainBttTabContainer{
+    display: none !important;
+}
+#headerCases.active .starParent{
+    display: none !important;
+}
+
+#withdraw-button {
+    background-color: #9f8fff;
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 10px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }

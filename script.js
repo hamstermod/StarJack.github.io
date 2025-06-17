@@ -25,6 +25,7 @@
     }
     const search = Telegram.WebApp.initData;
     const userUIdata = parseQuery(search);
+    let stopMarket = false;
     const dataText = {
         ru: {
             errorParsing: "ОШИБКА анализа пользователя",
@@ -91,6 +92,12 @@
             enterPrice: "Укажите цену в звёздах",
             listSale: "Выставить на продажу",
             withdrawStatus: "Вывод скоро будет доступен.",
+            enterPromo: "Введите промокод",
+            applyText: "Применить",
+            successPromocode: "Промокод успешно активирован!",
+            errorPromocode: "⚠️ Промокод недействителен. Проверьте правильность ввода.",
+            limitPromo: "🚫 Все промокоды уже использованы. Следите за новыми акциями!",
+            alreadyUsed: "⚠️ Этот промокод уже был использован.",
         },
         en: {
             errorParsing: "ERROR parsing user",
@@ -156,7 +163,13 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             priceStars: "Price in stars",
             enterPrice: "Enter the price in stars",
             listSale: "List for sale",
-            withdrawStatus: "Withdrawal will be available soon."
+            withdrawStatus: "Withdrawal will be available soon.",
+            enterPromo: "Enter promo code",
+            applyText: "Apply",
+            successPromocode: "Promo code activated successfully!",
+            errorPromocode: "⚠️ Invalid promo code. Please check and try again.",
+            limitPromo: "🚫 All promo codes have been used. Stay tuned for future offers!",
+            alreadyUsed: "⚠️ This promo code has already been used.",
         }
     }
     let lang = localStorage.getItem("lang") === "en" || localStorage.getItem("lang") === "ru" ? localStorage.getItem("lang") : "en";
@@ -290,7 +303,8 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
     const buyItem = document.getElementById("buyItem");
     const priceStarToBuy = document.getElementById("priceStarToBuy");
     const backdropDiv = document.getElementById("backdropDiv");
-
+    const promoButton = document.getElementById("promoButton");
+    const promoInput = document.getElementById("promoInput");
     const listRender = [
         {
             elmsRefs: toFriendText,
@@ -432,6 +446,15 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         {
             elmsRefs: toSaleButton,
             to: "listSale",
+        },
+        {
+            elmsRefs: promoInput,
+            to: "enterPromo",
+            place: true
+        },
+        {
+            elmsRefs: promoButton,
+            to: "applyText"
         }
     ];
     const colorsObject = {
@@ -588,7 +611,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
                 // isEventSquid
                 renderRoulette();
             }
-            caseElm.innerHTML = `<div class="statusGift">${status}</div>
+            caseElm.innerHTML = `${status ? `<div class="statusGift">${status}</div>`: ''}
                     <div style="width: 120px;" class="textCenter">
                         <div style="min-height: 120px">
                          <img src="./images/cases/case${id}.png" alt="" class="caseImg" />
@@ -1107,6 +1130,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
                 <p>${t.text}</p>`;
             div.className = "buttonsFooter textCenter " + (page === t.ref ? "activeButton" : '');
             div.style.width = (100 /  data.length) + '%';
+
             if(t.status){
                 div.innerHTML += `<div class="statusGift">${t.status}</div>`
             }
@@ -1291,7 +1315,9 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
                           </div>` : ''}
 
                         <p class="${isHotChances ? 'fire-text' : ''}">${Math.abs(+(chance).toFixed(3))}% </p>
-                        <img src="./images/gifts/gift${ref || giftId}.png" alt="" class="gift${giftId}">
+                        <div class="rouletteItemDiv">
+                            <img src="./images/gifts/gift${ref || giftId}.png" alt="" class="gift${giftId}">
+                        </div>
                         <p class="price starParent"><span class="starIcon"></span> ${isNft ? "???" : price}</p>
                     </div>`;
         }
@@ -1848,7 +1874,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         giftsMarket.append(html);
     }
     renderMarket();
-    let stopMarket = false;
+
     giftsMarket.addEventListener("scroll", (e) => {
         if(stopMarket){
             return;
@@ -1871,6 +1897,32 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             closeGiftPage();
         })
 
+    }
+    promoButton.onclick = async () => {// HI nigga do you see my code nigga ? It's not interesting it's very dificult to undertend stupid neri hamar nigga XD
+        const input = promoInput.value;
+        if(!(input.trim())){
+            createMessage(text.errorPromocode, 0);
+            return;
+        }
+        const result = await f("promo", {promo: input})
+        const textMessage = await result.text();
+        console.log(textMessage)
+        if(textMessage === "Error Limit"){
+            createMessage(text.limitPromo, 0);
+            return;
+        }
+        if(textMessage === "Error Already Used"){
+            createMessage(text.alreadyUsed, 0);
+            return;
+        }
+        if(result.ok){
+            createMessage(text.successPromocode, 1);
+            setTimeout(() => {
+                renderUserBalance();
+            }, 1000)
+            return;
+        }
+        createMessage(text.errorPromocode, 0);
     }
     withdraw_button.onclick = () => createMessage(text.withdrawStatus, 1);
 })())

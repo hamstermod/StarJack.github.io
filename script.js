@@ -1,8 +1,7 @@
 ((async () => {
     const test = false;
-
     const isHotChances = true;
-    const maintenance = true;
+    const maintenance = true ;
     const MAINURL = test ? "http://localhost:3000/" : "https://server-production-327b.up.railway.app/";
     function parseQuery(query) {
         const params = new URLSearchParams(query);

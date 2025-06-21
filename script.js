@@ -2,7 +2,7 @@
     const test = false;
 
     const isHotChances = true;
-    const maintenance = false;
+    const maintenance = true;
     const MAINURL = test ? "http://localhost:3000/" : "https://server-production-327b.up.railway.app/";
     function parseQuery(query) {
         const params = new URLSearchParams(query);
@@ -31,7 +31,7 @@
             errorParsing: "ОШИБКА анализа пользователя",
             errorCreateUsername: "Пожалуйста, создайте имя пользователя(username) в профиле Telegram.",
             gift: "Подарок",
-            usersText: "Лидеры",
+            tasksText: "Задачи",
             marketText: "Маркет",
             playText: "Играть",
             profileText: "Профиль",
@@ -98,12 +98,18 @@
             errorPromocode: "⚠️ Промокод недействителен. Проверьте правильность ввода.",
             limitPromo: "🚫 Все промокоды уже использованы. Следите за новыми акциями!",
             alreadyUsed: "⚠️ Этот промокод уже был использован.",
+            activeTaskText: "Активные",
+            completedTaskText: "Выполненные",
+            alreadyCompletedTask: "Эта задача уже была выполнена.",
+            taskIsNotFound: "Задание не существует.",
+            taskSuccess: "Успешно выполнено.",
+            taskInProgress: "Задание на проверке и будет рассмотрено в течение 24 часов.",
         },
         en: {
             errorParsing: "ERROR parsing user",
             errorCreateUsername: "Please create a username in your Telegram profile.",
             gift: "Gift",
-            usersText: "Leaders",
+            tasksText: "Tasks",
             marketText: "Market",
             playText: "Play",
             profileText: "Profile",
@@ -170,48 +176,55 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             errorPromocode: "⚠️ Invalid promo code. Please check and try again.",
             limitPromo: "🚫 All promo codes have been used. Stay tuned for future offers!",
             alreadyUsed: "⚠️ This promo code has already been used.",
+            activeTaskText: "Active",
+            completedTaskText: "Completed",
+            alreadyCompletedTask: "This task has already been completed.",
+            taskIsNotFound: "The task does not exist.",
+            taskSuccess: "Successfully completed.",
+            taskInProgress: "Thanks for submitting! Your task is under review and will be processed within 24 hours.",
         }
     }
     let lang = localStorage.getItem("lang") === "en" || localStorage.getItem("lang") === "ru" ? localStorage.getItem("lang") : "en";
-
+    function getId(id){
+        return  document.getElementById(id);
+    }
     let text = dataText[lang];
-    // const fondInfoText = document.getElementById("fondInfoText");
-    const users = document.getElementById("users");
-    const main = document.getElementById("main");
-    const profile = document.getElementById("profile");
-    const closePage = document.getElementById("closePage");
+    // const fondInfoText = getId("fondInfoText");
+    const tasks = getId("tasks");
+    const main = getId("main");
+    const profile = getId("profile");
+    const closePage = getId("closePage");
     let spinning = false;
-    const sellOrReciveGift = document.getElementById("sellOrReciveGift");
-    const giftToProfile = document.getElementById("giftToProfile");
-    const getGift = document.getElementById("getGift");
-    const blurEffect = document.getElementById("blurEffect");
-    const depositPage = document.getElementById("depositPage");
-    const nogiftP = document.getElementById("nogiftP");
-    const profileIdCopy = document.getElementById("profileIdCopy");
-    const idInput = document.getElementById("idInput");
-    const giftsUser = document.getElementById("giftsUser");
-    const buttonSellOrRecive = document.getElementById("buttonSellOrRecive");
-    const loading = document.getElementById("loading");
-    const usersList = document.getElementById("usersList");
+    const sellOrReciveGift = getId("sellOrReciveGift");
+    const giftToProfile = getId("giftToProfile");
+    const getGift = getId("getGift");
+    const blurEffect = getId("blurEffect");
+    const depositPage = getId("depositPage");
+    const nogiftP = getId("nogiftP");
+    const profileIdCopy = getId("profileIdCopy");
+    const idInput = getId("idInput");
+    const giftsUser = getId("giftsUser");
+    const buttonSellOrRecive = getId("buttonSellOrRecive");
+    const loading = getId("loading");
     const bodyElm = document.body;
-    // const fond = document.getElementById("fond");
-    // const fondAmount = document.getElementById("fondAmount");
-    // const fondMaxAmount = document.getElementById("fondMaxAmount");
-    const withdraw_button = document.getElementById("withdraw-button");
-    const sendElm = document.getElementById("send");
+    // const fond = getId("fond");
+    // const fondAmount = getId("fondAmount");
+    // const fondMaxAmount = getId("fondMaxAmount");
+    const withdraw_button = getId("withdraw-button");
+    const sendElm = getId("send");
     let isDemo = false;
     let level = 0;
     let caseId = 0;
     let currentGift = null;
     let currentPrice = null;
     let selectedGiftIndex = null;
-    const searchInput = document.getElementById("searchInput");
+    const searchInput = getId("searchInput");
 
-    const toFriend = document.getElementById("toFriend");
-    const language_toggle = document.getElementById("language-toggle");
-    const closeSendFriendPage = document.getElementById("closeSendFriendPage");
-    const dialog = document.getElementById("dialog");
-    const giftTextSellOfRecive = document.getElementById("giftTextSellOfRecive");
+    const toFriend = getId("toFriend");
+    const language_toggle = getId("language-toggle");
+    const closeSendFriendPage = getId("closeSendFriendPage");
+    const dialog = getId("dialog");
+    const giftTextSellOfRecive = getId("giftTextSellOfRecive");
     function createMessage(text, type = 1){ //1 succes 0 error
         const div = document.createElement("div");
         div.className =  `message ${type ? "success" : "error"}`;
@@ -224,87 +237,93 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             dialog.removeChild(div);
         }, 4000)
     }
-    const spinButton = document.getElementById("spinButton");
-    const demoButton = document.getElementById("demoButton");
-    const rouletteItems = document.getElementById("rouletteItems");
+    const spinButton = getId("spinButton");
+    const demoButton = getId("demoButton");
+    const rouletteItems = getId("rouletteItems");
     const toFriendText = document.querySelectorAll(".toFriendText");
-    const demoText = document.getElementById("demoText");
-    const textInfoSendFriend= document.getElementById("textInfoSendFriend");
-    const selectCasePage = document.getElementById("selectCasePage");
-    const casePage = document.getElementById("casePage");
-    const headerCases = document.getElementById("headerCases");
-    const closeCases = document.getElementById("closeCases");
-    const maintenanceElm = document.getElementById("maintenance");
-    const giveawayBttTabContainer = document.getElementById("giveawayBttTabContainer");
-    const giveawayPay = document.getElementById("giveawayPay");
-    const giveawayFree = document.getElementById("giveawayFree");
-    const giveawayEntered = document.getElementById("giveawayEntered");
+    const demoText = getId("demoText");
+    const textInfoSendFriend= getId("textInfoSendFriend");
+    const selectCasePage = getId("selectCasePage");
+    const casePage = getId("casePage");
+    const headerCases = getId("headerCases");
+    const closeCases = getId("closeCases");
+    const maintenanceElm = getId("maintenance");
+    const giveawayBttTabContainer = getId("giveawayBttTabContainer");
+    const giveawayPay = getId("giveawayPay");
+    const giveawayFree = getId("giveawayFree");
+    const giveawayEntered = getId("giveawayEntered");
     const giveawayBttTab = document.querySelectorAll(".giveawayBttTab");
-    const animateAds = document.getElementById("animateAds");
-    const giveawayCard = document.getElementById("giveaway-cards");
-    const modelImg = document.getElementById("modelImg");
-    const blurEffectGiveAway = document.getElementById("blurEffectGiveAway");
-    const model = document.getElementById("model");
-    const closePageGiveaway = document.getElementById("closePageGiveaway");
-    const tasksGiveAway = document.getElementById("tasksGiveAway");
-    const enterGiveAway = document.getElementById("enterGiveAway");
-    const depositButton = document.getElementById("depositButton");
+    const animateAds = getId("animateAds");
+    const giveawayCard = getId("giveaway-cards");
+    const modelImg = getId("modelImg");
+    const blurEffectGiveAway = getId("blurEffectGiveAway");
+    const model = getId("model");
+    const closePageGiveaway = getId("closePageGiveaway");
+    const tasksGiveAway = getId("tasksGiveAway");
+    const enterGiveAway = getId("enterGiveAway");
+    const depositButton = getId("depositButton");
     const userStars = document.querySelectorAll(".userStars");
-    const buyTicketsElm = document.getElementById("buyTickets");
-    const buyTicketsBoard = document.getElementById("buyTicketsBoard");
-    const decrementTicketCount = document.getElementById("decrementTicketCount");
-    const ticketsCount = document.getElementById("ticketsCount");
-    const incrementTicketCount = document.getElementById("incrementTicketCount");
-    const buyTicketsStar = document.getElementById("buyTicketsStar");
-    const cases = document.getElementById("cases");
-    const games = document.getElementById("games");
-    const toCasesPageButton = document.getElementById("toCasesPageButton");
-    const toGamesPageButton = document.getElementById("toGamesPageButton");
-    const openGamePage = document.getElementById("openGamePage");
-    const betsFlipCoin = document.getElementById("betsFlipCoin");
-    const betOn = document.getElementById("betOn");
-    const headsText = document.getElementById("headsText");
-    const tailsText = document.getElementById("tailsText");
-    const closeGame = document.getElementById("closeGame");
-    const gameFlipCoin = document.getElementById("gameFlipCoin");
-    const imgCase = document.getElementById("imgCase");
-    const videoCase = document.getElementById("videoCase");
-    const footerGiftDesign = document.getElementById("footerGiftDesign");
-    const blurEffectGift = document.getElementById("blurEffectGift");
-    const closeGift = document.getElementById("closeGift");
-    const imgGiftModel = document.getElementById("imgGiftModel");
-    const giftOfUser = document.getElementById("giftOfUser");
-    const casePrice = document.getElementById("casePrice");
-    const transfer = document.getElementById("transfer");
-    const sell = document.getElementById("sell");
-    const toFriendModel = document.getElementById("toFriendModel");
-    const modelText = document.getElementById("modelText");
-    const fonText = document.getElementById("fonText");
-    const uzorText = document.getElementById("uzorText");
-    const commentGift = document.getElementById("commentGift");
-    const sellOrSendFriend = document.getElementById("sellOrSendFriend");
-    const modelTextGift = document.getElementById("modelTextGift");
-    const fonTextGift = document.getElementById("fonTextGift");
-    const uzorTextGift = document.getElementById("uzorTextGift");
+    const buyTicketsElm = getId("buyTickets");
+    const buyTicketsBoard = getId("buyTicketsBoard");
+    const decrementTicketCount = getId("decrementTicketCount");
+    const ticketsCount = getId("ticketsCount");
+    const incrementTicketCount = getId("incrementTicketCount");
+    const buyTicketsStar = getId("buyTicketsStar");
+    const cases = getId("cases");
+    const games = getId("games");
+    const toCasesPageButton = getId("toCasesPageButton");
+    const toGamesPageButton = getId("toGamesPageButton");
+    const openGamePage = getId("openGamePage");
+    const betsFlipCoin = getId("betsFlipCoin");
+    const betOn = getId("betOn");
+    const headsText = getId("headsText");
+    const tailsText = getId("tailsText");
+    const closeGame = getId("closeGame");
+    const gameFlipCoin = getId("gameFlipCoin");
+    const imgCase = getId("imgCase");
+    const videoCase = getId("videoCase");
+    const footerGiftDesign = getId("footerGiftDesign");
+    const blurEffectGift = getId("blurEffectGift");
+    const closeGift = getId("closeGift");
+    const imgGiftModel = getId("imgGiftModel");
+    const giftOfUser = getId("giftOfUser");
+    const casePrice = getId("casePrice");
+    const transfer = getId("transfer");
+    const sell = getId("sell");
+    const toFriendModel = getId("toFriendModel");
+    const modelText = getId("modelText");
+    const fonText = getId("fonText");
+    const uzorText = getId("uzorText");
+    const commentGift = getId("commentGift");
+    const sellOrSendFriend = getId("sellOrSendFriend");
+    const modelTextGift = getId("modelTextGift");
+    const fonTextGift = getId("fonTextGift");
+    const uzorTextGift = getId("uzorTextGift");
     const uzorElms = document.querySelectorAll("#uzor p");
-    const closePageSaleButton = document.getElementById("closePageSaleButton");
-    const toSaleButton = document.getElementById("toSaleButton");
-    const blurCloseSalePage = document.getElementById("blurCloseSalePage");
-    const salePage = document.getElementById("salePage");
-    const openSalePage = document.getElementById("openSalePage");
-    const notDesignLine = document.getElementById("notDesignLine");
+    const closePageSaleButton = getId("closePageSaleButton");
+    const toSaleButton = getId("toSaleButton");
+    const blurCloseSalePage = getId("blurCloseSalePage");
+    const salePage = getId("salePage");
+    const openSalePage = getId("openSalePage");
+    const notDesignLine = getId("notDesignLine");
     let onSaleGift = false;
-    const priceInStars = document.getElementById("priceInStars");
-    const enterPrice = document.getElementById("enterPrice");
-    const priceGiftPos = document.getElementById("priceGiftPos");
-    const priceGiftNumber = document.getElementById("priceGiftNumber");
-    const market = document.getElementById("market");
-    const giftsMarket = document.getElementById("giftsMarket");
-    const buyItem = document.getElementById("buyItem");
-    const priceStarToBuy = document.getElementById("priceStarToBuy");
-    const backdropDiv = document.getElementById("backdropDiv");
-    const promoButton = document.getElementById("promoButton");
-    const promoInput = document.getElementById("promoInput");
+    const priceInStars = getId("priceInStars");
+    const enterPrice = getId("enterPrice");
+    const priceGiftPos = getId("priceGiftPos");
+    const priceGiftNumber = getId("priceGiftNumber");
+    const market = getId("market");
+    const giftsMarket = getId("giftsMarket");
+    const buyItem = getId("buyItem");
+    const priceStarToBuy = getId("priceStarToBuy");
+    const backdropDiv = getId("backdropDiv");
+    const promoButton = getId("promoButton");
+    const promoInput = getId("promoInput");
+    const activeTasksList = getId("activeTasksList");
+    const completedTasksList = getId("completedTasksList");
+    const completedTasksLength = getId("completedTasksLength");
+    const activeTasksLength = getId("activeTasksLength");
+    const activeTaskText = getId("activeTaskText");
+    const completedTaskText = getId("completedTaskText");
     const listRender = [
         {
             elmsRefs: toFriendText,
@@ -455,7 +474,15 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         {
             elmsRefs: promoButton,
             to: "applyText"
-        }
+        },
+        {
+            elmsRefs: activeTaskText,
+            to: "activeTaskText"
+        },
+        {
+            elmsRefs: completedTaskText,
+            to: "completedTaskText"
+        },
     ];
     const colorsObject = {
         "Midnight Blue": "#191970",
@@ -519,7 +546,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         "Onyx Black": "#0f0f0f",
         "Platinum": "#e5e4e2"
     };
-    const giveaway = document.getElementById("giveaway");
+    const giveaway = getId("giveaway");
     if(maintenance){
         loading.classList.add("hide");
         maintenanceElm.classList.remove("hide");
@@ -647,7 +674,6 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         //     location.reload();
         // }, 1000)
         text = dataText[lang];
-        searchUser();
         renderListLang();
         renderFooter();
         sellOrReciveGift.classList.add("hide");
@@ -1018,7 +1044,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
     }
     renderGiveAway();
     function closePages(){
-        users.classList.add('hide');
+        tasks.classList.add('hide');
         main.classList.add('hide');
         profile.classList.add('hide');
         market.classList.add('hide');
@@ -1042,41 +1068,39 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
     }
     function openPage(pageId){
         window.scrollTo(0, 0);
-        let el = document.getElementById(pageId);
+        let el = getId(pageId);
         if(!el){
             page = "main";
-            el = document.getElementById("main");
+            el = getId("main");
         }
         page = pageId;
         el.classList.remove('hide');
     }
-    async function searchUser(s = ''){
-        let res = await f("users", {search: +s}).then((e) => e.json());
-        res = res.data;
-        res.sort((a,b) => b.giftCount - a.giftCount);
-        renderSearchPage(res);
-    }
-    searchUser();
+    // async function searchUser(s = ''){
+    //     let res = await f("users", {search: +s}).then((e) => e.json());
+    //     res = res.data;
+    //     res.sort((a,b) => b.giftCount - a.giftCount);
+    //     renderSearchPage(res);
+    // }
+    // searchUser();
     function renderFooter(){
-        const footerButtons = document.getElementById("footerButtons");
+        const footerButtons = getId("footerButtons");
         let html = document.createElement('div');
         html.className = "flex spaceAround";
         const data = [
             {
-                svg: `<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 128 128">
-    <path d="M 52.349609 14.400391 C 42.624609 14.400391 32.9 18.1 25.5 25.5 C 10.7 40.3 10.7 64.399219 25.5 79.199219 C 32.9 86.599219 42.600391 90.300781 52.400391 90.300781 C 62.200391 90.300781 71.900781 86.599219 79.300781 79.199219 C 94.000781 64.399219 93.999219 40.3 79.199219 25.5 C 71.799219 18.1 62.074609 14.400391 52.349609 14.400391 z M 52.300781 20.300781 C 60.500781 20.300781 68.700391 23.399219 74.900391 29.699219 C 87.400391 42.199219 87.4 62.5 75 75 C 62.5 87.5 42.199219 87.5 29.699219 75 C 17.199219 62.5 17.199219 42.199219 29.699219 29.699219 C 35.899219 23.499219 44.100781 20.300781 52.300781 20.300781 z M 52.300781 26.300781 C 45.400781 26.300781 38.9 29 34 34 C 29.3 38.7 26.700391 44.800391 26.400391 51.400391 C 26.300391 53.100391 27.600781 54.4 29.300781 54.5 L 29.400391 54.5 C 31.000391 54.5 32.300391 53.199609 32.400391 51.599609 C 32.600391 46.499609 34.699219 41.799219 38.199219 38.199219 C 41.999219 34.399219 47.000781 32.300781 52.300781 32.300781 C 54.000781 32.300781 55.300781 31.000781 55.300781 29.300781 C 55.300781 27.600781 54.000781 26.300781 52.300781 26.300781 z M 35 64 A 3 3 0 0 0 32 67 A 3 3 0 0 0 35 70 A 3 3 0 0 0 38 67 A 3 3 0 0 0 35 64 z M 83.363281 80.5 C 82.600781 80.5 81.850781 80.800391 81.300781 81.400391 C 80.100781 82.600391 80.100781 84.499609 81.300781 85.599609 L 83.800781 88.099609 C 83.200781 89.299609 82.900391 90.6 82.900391 92 C 82.900391 94.4 83.8 96.700391 85.5 98.400391 L 98.300781 111 C 100.10078 112.8 102.39922 113.69922 104.69922 113.69922 C 106.99922 113.69922 109.29961 112.79961 111.09961 111.09961 C 114.59961 107.59961 114.59961 101.90039 111.09961 98.400391 L 98.300781 85.599609 C 96.600781 83.899609 94.300391 83 91.900391 83 C 90.500391 83 89.2 83.300391 88 83.900391 L 85.5 81.400391 C 84.9 80.800391 84.125781 80.5 83.363281 80.5 z M 91.900391 88.900391 C 92.700391 88.900391 93.5 89.200781 94 89.800781 L 106.69922 102.5 C 107.89922 103.7 107.89922 105.59922 106.69922 106.69922 C 105.49922 107.89922 103.6 107.89922 102.5 106.69922 L 89.800781 94.099609 C 89.200781 93.499609 88.900391 92.700391 88.900391 91.900391 C 88.900391 91.100391 89.200781 90.300781 89.800781 89.800781 C 90.400781 89.200781 91.100391 88.900391 91.900391 88.900391 z"></path>
-</svg>`,
-                text: text.usersText,
-                ref: "users",
-                fnc: async () => {
-                    await searchUser();
+                svg: `<svg xmlns="http://www.w3.org/2000/svg" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 419 511.67"><path d="M314.98 303.62c57.47 0 104.02 46.59 104.02 104.03 0 57.47-46.58 104.02-104.02 104.02-57.47 0-104.02-46.58-104.02-104.02 0-57.47 46.58-104.03 104.02-104.03zM41.73 59.27h23.93v24.38H41.73c-4.54 0-8.7 1.76-11.8 4.61l-.45.49c-3.14 3.13-5.1 7.48-5.1 12.24v315.53c0 4.75 1.96 9.1 5.1 12.24 3.13 3.15 7.48 5.11 12.25 5.11h142.62c1.68 8.44 4.17 16.6 7.36 24.38H41.73c-11.41 0-21.86-4.71-29.42-12.26C4.72 438.44 0 427.99 0 416.52V100.99c0-11.48 4.7-21.92 12.25-29.47l.79-.72c7.5-7.13 17.62-11.53 28.69-11.53zm297.55 217.37V100.99c0-4.74-1.96-9.09-5.12-12.24-3.11-3.15-7.47-5.1-12.24-5.1h-23.91V59.27h23.91c11.45 0 21.86 4.72 29.42 12.26 7.61 7.56 12.32 18.02 12.32 29.46V283.6c-7.79-3.06-15.95-5.41-24.38-6.96zm-206.75-8.07c-7.13 0-12.92-5.79-12.92-12.92s5.79-12.93 12.92-12.93h142.83c7.13 0 12.92 5.8 12.92 12.93s-5.79 12.92-12.92 12.92H132.53zM89.5 241.22c7.98 0 14.44 6.46 14.44 14.44 0 7.97-6.46 14.43-14.44 14.43-7.97 0-14.44-6.46-14.44-14.43 0-7.98 6.47-14.44 14.44-14.44zm0 78.62c7.98 0 14.44 6.46 14.44 14.44 0 7.97-6.46 14.43-14.44 14.43-7.97 0-14.44-6.46-14.44-14.43 0-7.98 6.47-14.44 14.44-14.44zm43.04 27.35c-7.13 0-12.93-5.79-12.93-12.92s5.8-12.93 12.93-12.93h80.96a133.608 133.608 0 0 0-17.26 25.85h-63.7zM89.5 162.6c7.98 0 14.44 6.46 14.44 14.44 0 7.98-6.46 14.44-14.44 14.44-7.97 0-14.44-6.46-14.44-14.44 0-7.98 6.47-14.44 14.44-14.44zm43.03 27.37c-7.13 0-12.92-5.8-12.92-12.93s5.79-12.92 12.92-12.92h142.83c7.13 0 12.92 5.79 12.92 12.92s-5.79 12.93-12.92 12.93H132.53zM93 39.4h46.13C141.84 17.18 159.77 0 181.52 0c21.62 0 39.45 16.95 42.34 38.94l46.76.46c2.61 0 4.7 2.09 4.7 4.71v51.84c0 2.6-2.09 4.7-4.7 4.7H93.05c-2.56 0-4.71-2.1-4.71-4.7V44.11A4.638 4.638 0 0 1 93 39.4zm88.03-19.25c12.3 0 22.26 9.98 22.26 22.27 0 12.3-9.96 22.26-22.26 22.26-12.29 0-22.26-9.96-22.26-22.26 0-12.29 9.97-22.27 22.26-22.27zm118.39 346.9c-.04-4.59-.46-7.86 5.23-7.79l18.45.23c5.95-.04 7.53 1.86 7.46 7.43v25.16h25.02c4.59-.03 7.86-.46 7.78 5.24l-.22 18.44c.03 5.96-1.86 7.54-7.43 7.48h-25.15v25.14c.07 5.57-1.51 7.46-7.46 7.43l-18.45.22c-5.69.09-5.27-3.2-5.23-7.79v-25h-25.16c-5.59.06-7.47-1.52-7.44-7.48l-.22-18.44c-.09-5.7 3.2-5.27 7.79-5.24h25.03v-25.03z"/></svg>`,
+                text: text.tasksText,
+                ref: "tasks",
+                status: "NEW",
+                fnc: () => {
+                    renderTasks();
                 }
             },
             {
                 svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-store h-6 w-6"><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"></path><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"></path><path d="M2 7h20"></path><path d="M22 7v3a2 2 0 0 1-2 2a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12a2 2 0 0 1-2-2V7"></path></svg>`,
                 text: text.marketText,
                 ref: "market",
-                status:  "NEW",
                 fnc: async () => {
                     renderMarket();
                 }
@@ -1197,7 +1221,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
 
         ];
 
-        const games = document.getElementById("games");
+        const games = getId("games");
         games.innerHTML = '';
 
         gamesInfo.forEach((el) => {
@@ -1252,7 +1276,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
     typeGameFunctional();
     let dataGift = giftsData[caseId].cases;
     function renderRoulette(){
-        const chanceE = document.getElementById("chance");
+        const chanceE = getId("chance");
         let html = '';
         let html2 = '';
         // const scale = 10 + level;
@@ -1330,8 +1354,8 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
 
         // rouletteItems.style.transform = `translateX(0)`;
         // rouletteItems.classList.remove("animate")
-        const closePage = document.getElementById("closePage");
-        const sellOfReciveImg = document.getElementById("sellOfReciveImg");
+        const closePage = getId("closePage");
+        const sellOfReciveImg = getId("sellOfReciveImg");
         const caseID = giftsData[caseId].id;
         const caseName = giftsData[caseId].caseName;
         let random =  {data: {}};
@@ -1382,16 +1406,16 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             imgCase.classList.add("hide");
             videoCase.classList.remove("hide");
             if(caseName === "Squid Game"){
-                videoCase.src = "./images/caseAnimation/squidGameCase.mp4";
+                videoCase.src = "./images/caseAnimation/squidGameCase.gif";
             } else{
-                videoCase.src = "./images/caseAnimation/basicCase.mp4";
+                videoCase.src = "./images/caseAnimation/basicCase.gif";
             }
 
             // = randomIndex
             // const offset = (randomI - 1) * itemWidth;
             // const fullSpin = (dataGift.length * itemWidth) * 3;
             // const finalPosition = fullSpin + offset;
-            // const priceSell =document.getElementById("priceSell");
+            // const priceSell =getId("priceSell");
             if(isDemo){
                 buttonSellOrRecive.classList.add("hide");
                 closePage.classList.remove('hide');
@@ -1514,11 +1538,13 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         })
     }
     function renderUserGift(){
-        // const sellOfReciveImg = document.getElementById("sellOfReciveImg");
+        // const sellOfReciveImg = getId("sellOfReciveImg");
         renderUserBalance();
-        // const priceSell =document.getElementById("priceSell");
-        const nogift = document.getElementById("nogift");
+        // const priceSell =getId("priceSell");
+        const nogift = getId("nogift");
         let html = document.createElement("div");
+        giftUser = giftUser.data;
+        giftUser = giftUser.reverse();
         if(giftUser.length === 0){
             nogift.classList.remove("hide");
             giftsUser.classList.add('hide');
@@ -1530,8 +1556,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         giftsUser.innerHTML = '';
         html.className = "flex wrap";
         html.style.justifyContent = "center";
-        giftUser = giftUser.data;
-        giftUser = giftUser.reverse();
+
         sellOrSendFriend.classList.remove("hide");
         for(let i = 0; i < giftUser.length; i++){ // I'm not begginer proggramer :) I'm olympic proggramer and this way is very fast ...
             let {giftId, priceGift, isNft, uzor, fon, model, specialIndex, isSale, salePrice} = giftUser[i];
@@ -1553,7 +1578,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             div.onclick = () => {
                 footerGiftDesign.classList.add("active");
                 blurEffectGift.classList.remove("hide");
-                // document.getElementById("sellOrReciveGift").classList.remove("hide");
+                // getId("sellOrReciveGift").classList.remove("hide");
                 giftToProfile.classList.add("hide");
                 giftOfUser.src = `${mainPathImg}gift${giftId}.png`;
                 modelTextGift.innerText = model;
@@ -1680,8 +1705,8 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
 
     let flipCoinBet = 5;
     const bttns = betsFlipCoin.querySelectorAll("button");
-    const head = document.getElementById("head");
-    const tail = document.getElementById("tail");
+    const head = getId("head");
+    const tail = getId("tail");
     bttns.forEach((el) => {
         el.onclick = () => {
             if(el.value == flipCoinBet){
@@ -1776,7 +1801,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         blurCloseSalePage.classList.remove("hide");
         salePage.classList.remove("hide");
     }
-    const inputSaleGift = document.getElementById("inputSaleGift");
+    const inputSaleGift = getId("inputSaleGift");
     toSaleButton.onclick = () => {
         const value = +(inputSaleGift.value);
         if(value < 10 || value > 100000){
@@ -1906,7 +1931,6 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         }
         const result = await f("promo", {promo: input})
         const textMessage = await result.text();
-        console.log(textMessage)
         if(textMessage === "Error Limit"){
             createMessage(text.limitPromo, 0);
             return;
@@ -1924,5 +1948,112 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         }
         createMessage(text.errorPromocode, 0);
     }
+    async function renderTasks(){
+        let info = await f("getTasks");
+        if(!info.ok){
+            createMessage("SERVER ERROR", 0);
+        }
+        info = await info.json();
+
+        activeTasksList.innerHTML = "";
+        completedTasksList.innerHTML = "";
+        let completedLength = 0;
+        let activeLength = 0;
+        info?.tasks.map((el) => {
+            const {link, taskId, taskRewardStar, taskTargetName, type} = el;
+            let isActive = (info.userCompleted).indexOf(taskId) === -1;
+            if(isActive){
+                activeLength++;
+            } else{
+                completedLength++;
+            }
+            let description;
+            if(type === "followTg"){
+                if(lang === "ru"){
+                    description = `Подписаться на канал ${taskTargetName}`;
+                }
+                else{
+                    description = `Subscribe to ${taskTargetName} channel`;
+                }
+            } else if(type === "vote"){
+                if(lang === "ru"){
+                    description = `Голосуй за ${taskTargetName}!`
+                }
+                else{
+                    description = `Vote for ${taskTargetName}!`;
+                }
+            } else if(type === "story"){
+                if(lang === "ru"){
+                    description = `Сделайте сторис и поделитесь моментом!`
+                }
+                else{
+                    description = `Make a story and share the moment!`;
+                }
+            }
+            const divTask = document.createElement("div");
+            divTask.className = "task " + (isActive ? "" : "inactive");
+            const taskInfo = document.createElement("div");
+            taskInfo.className = "task-info";
+            const taskDescription = document.createElement("div");
+            taskDescription.innerText = description;
+            const taskReward = document.createElement("div");
+            taskReward.className = "reward";
+            taskReward.innerHTML = `<div class="starParent" style="justify-content: start">
+                        <span>+ ${taskRewardStar}</span>
+                        <span class="starIcon"></span>
+                    </div>`;
+            taskInfo.appendChild(taskDescription);
+            taskInfo.appendChild(taskReward);
+            const taskButtonComplete = document.createElement("button");
+            taskButtonComplete.className = `button ${!isActive ? "in" : ''}active`;
+            taskButtonComplete.innerText = lang === "ru" ? "Выполнить" : "Go";
+            taskButtonComplete.onclick = () => {
+                if(type === "story"){
+                    Telegram.WebApp.shareToStory(`https://raw.githubusercontent.com/hamstermod/StarJack.github.io/refs/heads/main/images/story${lang === "en" ? "En" : "Ru"}.jpg`,
+                        {
+                            text: "Play Star Jack and Win NFT Gifts @StarJackOrig_bot https://t.me/StarJackOrig_bot",
+                            widget_link: {
+                                url: "https://t.me/StarJackOrig_bot",
+                                name: "Play Star Jack",
+                            },
+                        },
+                    );
+                }
+                else{
+                    window.open(link, "_blank");
+                }
+                if(isActive){
+                    taskButtonComplete.innerText = lang === "ru" ? "Проверить" : "Check";
+                    taskButtonComplete.onclick = async () => {
+                        let res = await f("completeTask", {id: taskId});
+                        if(res.ok){
+                            if(type === "vote" || type === "story"){
+                                createMessage(text.taskInProgress, 1);
+                            }
+                            else{
+                                createMessage(text.taskSuccess, 1);
+                            }
+                            renderTasks();
+                        } else{
+                            res = await res.text();
+                            if(res === "AlreadyCompleted"){
+                                createMessage(text.alreadyCompletedTask, 0);
+                            }
+                            else{
+                                createMessage(text.taskIsNotFound, 0);
+                            }
+                        }
+                    }
+                }
+            }
+            divTask.appendChild(taskInfo);
+            divTask.appendChild(taskButtonComplete);
+            isActive ? activeTasksList.appendChild(divTask) : completedTasksList.appendChild(divTask);
+        })
+        completedTasksLength.innerText = completedLength;
+        activeTasksLength.innerText = activeLength;
+    }
+    renderTasks();
+
     withdraw_button.onclick = () => createMessage(text.withdrawStatus, 1);
 })())

@@ -312,6 +312,15 @@ input:checked + .slider:before {
     -webkit-backdrop-filter: blur(15px);
     backdrop-filter: blur(15px);
 }
+#videoCase{
+    width: 100%;
+}
+#sellOrSendFriend{
+    position: absolute;
+    width: 100%;
+    bottom: 10px;
+    left: 0;
+}
 #closePage, #closePageDeposit, #closeSendFriendPage{
     width: 30px;
     height: 30px;
@@ -439,7 +448,7 @@ input:checked + .slider:before {
     background-color: midnightblue;
     /*background-image: url("./images/loadingImage.jpg");*/
     /*background-image: url("./images/loadingImageEvent2.jpg");*/
-    background-image: url("./images/backgroundEventSquidGame.png");
+    background-image: url("./images/backgroundEventSquidGame.jpg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -1575,7 +1584,7 @@ input:checked + .slider:before {
     position: relative;
     /*width: 150px;*/
     width: 130px;
-    height: 147px;
+    max-height: 147px;
 
     z-index: 1000;
 }
@@ -1839,4 +1848,75 @@ input:checked + .slider:before {
 
 .promo-button:hover {
     background-color: #f0c400;
+}
+
+
+
+
+
+
+
+#tasks .section {
+    margin-bottom: 30px;
+}
+
+#tasks .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+#tasks .task {
+    background: #1c1c22;
+    padding: 16px 20px;
+    border-radius: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+#tasks .task.inactive {
+    background: #2a2a2e;
+    opacity: 0.5;
+}
+
+#tasks .task-info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+#tasks .reward {
+    color: #f7931a;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+#tasks .reward.inactive {
+    color: gray;
+}
+
+#tasks .button {
+    padding: 8px 18px;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+#tasks .button.active {
+    background: #ff9100;
+    color: #fff;
+}
+
+#tasks .button.inactive {
+    background: #3c3c40;
+    color: #bbb;
+    cursor: default;
+}
+#tasks .icon {
+    margin-right: 4px;
 }

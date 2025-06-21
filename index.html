@@ -6,31 +6,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-<!--    <script-->
-<!--            async-->
-<!--            src="https://unpkg.com/@telegram-apps/analytics@latest/dist/index.js"-->
-<!--            onload="initAnalytics()"-->
-<!--            type="text/javascript"-->
-<!--    ></script>-->
-<!--    <script>-->
-<!--        function initAnalytics() {-->
-<!--            window.telegramAnalytics.init({-->
-<!--                token: 'eyJhcHBfbmFtZSI6IlN0YXJKYWNrT3JpZ19ib3QiLCJhcHBfdXJsIjoiaHR0cHM6Ly90Lm1lL1N0YXJKYWNrT3JpZ19ib3QiLCJhcHBfZG9tYWluIjoiaHR0cHM6Ly9oYW1zdGVybW9kLmdpdGh1Yi5pby9TdGFySmFjay5naXRodWIuaW8vIn0=!LngJGLo7WH41JeEze65+RA+u+rPH7T3HjDiFCNTlYXc=', // SDK Auth token received via @DataChief_bot-->
-<!--                appName: 'StarJackOrig_bot', // The analytics identifier you entered in @DataChief_bot-->
-<!--            });-->
-<!--        }-->
-<!--    </script>-->
+    <script
+            async
+            src="https://unpkg.com/@telegram-apps/analytics@latest/dist/index.js"
+            onload="initAnalytics()"
+            type="text/javascript"
+    ></script>
+    <script>
+        function initAnalytics() {
+            window.telegramAnalytics.init({
+                token: 'eyJhcHBfbmFtZSI6IlN0YXJKYWNrT3JpZ19ib3QiLCJhcHBfdXJsIjoiaHR0cHM6Ly90Lm1lL1N0YXJKYWNrT3JpZ19ib3QiLCJhcHBfZG9tYWluIjoiaHR0cHM6Ly9oYW1zdGVybW9kLmdpdGh1Yi5pby9TdGFySmFjay5naXRodWIuaW8vIn0=!LngJGLo7WH41JeEze65+RA+u+rPH7T3HjDiFCNTlYXc=', // SDK Auth token received via @DataChief_bot
+                appName: 'StarJackOrig_bot', // The analytics identifier you entered in @DataChief_bot
+            });
+        }
+    </script>
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <title>Star Jack</title>
 </head>
 <body style="overflow: hidden">
-    <div id="users">
+    <div id="tasks">
         <div class="container">
-            <div class="textCenter">
-                <img src="./images/gift1.gif" alt="" style="width: 200px; height: 200px;"/>
+            <div class="section">
+                <div class="section-header">
+                    <h2 id="activeTaskText">Активные</h2>
+                    <span id="activeTasksLength">??</span>
+                </div>
+                <div id="activeTasksList">
+                    <div class="task">
+                        <div class="task-info">
+                            <div>Создать кошелек на платформе Dewallet</div>
+                            <div class="reward">+ 🚀 x5</div>
+                        </div>
+                        <button class="button active">Выполнить</button>
+                    </div>
+                </div>
             </div>
-            <div id="usersList"  style="color: white">
 
+            <div class="section">
+                <div class="section-header">
+                    <h2 id="completedTaskText">Выполненные</h2>
+                    <span id="completedTasksLength">??</span>
+                </div>
+                <div id="completedTasksList">
+                    <div class="task inactive">
+                        <div class="task-info">
+                            <div>Подписаться на канал TON Newbie</div>
+                            <div class="reward inactive">+ 🚀 x1</div>
+                        </div>
+                        <button class="button inactive">Выполнить</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -91,13 +116,9 @@
                     </div>
                     <div id="roulette" class="flex align">
                         <img src="./images/closedCaseSquidGame.png" alt="" style="width: 100%" id="imgCase">
-                        <video src="./images/caseAnimation/squidGameCase.mp4"
-                               autoplay
-                               muted
-                               playsinline
-                               style="width: 100%;"
+                        <img src="./images/caseAnimation/squidGameCase.gif"
                                id="videoCase"
-                               class="hide no-control"></video>
+                               class="hide" />
                         <div id="rouletteItems" class="flex animate">
 
                         </div>
@@ -366,7 +387,9 @@
                     <div id="uzor">
                         <p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p>
                     </div>
-                    <img src="./images/gifts/gift1.png" alt="" id="giftOfUser"/>
+                   <div id="giftOfUserParent">
+                       <img src="./images/gifts/gift1.png" alt="" id="giftOfUser"/>
+                   </div>
                 </div>
                 <div class="flex giftHeaderButtons" id="sellOrSendFriend">
                     <div id="toFriendModel">

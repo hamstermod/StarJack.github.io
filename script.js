@@ -1,7 +1,7 @@
 ((async () => {
     const test = false;
     const isHotChances = true;
-    const maintenance = true ;
+    const maintenance = false ;
     const MAINURL = test ? "http://localhost:3000/" : "https://server-production-327b.up.railway.app/";
     function parseQuery(query) {
         const params = new URLSearchParams(query);
@@ -1960,7 +1960,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         let activeLength = 0;
         info?.tasks.map((el) => {
             const {link, taskId, taskRewardStar, taskTargetName, type} = el;
-            let isActive = (info.userCompleted).indexOf(taskId) === -1;
+            let isActive = (info.userCompleted || '').indexOf(taskId) === -1;
             if(isActive){
                 activeLength++;
             } else{

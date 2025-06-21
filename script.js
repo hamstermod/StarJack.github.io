@@ -875,7 +875,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
                     }
                 }
                 timerText.textContent = `${hours >= 10 ? hours : "0" + hours}:${minute >= 10 ? minute : "0" + minute}:${sec >= 10 ? sec : "0" + sec}`;
-            }, first ? 0 : 1000)
+            }, 1000)
 
 
             timerDiv.appendChild(timerIcon);

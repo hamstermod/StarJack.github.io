@@ -1776,6 +1776,7 @@ input:checked + .slider:before {
     align-items: stretch;
     gap: 20px;
     flex-wrap: wrap; /* если хочешь адаптив */
+    justify-content: center;
 }
 
 .rouletteItem {

@@ -1,8 +1,8 @@
 ((async () => {
-    const test = false;
+    const test = true;
 
     const isHotChances = true;
-    const maintenance = true;
+    const maintenance = false;
     const MAINURL = test ? "http://localhost:3000/" : "https://server-production-327b.up.railway.app/";
     function parseQuery(query) {
         const params = new URLSearchParams(query);
@@ -853,9 +853,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             let sec = diffSec % 60;
             let isEnded = false;
             const button = document.createElement("a");
-            let first = true;
             const intervalDay = setInterval((e) => {
-                first = false;
                 sec--;
                 if(sec < 0){
                     sec = 59;
@@ -876,7 +874,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
                     }
                 }
                 timerText.textContent = `${hours >= 10 ? hours : "0" + hours}:${minute >= 10 ? minute : "0" + minute}:${sec >= 10 ? sec : "0" + sec}`;
-            }, first ? 0 : 1000)
+            }, 1000)
 
 
             timerDiv.appendChild(timerIcon);
@@ -1961,7 +1959,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         let activeLength = 0;
         info?.tasks.map((el) => {
             const {link, taskId, taskRewardStar, taskTargetName, type} = el;
-            let isActive = (info.userCompleted).indexOf(taskId) === -1;
+            let isActive = (info.userCompleted || '').indexOf(taskId) === -1;
             if(isActive){
                 activeLength++;
             } else{
@@ -2027,7 +2025,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
                     taskButtonComplete.onclick = async () => {
                         let res = await f("completeTask", {id: taskId});
                         if(res.ok){
-                            if(type === "vote" || type === "story"){
+                            if(type === "story"){
                                 createMessage(text.taskInProgress, 1);
                             }
                             else{

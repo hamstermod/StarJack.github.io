@@ -1,5 +1,5 @@
 ((async () => {
-    const test = true;
+    const test = false;
 
     const isHotChances = true;
     const maintenance = false;
@@ -685,7 +685,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         renderUserGift();
     }
 
-    let page = "main";
+    let page = "main" || "profile";
     let giveawayPage = "giveawayFree";
     let mainPage = "cases";
     async function renderGiveAway(){
@@ -2052,6 +2052,13 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         activeTasksLength.innerText = activeLength;
     }
     renderTasks();
-
+    // const xpLevelsChild = document.getElementById("xpLevelsChild");
+    // let html = "";
+    // for(let i = 0; i < 20; i++){
+    //     html += `<div class="xpLevel  ${i > 5 ? 'disabled' : ''}">
+    //             <p>${i+1}</p>
+    //         </div>`;
+    // }
+    // xpLevelsChild.innerHTML = html;
     withdraw_button.onclick = () => createMessage(text.withdrawStatus, 1);
 })())

@@ -851,9 +851,10 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             let hours =  Math.floor(diffSec / 3600);
             let minute = Math.floor((diffSec % 3600) / 60);
             let sec = diffSec % 60;
-            let isEnded = false;
+            let isEnded = sec < 0 && minute < 0 && hours < 0;
+            console.log(isEnded)
             const button = document.createElement("a");
-            const intervalDay = setInterval((e) => {
+            function fn(intervalDay){
                 sec--;
                 if(sec < 0){
                     sec = 59;
@@ -862,7 +863,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
                         minute = 59;
                         hours--;
                         if(hours < 0){
-                            clearInterval(intervalDay);
+                            intervalDay ? clearInterval(intervalDay): '';
                             timerText.textContent = text.finished
                             isEnded = true;
                             button.classList.add("completedTask");
@@ -874,8 +875,11 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
                     }
                 }
                 timerText.textContent = `${hours >= 10 ? hours : "0" + hours}:${minute >= 10 ? minute : "0" + minute}:${sec >= 10 ? sec : "0" + sec}`;
+            }
+            const intervalDay = setInterval((e) => {
+                fn(intervalDay)
             }, 1000)
-
+            // fn(intervalDay);
 
             timerDiv.appendChild(timerIcon);
             timerDiv.appendChild(timerText);
@@ -906,9 +910,9 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
                 button.classList.add("completedTask");
                 button.innerText = text.finished;
                 button.onclick = () => {};
-                return;
+                // return;
             }
-             if(users[userUIdata.user.username]){
+            else if(users[userUIdata.user.username]){
                 button.textContent = text.areInGiveAway;
                 button.classList.add("complatedTask");
                 innerDiv.appendChild(buyTickets)

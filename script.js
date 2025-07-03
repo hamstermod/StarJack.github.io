@@ -1,8 +1,8 @@
 ((async () => {
-    const test = false;
+    const test = true;
 
     const isHotChances = true;
-    const maintenance = false;
+    const maintenance = true;
     const MAINURL = test ? "http://localhost:3000/" : "https://server-production-327b.up.railway.app/";
     function parseQuery(query) {
         const params = new URLSearchParams(query);
@@ -31,6 +31,8 @@
             errorParsing: "ОШИБКА анализа пользователя",
             errorCreateUsername: "Пожалуйста, создайте имя пользователя(username) в профиле Telegram.",
             gift: "Подарок",
+            gifts: "Подарки",
+            staking: "🚀 НАЧАТЬ СТЕЙКИНГ",
             tasksText: "Задачи",
             marketText: "Маркет",
             playText: "Играть",
@@ -104,11 +106,20 @@
             taskIsNotFound: "Задание не существует.",
             taskSuccess: "Успешно выполнено.",
             taskInProgress: "Задание на проверке и будет рассмотрено в течение 24 часов.",
+            ownerText: "Владелец",
+            availability: "Наличие",
+            releasedText: "выпущено",
+            forsale: "Для продажи",
+            buyGiftForText: "Купить подарок за",
+            limitedText: "ОГРАНИЧЕННЫЙ",
+            textSold: "ПРОДАН"
         },
         en: {
             errorParsing: "ERROR parsing user",
             errorCreateUsername: "Please create a username in your Telegram profile.",
             gift: "Gift",
+            gifts: "Gifts",
+            staking: "🚀 START STAKING",
             tasksText: "Tasks",
             marketText: "Market",
             playText: "Play",
@@ -182,6 +193,13 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             taskIsNotFound: "The task does not exist.",
             taskSuccess: "Successfully completed.",
             taskInProgress: "Thanks for submitting! Your task is under review and will be processed within 24 hours.",
+            ownerText: "Owner",
+            availability: "Availability",
+            releasedText: "released",
+            forsale: "For Sale",
+            buyGiftForText: "Buy a gift for",
+            limitedText: "LIMITED",
+            textSold: "SOLD"
         }
     }
     let lang = localStorage.getItem("lang") === "en" || localStorage.getItem("lang") === "ru" ? localStorage.getItem("lang") : "en";
@@ -210,7 +228,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
     // const fond = getId("fond");
     // const fondAmount = getId("fondAmount");
     // const fondMaxAmount = getId("fondMaxAmount");
-    const withdraw_button = getId("withdraw-button");
+    // const withdraw_button = getId("withdraw-button"); in proggress
     const sendElm = getId("send");
     let isDemo = false;
     let level = 0;
@@ -299,7 +317,6 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
     const modelTextGift = getId("modelTextGift");
     const fonTextGift = getId("fonTextGift");
     const uzorTextGift = getId("uzorTextGift");
-    const uzorElms = document.querySelectorAll("#uzor p");
     const closePageSaleButton = getId("closePageSaleButton");
     const toSaleButton = getId("toSaleButton");
     const blurCloseSalePage = getId("blurCloseSalePage");
@@ -324,6 +341,29 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
     const activeTasksLength = getId("activeTasksLength");
     const activeTaskText = getId("activeTaskText");
     const completedTaskText = getId("completedTaskText");
+    const stake_btn = getId("stake_btn");
+    const closePageStaking = getId("closePageStaking");
+    const stakingPage = getId("stakingPage");
+    const ownerText = getId("ownerText");
+    const ownerName = getId("ownerName");
+    const availabilityText = getId("availabilityText");
+    const limitUsed = getId("limitUsed");
+    const used = getId("used");
+    const releasedText = getId("releasedText");
+    const isLimitedField = getId("isLimitedField");
+    const toMarketPlace = getId("toMarketPlace");
+    const toMainGift = getId("toMainGift");
+    const giftsGame =  getId("giftsGame");
+    const buyGiftForText = getId("buyGiftForText");
+    const blurCloseBuyGift = getId("blurCloseBuyGift");
+    const buyGiftModelGame = getId("buyGiftModelGame");
+    const giftBuyButton = getId("giftBuyButton");
+    const giftBuyImg = getId("giftBuyImg");
+    const aviablityFuckingGift = getId("aviablityFuckingGift");
+    const priceBuyGift = getId("priceBuyGift");
+    const chanceModel = getId("chanceModel");
+    const chanceFon = getId("chanceFon");
+    const chanceUzor = getId("chanceUzor");
     const listRender = [
         {
             elmsRefs: toFriendText,
@@ -483,6 +523,34 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             elmsRefs: completedTaskText,
             to: "completedTaskText"
         },
+        {
+            elmsRefs: stake_btn,
+            to: "staking"
+        },
+        {
+            elmsRefs: ownerText,
+            to: "ownerText"
+        },
+        {
+            elmsRefs: availabilityText,
+            to: "availability"
+        },
+        {
+            elmsRefs: releasedText,
+            to: "releasedText"
+        },
+        {
+            elmsRefs: toMainGift,
+            to: "gifts",
+        },
+        {
+            elmsRefs: toMarketPlace,
+            to: "forsale",
+        },
+        {
+            elmsRefs: buyGiftForText,
+            to: "buyGiftForText",
+        }
     ];
     const colorsObject = {
         "Midnight Blue": "#191970",
@@ -546,16 +614,165 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         "Onyx Black": "#0f0f0f",
         "Platinum": "#e5e4e2"
     };
+    const modelChances  = {
+        "Flameshard": "0.05%",
+        "Zestbot": "2.50%",
+        "Frontman": "1.20%",
+        "Player 456": "3.00%",
+        "Alien Labubu": "1.80%",
+        "Frozen Labubu": "2.00%",
+        "Starlight": "12.00%",
+        "Lollibun": "10.00%",
+        "Sir Hootsworth": "10.00%",
+        "Glacier": "8.00%",
+        "Nimbus": "6.00%",
+        "Tiglet": "5.50%",
+        "Shroomie": "5.00%",
+        "Guard 1": "8.00%",
+        "Guard 2": "5.00%",
+        "Guard 3": "3.50%",
+        "Doll": "5.00%",
+        "LABUBU THE MANUS": "5.00%",
+        "Astro Labubu": "5.00%",
+        "Mecha Labubu": "5.00%",
+        "Shadow Labubu": "3.00%",
+        "Labubu in Love": "3.00%",
+        "Fire Labubu": "3.00%",
+        "Classic Labubu": "5.00%"
+    }
+    const backdropChances = {
+        "Midnight Blue": "0.5%",
+        "Silver Blue": "1.0%",
+        "Aquamarine": "1.2%",
+        "Cappuccino": "1.5%",
+        "Desert Sand": "1.7%",
+        "Persimmon": "2.0%",
+        "Malachite": "2.2%",
+        "Pacific Green": "2.5%",
+        "Dark Lilac": "2.7%",
+        "Emerald": "3.0%",
+        "Amber": "3.2%",
+        "Black": "3.5%",
+        "Turquoise": "3.7%",
+        "Lemongrass": "4.0%",
+        "Copper": "4.2%",
+        "Electric Indigo": "4.5%",
+        "Fandango": "4.7%",
+        "French Blue": "5.0%",
+        "Pine Green": "5.2%",
+        "Pistachio": "5.5%",
+        "Shamrock Green": "5.7%",
+        "Sky Blue": "6.0%",
+        "Chestnut": "6.2%",
+        "Ivory White": "6.5%",
+        "Raspberry": "6.7%",
+        "Cyberpunk": "7.0%",
+        "Orange": "7.2%",
+        "Satin Gold": "7.5%",
+        "Steel Grey": "7.7%",
+        "Burgundy": "8.0%",
+        "Mint Green": "8.2%",
+        "Mystic Pearl": "8.5%",
+        "Roman Silver": "8.7%",
+        "Strawberry": "9.0%",
+        "Pacific Cyan": "9.2%",
+        "Battleship Grey": "9.5%",
+        "Lavender": "9.7%",
+        "Neon Blue": "10.0%",
+        "English Violet": "10.2%",
+        "Light Olive": "10.5%",
+        "Navy Blue": "10.7%",
+        "Pure Gold": "11.0%",
+        "Carrot Juice": "11.2%",
+        "Electric Purple": "11.5%",
+        "Grape": "11.7%",
+        "Sapphire": "12.0%",
+        "Hunter Green": "12.2%",
+        "Indigo Dye": "12.5%",
+        "Cobalt Blue": "12.7%",
+        "Jade Green": "13.0%",
+        "Rosewood": "13.2%",
+        "Azure Blue": "13.5%",
+        "Moonstone": "13.7%",
+        "Coral Red": "14.0%",
+        "Khaki Green": "14.2%",
+        "Purple": "14.5%",
+        "Caramel": "14.7%",
+        "Chocolate": "15.0%",
+        "Onyx Black": "15.2%",
+        "Platinum": "15.5%"
+    };
+    const uzorChances = {
+        "Alkonost": "0.5%",
+        "Bastet": "0.7%",
+        "Calm Wolf": "0.9%",
+        "Car": "1.1%",
+        "Cash": "1.3%",
+        "Celtic Cross": "1.5%",
+        "Celtic Wolf": "1.7%",
+        "Champagne": "1.9%",
+        "Coat of Arms": "2.1%",
+        "Cobra": "2.3%",
+        "Cocktail": "2.5%",
+        "Coin": "2.7%",
+        "Coin Purse": "2.9%",
+        "Crown": "3.1%",
+        "Crusader": "3.3%",
+        "Diamond": "3.5%",
+        "Dice": "3.7%",
+        "Eagle": "3.9%",
+        "Eikthyrnir": "4.1%",
+        "Fehu Rune": "4.3%",
+        "Fenrir": "4.5%",
+        "Firebird": "4.7%",
+        "Flower Cross": "4.9%",
+        "Gem": "5.1%",
+        "Genie Lamp": "5.3%",
+        "Hand of God": "5.5%",
+        "Inguz Rune": "5.7%",
+        "Ink Pen": "5.9%",
+        "Kitsune": "6.1%",
+        "Knight": "6.3%",
+        "Lion Head": "6.5%",
+        "Mafdet": "6.7%",
+        "Mask": "6.9%",
+        "Mayan Moth": "7.1%",
+        "Money Bag": "7.3%",
+        "Moon": "7.5%",
+        "Moon Cross": "7.7%",
+        "Moon Eagle": "7.9%",
+        "Mountain Lion": "8.1%",
+        "Nordic Wolf": "8.3%",
+        "Okami Wolf": "8.5%",
+        "Owl": "8.7%",
+        "Pearl": "8.9%",
+        "Phonenix": "9.1%",
+        "Pyramid": "9.3%",
+        "Rhino Warrior": "9.5%",
+        "Rook": "9.7%",
+        "Royal Crown": "9.9%",
+        "Scarab": "10.1%",
+        "Shield": "10.3%",
+        "Sparks": "10.5%",
+        "Spirit Impala": "10.7%",
+        "Star": "10.9%",
+        "Tie": "11.1%",
+        "Tribal Shield": "11.3%",
+        "Trophy": "11.5%",
+        "Unicorn Head": "11.7%",
+        "Wolf Rage": "11.9%"
+    }
+
     const giveaway = getId("giveaway");
     if(maintenance){
         loading.classList.add("hide");
         maintenanceElm.classList.remove("hide");
         return;
     }
-    if(userUIdata.user.username === undefined){
-        createMessage(text.errorCreateUsername, 0);
-        return;
-    }
+    // if(userUIdata.user.username === undefined){
+    //     createMessage(text.errorCreateUsername, 0);
+    //     return;
+    // }
     if(test){
         loading.classList.add("hide");
     }
@@ -578,10 +795,32 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         createMessage("USER AUTH ERROR", 0);
         return;
     }
-
+    async function upgradeGiftData(){
+        giftsDataAvailable = await f("giftsInfo").then((e) => e.ok ? e.json() : []);
+        objGiftsDataAvaliable = {};
+        giftsDataAvailable.map((el) => {
+            objGiftsDataAvaliable[el.modelName] = {
+                "giftLimit": el.giftLimit,
+                "isUsed": el.isUsed
+            }
+        })
+    }
+    let giftsDataAvailable = await f("giftsInfo").then((e) => e.ok ? e.json() : []);
+    let objGiftsDataAvaliable = {};
+    giftsDataAvailable.map((el) => {
+        objGiftsDataAvaliable[el.modelName] = {
+            "giftLimit": el.giftLimit,
+            "isUsed": el.isUsed
+        }
+    })
+    // console.log(objGiftsDataAvaliable)
     function renderListLang(){
         listRender.map((el) => {
             let {elmsRefs, to, html, place, upgrade} = el;
+            if(!elmsRefs){
+                return;
+            }
+            // console.log(elmsRefs)
             if(upgrade){
                 elmsRefs = document.querySelectorAll(elmsRefs);
             }
@@ -620,41 +859,41 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
     let giftsData = await f("gifts").then((e) => e.json())
     giftsData = giftsData.data;
 
-    function renderCases(){
-        selectCasePage.innerHTML = '';
-        for(let i = 0; i < giftsData.length; i++){
-            const {caseName, status, isClosed, price, id} = giftsData[i];
-            const caseElm = document.createElement("div");
-            caseElm.className = "case";
-            caseElm.onclick = () => {
-                if(isClosed){
-                    return;
-                }
-                headerCases.classList.add("active");
-                selectCasePage.classList.add("hide");
-                casePage.classList.remove("hide");
-                caseId = i;
-                casePrice.innerText = price || 0;
-                // isEventSquid
-                renderRoulette();
-            }
-            caseElm.innerHTML = `${status ? `<div class="statusGift">${status}</div>`: ''}
-                    <div style="width: 120px;" class="textCenter">
-                        <div style="min-height: 120px">
-                         <img src="./images/cases/case${id}.png" alt="" class="caseImg" />
-                        </div>
-                        <p style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">${caseName} <span class="caseText"></span></p>
-                        <div class="starParent" >
-                            <span>${price || 0}</span>
-                            <span class="starIcon"></span>
-                        </div>
-                    </div>`;
-            selectCasePage.appendChild(caseElm);
-        }
-
-
-    }
-    renderCases();
+    // function renderCases(){
+    //     selectCasePage.innerHTML = '';
+    //     for(let i = 0; i < giftsData.length; i++){
+    //         const {caseName, status, isClosed, price, id} = giftsData[i];
+    //         const caseElm = document.createElement("div");
+    //         caseElm.className = "case";
+    //         caseElm.onclick = () => {
+    //             if(isClosed){
+    //                 return;
+    //             }
+    //             headerCases.classList.add("active");
+    //             selectCasePage.classList.add("hide");
+    //             casePage.classList.remove("hide");
+    //             caseId = i;
+    //             casePrice.innerText = price || 0;
+    //             // isEventSquid
+    //             renderRoulette();
+    //         }
+    //         caseElm.innerHTML = `${status ? `<div class="statusGift">${status}</div>`: ''}
+    //                 <div style="width: 120px;" class="textCenter">
+    //                     <div style="min-height: 120px">
+    //                      <img src="./images/cases/case${id}.png" alt="" class="caseImg" />
+    //                     </div>
+    //                     <p style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">${caseName} <span class="caseText"></span></p>
+    //                     <div class="starParent" >
+    //                         <span>${price || 0}</span>
+    //                         <span class="starIcon"></span>
+    //                     </div>
+    //                 </div>`;
+    //         selectCasePage.appendChild(caseElm);
+    //     }
+    //
+    //
+    // }
+    // renderCases();
     closeCases.onclick = () => {
         headerCases.classList.remove("active");
         selectCasePage.classList.remove("hide");
@@ -677,15 +916,11 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         renderListLang();
         renderFooter();
         sellOrReciveGift.classList.add("hide");
-        giftUser  = await f("user").then((e) => e.json());
-        if(giftUser.status !== "ok"){
-            createMessage("USER AUTH ERROR", 0);
-            return;
-        }
+
         renderUserGift();
     }
 
-    let page = "main" || "profile";
+    let page = "main";
     let giveawayPage = "giveawayFree";
     let mainPage = "cases";
     async function renderGiveAway(){
@@ -732,7 +967,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         };
        let arr = dataGiveAway//[dataReplace[giveawayPage]];
        if(giveawayPage === "giveawayEntered"){
-           arr = dataGiveAway.filter((e) => JSON.parse(e.users)[userUIdata.user.username]);
+           arr = dataGiveAway.filter((e) => JSON.parse(e.users)[userUIdata.user.username || `user${userUIdata.user.id}`]);
        }
        else if(!arr || arr.length === 0){
            return;
@@ -776,7 +1011,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
 // Info items
             const ticketsInfo = document.createElement("p");
             ticketsInfo.className = "giveaway-info-item";
-            ticketsInfo.textContent = `${text.tickets}: ${users[userUIdata.user.username] || 0}`;
+            ticketsInfo.textContent = `${text.tickets}: ${users[userUIdata.user.username  || `user${userUIdata.user.id}`] || 0}`;
 
             const totalTicketsInfo = document.createElement("p");
             totalTicketsInfo.className = "giveaway-info-item";
@@ -852,7 +1087,6 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             let minute = Math.floor((diffSec % 3600) / 60);
             let sec = diffSec % 60;
             let isEnded = sec < 0 && minute < 0 && hours < 0;
-            console.log(isEnded)
             const button = document.createElement("a");
             function fn(intervalDay){
                 sec--;
@@ -912,7 +1146,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
                 button.onclick = () => {};
                 // return;
             }
-            else if(users[userUIdata.user.username]){
+            else if(users[userUIdata.user.username  || `user${userUIdata.user.id}`]){
                 button.textContent = text.areInGiveAway;
                 button.classList.add("complatedTask");
                 innerDiv.appendChild(buyTickets)
@@ -1136,11 +1370,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
                 text: text.profileText,
                 ref: "profile",
                 fnc: async () => {
-                    giftUser  = await f("user").then((e) => e.json());
-                    if(giftUser.status !== "ok"){
-                        createMessage("USER AUTH ERROR", 0);
-                        return;
-                    }
+
                     // giftUser = JSON.parse(giftUser.data);
 
                     renderUserGift();
@@ -1193,7 +1423,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         const userId = document.querySelectorAll(".userId");
         const profileAvatarImg = document.querySelectorAll(".profileAvatarImg");
         const {id, username, photo_url, first_name} = userUIdata.user;
-        userName.forEach(e => {e.innerText = username});
+        userName.forEach(e => {e.innerText = username || `user${id}`});
         profileAvatarImg.forEach(e => {e.src = photo_url});
         userId.forEach(e => {e.innerHTML = "ID: " + id + `<svg xmlns="http://www.w3.org/2000/svg" width="800px" height="800px" viewBox="0 0 24 24" fill="none" id='copyIcon'>
 <path d="M7.00001 4.10999C6.14022 4.33198 5.37874 4.83376 4.83558 5.53625C4.29241 6.23875 3.99845 7.10201 4.00001 7.98999V17.99C4.00001 19.0509 4.42149 20.0682 5.17164 20.8184C5.92178 21.5685 6.93914 21.99 8.00001 21.99H16C17.0609 21.99 18.0783 21.5685 18.8284 20.8184C19.5786 20.0682 20 19.0509 20 17.99V7.98999C19.9993 7.10372 19.7044 6.24269 19.1614 5.54224C18.6184 4.84178 17.8581 4.34156 17 4.12" stroke="#aaaaaa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1210,7 +1440,6 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         setTimeout(() => {
             openGamePage.classList.add("hide");
         }, 2000)
-        // alert("Игра Flip Coin запущена!");
     }
 
     function renderGames() {
@@ -1271,200 +1500,133 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
                 })
                 e.classList.add("selected");
                 level = i;
-                renderRoulette();
+                // renderRoulette();
             }
         })
     }
     typeGameFunctional();
-    let dataGift = giftsData[caseId].cases;
-    function renderRoulette(){
-        const chanceE = getId("chance");
-        let html = '';
-        let html2 = '';
-        // const scale = 10 + level;
-       
-        const maxPrice = 999//500 - 100 * (level+1);
-        let sum = 0;
 
-        dataGift = giftsData[caseId].cases;
-        // console.log(level+(isHotChances ? 0 : 0))
-        //+(isHotChances ? 0.04 : 0)
-        const biasPower = 1 - ((level + (isHotChances ? 5 : 0)) / 10); // higher level => lower power => less penalty for high prices
-
-        const weights = dataGift.map(c => 1 / Math.pow(c.price, biasPower));
-        const totalWeight = weights.reduce((sum, w) => sum + w, 0);
-
-        dataGift =  dataGift.map((c, i) => ({
-            giftId: c.giftId,
-            price: c.price,
-            chance: +(weights[i] / totalWeight * 100).toFixed(3),
-            isNft: c.isNft,
-            ref: c.ref,
-            name: c.name
-        }));
-
-        const dataGift2 = [...dataGift];
-        dataGift2.sort((a,b) => {
-            return a.price - b.price;
-        })
-        const {caseName, id} = giftsData[caseId];
-        if(caseName === "Squid Game"){
-            imgCase.src = "./images/closedCaseSquidGame.png";
-        } else{
-            imgCase.src = "./images/closedCaseBasic.png";
-        }
-        // console.log(dataGift2)
-
-        for(let i = 0; i < dataGift.length; i++){
-            const {giftId, price, isNft, exclusive, ref, chance} = dataGift2[i];
-            // const price2 = dataGift2[i].price;
-            // const giftId2 = dataGift2[i].giftId;
-            // const isNft2 = dataGift2[i].isNft;
-            // const ref2 = dataGift2[i].ref;
-            // const chance =  dataGift2[i].chance;
-            // let chance = Math.max(0, ((maxPrice - price2) / (maxPrice * scale)) * 100);
-            // const ratio = (maxPrice - price2) / maxPrice;
-
-            // let chance =;
-
-            // chance =  Math.max(0, Math.min(100, chance));
-            // if(dataGift2.length === 1){
-            //     chance = 100;
-            // }
-            // if(chance === 0){
-            //     chance =  (100 - sum) / 3
-            // }
-            sum += chance;
-            html2 += ` <div class="rouletteItem textCenter">
-                       ${isNft ? `<div style="overflow: hidden;width: 100%; height: 100%;position: absolute;left: 0;top: 0;">
-                            <div class="statusGift">NFT</div>
-                          </div>` : ''}
-
-                        <p class="${isHotChances ? 'fire-text' : ''}">${Math.abs(+(chance).toFixed(3))}% </p>
-                        <div class="rouletteItemDiv">
-                            <img src="./images/gifts/gift${ref || giftId}.png" alt="" class="gift${giftId}">
-                        </div>
-                        <p class="price starParent"><span class="starIcon"></span> ${isNft ? "???" : price}</p>
-                    </div>`;
-        }
-        // console.log(sum)
-        // rouletteItems.innerHTML = html.repeat(7);
-        chanceE.innerHTML = html2;
-    }
-    spinButton.onclick = spinRoulette;
-    async function spinRoulette() {
-
-        // rouletteItems.style.transform = `translateX(0)`;
-        // rouletteItems.classList.remove("animate")
-        const closePage = getId("closePage");
-        const sellOfReciveImg = getId("sellOfReciveImg");
-        const caseID = giftsData[caseId].id;
-        const caseName = giftsData[caseId].caseName;
-        let random =  {data: {}};
-        if(caseName === "Squid Game"){
-
-        }
-        if(isDemo){
-            getAnim();
-            return;
-        }
-        random = await f("spin", {case:  caseID});
-        if(!random.ok){
-            random = await random.text();
-            createMessage(random, 0);
-        } else{
-            priceGiftPos.classList.add("hide");
-            random = await random.json();
-            getAnim();
-        }
-        // const itemWidth = document.querySelector('.rouletteItem').offsetWidth + 10;
-        function getAnim(){
-            const demoElm = dataGift[Math.floor(Math.random() * (dataGift.length))];
-            let {giftId, uzor, backdrop, name} = random.data;
-            const randomIndex = isDemo ? demoElm.giftId: giftId;
-            let randomI;
-            sellOrSendFriend.classList.add('hide');
-            if(isDemo){
-                modelTextGift.innerText = demoElm.name;
-                fonTextGift.innerText = "Demo";
-                uzorTextGift.innerText = "Demo";
-            } else{
-                modelTextGift.innerText = name;
-                fonTextGift.innerText = backdrop;
-                uzorTextGift.innerText = uzor;
-                backdropDiv.style.backgroundColor = colorsObject[backdrop];
-                uzorElms.forEach((e) => {
-                    uzor = uzor.replaceAll(" ", "_");
-                    uzor = uzor.toLowerCase();
-                    e.style.backgroundImage = `url("./images/gifts/giftUzor/${uzor}.webp")`;
-                })
-            }
-            for(let i = 0; i < dataGift.length; i++){
-                if(dataGift[i].giftId === randomIndex){
-                    randomI = i;
-                    break;
-                }
-            }
-            imgCase.classList.add("hide");
-            videoCase.classList.remove("hide");
-            if(caseName === "Squid Game"){
-                videoCase.src = "./images/caseAnimation/squidGameCase.gif";
-            } else{
-                videoCase.src = "./images/caseAnimation/basicCase.gif";
-            }
-
-            // = randomIndex
-            // const offset = (randomI - 1) * itemWidth;
-            // const fullSpin = (dataGift.length * itemWidth) * 3;
-            // const finalPosition = fullSpin + offset;
-            // const priceSell =getId("priceSell");
-            if(isDemo){
-                buttonSellOrRecive.classList.add("hide");
-                closePage.classList.remove('hide');
-            } else{
-                closePage.classList.add('hide');
-                buttonSellOrRecive.classList.remove("hide");
-            }
-            spinButton.disabled = true;
-            spinning = true;
-
-            setTimeout(() => {
-                let randGft =  dataGift[randomI];
-                // for(let i = 0; i < dataGift.length; i++){
-                //     if(dataGift[i].giftId === randomIndex){
-                //         randGft = dataGift[ind];
-                //         break;
-                //     }
-                // }
-                const price = randGft.price;
-
-                giftOfUser.src = `./images/gifts/gift${(randGft.giftId)}.png`;
-                footerGiftDesign.classList.add("active")
-                blurEffectGift.classList.remove("hide");
-                // sellOfReciveImg.src = `./images/gift${(randGft.giftId)}.gif`;
-                // priceSell.innerText = price;
-                currentPrice = price;
-                currentGift = randomIndex;
-                selectedGiftIndex = 0;
-
-                // sellOrReciveGift.classList.remove("hide");
-                //setting :)
-                giftToProfile.classList.remove("hide");
-
-                // toFriend.classList.add("hide");
-                spinning = false;
-                rouletteItems.classList.add("animate")
-                spinButton.disabled = false;
-                imgCase.classList.remove("hide");
-                videoCase.classList.add("hide")
-            }, 2000);
-        }
-
-
-    }
-    demoButton.onclick = () => {
-        isDemo = !isDemo;
-    }
+    // spinButton.onclick = spinRoulette;
+    // async function spinRoulette() {
+    //
+    //     // rouletteItems.style.transform = `translateX(0)`;
+    //     // rouletteItems.classList.remove("animate")
+    //     const closePage = getId("closePage");
+    //     const sellOfReciveImg = getId("sellOfReciveImg");
+    //     const caseID = giftsData[caseId].id;
+    //     const caseName = giftsData[caseId].caseName;
+    //     let random =  {data: {}};
+    //     if(caseName === "Squid Game"){
+    //
+    //     }
+    //     if(isDemo){
+    //         getAnim();
+    //         return;
+    //     }
+    //     random = await f("spin", {case:  caseID});
+    //     if(!random.ok){
+    //         random = await random.text();
+    //         createMessage(random, 0);
+    //     } else{
+    //         priceGiftPos.classList.add("hide");
+    //         random = await random.json();
+    //         getAnim();
+    //     }
+    //     // const itemWidth = document.querySelector('.rouletteItem').offsetWidth + 10;
+    //     function getAnim(){ todo :)
+    //         const demoElm = dataGift[Math.floor(Math.random() * (dataGift.length))];
+    //         let {giftId, uzor, backdrop, name} = random.data;
+    //         const randomIndex = isDemo ? demoElm.giftId: giftId;
+    //         let randomI;
+    //         sellOrSendFriend.classList.add('hide');
+    //         ownerName.innerText = userUIdata.user.username || "user" + userUIdata.user.id
+    //         if(isDemo){
+    //             modelTextGift.innerText = demoElm.name;
+    //             fonTextGift.innerText = "Demo";
+    //             uzorTextGift.innerText = "Demo";
+    //         } else{
+    //             const mdlObj = objGiftsDataAvaliable[name];
+    //             isLimitedField.classList.remove("hide")
+    //             used.innerText = mdlObj?.isUsed || 0;
+    //             limitUsed.innerText = mdlObj?.giftLimit || isLimitedField.classList.add("hide");
+    //             modelTextGift.innerText = name;
+    //             fonTextGift.innerText = backdrop;
+    //             uzorTextGift.innerText = uzor;
+    //             backdropDiv.style.backgroundColor = colorsObject[backdrop];
+    //             uzor = uzor.replaceAll(" ", "_");
+    //             uzor = uzor.toLowerCase();
+    //             renderUzor(uzor)
+    //             // uzorElms.forEach((e) => {
+    //             //
+    //             //     e.style.backgroundImage = `url("./images/gifts/giftUzor/${uzor}.webp")`;
+    //             // })
+    //         }
+    //         for(let i = 0; i < dataGift.length; i++){
+    //             if(dataGift[i].giftId === randomIndex){
+    //                 randomI = i;
+    //                 break;
+    //             }
+    //         }
+    //         imgCase.classList.add("hide");
+    //         videoCase.classList.remove("hide");
+    //         if(caseName === "Squid Game"){
+    //             videoCase.src = "./images/caseAnimation/squidGameCase.gif";
+    //         } else{
+    //             videoCase.src = "./images/caseAnimation/basicCase.gif";
+    //         }
+    //
+    //         // = randomIndex
+    //         // const offset = (randomI - 1) * itemWidth;
+    //         // const fullSpin = (dataGift.length * itemWidth) * 3;
+    //         // const finalPosition = fullSpin + offset;
+    //         // const priceSell =getId("priceSell");
+    //         if(isDemo){
+    //             buttonSellOrRecive.classList.add("hide");
+    //             closePage.classList.remove('hide');
+    //         } else{
+    //             closePage.classList.add('hide');
+    //             buttonSellOrRecive.classList.remove("hide");
+    //         }
+    //         spinButton.disabled = true;
+    //         spinning = true;
+    //
+    //         setTimeout(() => {
+    //             let randGft =  dataGift[randomI];
+    //             // for(let i = 0; i < dataGift.length; i++){
+    //             //     if(dataGift[i].giftId === randomIndex){
+    //             //         randGft = dataGift[ind];
+    //             //         break;
+    //             //     }
+    //             // }
+    //             const price = randGft.price;
+    //
+    //             giftOfUser.src = `./images/gifts/gift${(randGft.giftId)}.png`;
+    //             footerGiftDesign.classList.add("active")
+    //             blurEffectGift.classList.remove("hide");
+    //             // sellOfReciveImg.src = `./images/gift${(randGft.giftId)}.gif`;
+    //             // priceSell.innerText = price;
+    //             currentPrice = price;
+    //             currentGift = randomIndex;
+    //             selectedGiftIndex = 0;
+    //
+    //             // sellOrReciveGift.classList.remove("hide");
+    //             //setting :)
+    //             giftToProfile.classList.remove("hide");
+    //
+    //             // toFriend.classList.add("hide");
+    //             spinning = false;
+    //             rouletteItems.classList.add("animate")
+    //             spinButton.disabled = false;
+    //             imgCase.classList.remove("hide");
+    //             videoCase.classList.add("hide")
+    //         }, 2000);
+    //     }
+    //
+    //
+    // }
+    // demoButton.onclick = () => {
+    //     isDemo = !isDemo;
+    // }
 
     sendElm.onclick = async () => {
         const id = +idInput.value;
@@ -1478,11 +1640,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         } else{
             createMessage("SUCCESS", 1);
             sellOrReciveGift.classList.add("hide");
-            giftUser  = await f("user").then((e) => e.json());
-            if(giftUser.status !== "ok"){
-                createMessage("USER AUTH ERROR", 0);
-                return;
-            }
+
             renderUserGift();
         }
         sendFriendPage.classList.remove("active");
@@ -1505,11 +1663,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         } else{
             createMessage(text.giftWithdraw, 1);
             sellOrReciveGift.classList.add("hide");
-            giftUser  = await f("user").then((e) => e.json());
-            if(giftUser.status !== "ok"){
-                createMessage("USER AUTH ERROR", 0);
-                return;
-            }
+
             // giftUser = JSON.parse(giftUser.data);
             renderUserGift();
         }
@@ -1529,7 +1683,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
     }
     closePageDeposit.onclick = () => closeDepositPage();
     blurEffect.onclick = () => closeDepositPage();
-    renderRoulette();
+    // renderRoulette();
     function renderUserBalance(){
         f("getBalance").then((e) => e.json()).then((e) => {
             userStars.forEach((el) => {
@@ -1539,7 +1693,13 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             createMessage("Balance Error", 0);
         })
     }
-    function renderUserGift(){
+    async function renderUserGift(){
+        giftUser  = await f("user").then((e) => e.json());
+        if(giftUser.status !== "ok"){
+            createMessage("USER AUTH ERROR", 0);
+            return;
+        }
+        upgradeGiftData();
         // const sellOfReciveImg = getId("sellOfReciveImg");
         renderUserBalance();
         // const priceSell =getId("priceSell");
@@ -1560,36 +1720,38 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         html.style.justifyContent = "center";
 
         sellOrSendFriend.classList.remove("hide");
+        giftOfUser.classList.remove("centerpos");
         for(let i = 0; i < giftUser.length; i++){ // I'm not begginer proggramer :) I'm olympic proggramer and this way is very fast ...
             let {giftId, priceGift, isNft, uzor, fon, model, specialIndex, isSale, salePrice} = giftUser[i];
             const div = document.createElement("div");
             const mainPathImg = "./images/gifts/";
             const uzorChanged = uzor.replaceAll(" ", "_").toLowerCase();
-            const uzorDiv = document.createElement("div");
-            uzorDiv.className = "uzor";
-            for(let i = 0; i < 10; i++){
-                const p = document.createElement("p");
-                p.style.backgroundImage = `url("${mainPathImg}/giftUzor/${uzorChanged}.webp")`
-                uzorDiv.appendChild(p);
-            }
+
+            const color =  colorsObject[fon] || "black";
             div.className = "giftsUser";
-            div.innerHTML = `${isSale ? '<div class="statusGift" style="font-size: 11px">' + text.onsaleText + '</div>' : ''} <img src="${mainPathImg}gift${giftId}.png"  alt="">
+            div.innerHTML = `${isSale ? '<div class="statusGift" style="font-size: 11px">' + text.onsaleText + '</div>' : ''}
+                ${0 ? '<div class="statusGiftTh" style ="font-size: 11px; background: linear-gradient(180deg,'  + color +' 1.72%, #34a4fc 94.83%);"><p>#100</p></div>' : ''}
+                <img src="${mainPathImg}gift${giftId}.png"  alt="">
                 <p class="price starParent"><span class="starIcon"></span> ${isNft ? "???" : priceGift}</p>`;
-            div.style.backgroundColor = colorsObject[fon];
-            div.appendChild(uzorDiv)
+            div.style.backgroundColor = color;
             div.onclick = () => {
                 footerGiftDesign.classList.add("active");
                 blurEffectGift.classList.remove("hide");
-                // getId("sellOrReciveGift").classList.remove("hide");
+                ownerName.innerText = userUIdata.user.username || `user${userUIdata.user.id}`;
+                chanceModel.innerText = modelChances[model];
+                chanceFon.innerText = backdropChances[fon]
+                chanceUzor.innerText = uzorChances[uzor];
+                const mdlObj = objGiftsDataAvaliable[model];
+                isLimitedField.classList.remove("hide")
+                used.innerText = mdlObj?.isUsed || 0;
+                limitUsed.innerText = mdlObj?.giftLimit  || isLimitedField.classList.add("hide");
                 giftToProfile.classList.add("hide");
                 giftOfUser.src = `${mainPathImg}gift${giftId}.png`;
                 modelTextGift.innerText = model;
                 fonTextGift.innerText = fon;
                 uzorTextGift.innerText = uzor;
                 backdropDiv.style.backgroundColor = colorsObject[fon];
-                uzorElms.forEach((e) => {
-                    e.style.backgroundImage = `url("./images/gifts/giftUzor/${uzorChanged}.webp")`;
-                })
+                renderUzor(uzorChanged)
                 if(isSale){
                     notDesignLine.classList.remove("hide");
                     sell.innerText = text.notSell;
@@ -1605,6 +1767,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
                 selectedGiftIndex = specialIndex;
                 // selectedGiftIndex = i;
             }
+            div.appendChild(renderUzorMainPage(`${mainPathImg}/giftUzor/${uzorChanged}.webp`));
             html.appendChild(div);
         }
         giftsUser.append(html);
@@ -1629,7 +1792,6 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
                 }
                 closeDepositPage();
             });
-            // console.log(el.invoice_link)
         }).catch(() => {
             createMessage(text.paymentError, 0);
         })
@@ -1660,7 +1822,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         }
     })
     let translateXAds = 0;
-    const aviablesAds = ["ads4.jpg", "ads5.jpg"]//["ads1.jpg", "ads2.jpg"];
+    const aviablesAds = ["ads7.png"]//["ads1.jpg", "ads2.jpg"];, "ads5.jpg"
     function renderAds(){
         let html = "";
         aviablesAds.map((el) => {
@@ -1687,22 +1849,23 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         blurEffectGiveAway.classList.add("hide");
     }
 
-    toCasesPageButton.onclick = () => {
-        toCasesPageButton.classList.add("mainBttActive");
-        games.classList.add("hide");
-
-        toGamesPageButton.classList.remove("mainBttActive");
-        cases.classList.remove("hide");
-
-    }
-    toGamesPageButton.onclick = () => {
-        toCasesPageButton.classList.remove("mainBttActive");
-        games.classList.remove("hide");
-
-        toGamesPageButton.classList.add("mainBttActive");
-        cases.classList.add("hide");
-        renderGames();
-    }
+    // toCasesPageButton.onclick = () => {
+    //     toCasesPageButton.classList.add("mainBttActive");
+    //     games.classList.add("hide");
+    //
+    //     toGamesPageButton.classList.remove("mainBttActive");
+    //     cases.classList.remove("hide");
+    //
+    // }
+    // toGamesPageButton.onclick = () => {
+    //     toCasesPageButton.classList.remove("mainBttActive");
+    //     games.classList.remove("hide");
+    //
+    //     toGamesPageButton.classList.add("mainBttActive");
+    //     cases.classList.add("hide");
+    //     renderGames();
+    // }
+    renderGames();
     renderListLang();
 
     let flipCoinBet = 5;
@@ -1740,9 +1903,10 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         f("flipGame", {flip: 1, bet: flipCoinBet}).then((el) => el.json()).then((el) => {
 
             onGame = true;
+            renderUserBalance();
             if(el.result){
                 flip(1800);
-                createMessage("You Win " +(flipCoinBet * 2), 1)
+                createMessage("You Win " +(flipCoinBet * 2), 1);
             } else{
                 flip(1980);
                 createMessage("You Loss ", 0)
@@ -1789,11 +1953,6 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
     openSalePage.onclick = () => {
         if(onSaleGift){
             f("unlistGift", {giftId: selectedGiftIndex}).then(async (el) => {
-                giftUser  = await f("user").then((e) => e.json());
-                if(giftUser.status !== "ok"){
-                    createMessage("USER AUTH ERROR", 0);
-                    return;
-                }
                 renderUserGift();
                 closeGiftPage();
             })
@@ -1812,11 +1971,11 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         }
         f("saleGift", {giftId: selectedGiftIndex, price: value}).then(async (el) => {
             if(el.ok) {
-                giftUser  = await f("user").then((e) => e.json());
-                if(giftUser.status !== "ok"){
-                    createMessage("USER AUTH ERROR", 0);
-                    return;
-                }
+                // giftUser  = await f("user").then((e) => e.json());
+                // if(giftUser.status !== "ok"){
+                //     createMessage("USER AUTH ERROR", 0);
+                //     return;
+                // }
                 renderUserGift();
                 createMessage(text.giftWithdraw, 1);
             } else{
@@ -1853,31 +2012,28 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         }
         let html = document.createElement("div");
         for(let i = 0; i < giftMarket.length; i++){ //hey you HI nigga
-            let {giftId, priceGift, uzor, fon, model, specialIndex, isSale, salePrice} = giftMarket[i];
+            let {giftId, username, uzor, fon, model, specialIndex, isSale, salePrice} = giftMarket[i];
             const div = document.createElement("div");
-            const uzorDiv = document.createElement("div");
             const mainPathImg = "./images/gifts/";
             const uzorChanged = uzor.replaceAll(" ", "_").toLowerCase();
-            uzorDiv.className = "uzor";
-            for(let i = 0; i < 10; i++){
-                const p = document.createElement("p");
-                p.style.backgroundImage = `url("${mainPathImg}/giftUzor/${uzorChanged}.webp")`
-                uzorDiv.appendChild(p);
-            }
 
 
+            const color =  colorsObject[fon] || "black";
             div.className = "giftsUser";
-            div.style.backgroundColor = colorsObject[fon];
+            div.style.backgroundColor = color;
 
-            div.innerHTML = `${isSale ? '<div class="statusGift" style="font-size: 11px">' + text.onsaleText + '</div>' : ''} <img src="${mainPathImg}gift${giftId}.png"  alt="">
+            div.innerHTML = `${isSale ? '<div class="statusGift" style="font-size: 11px">' + text.onsaleText + '</div>' : ''} 
+            ${0 ? '<div class="statusGiftTh" style ="font-size: 11px; background: linear-gradient(180deg,'  + color +' 1.72%, #34a4fc 94.83%);"><p>#100</p></div>' : ''} 
+<img src="${mainPathImg}gift${giftId}.png"  alt="">
 <p class="price starParent"><span class="starIcon"></span> ${salePrice}</p>`;
-            div.appendChild(uzorDiv);
+            div.appendChild(renderUzorMainPage(`${mainPathImg}/giftUzor/${uzorChanged}.webp`));
             div.onclick = () => {
                 backdropDiv.style.backgroundColor = colorsObject[fon];
-                uzorElms.forEach((e) => {
-
-                    e.style.backgroundImage = `url("./images/gifts/giftUzor/${uzorChanged}.webp")`;
-                })
+                renderUzor(uzorChanged)
+                const mdlObj = objGiftsDataAvaliable[model];
+                isLimitedField.classList.remove("hide")
+                used.innerText = mdlObj?.isUsed || 0;
+                limitUsed.innerText = mdlObj?.giftLimit || isLimitedField.classList.add("hide");
                 footerGiftDesign.classList.add("active");
                 blurEffectGift.classList.remove("hide");
                 priceStarToBuy.innerText = salePrice;
@@ -1886,6 +2042,10 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
                 modelTextGift.innerText = model;
                 fonTextGift.innerText = fon;
                 uzorTextGift.innerText = uzor;
+                ownerName.innerText = username;
+                chanceModel.innerText = modelChances[model];
+                chanceFon.innerText = backdropChances[fon];
+                chanceUzor.innerText = uzorChances[uzor];
                 notDesignLine.classList.remove("hide");
                 sell.innerText = text.notSell;
                 onSaleGift = true;
@@ -1893,6 +2053,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
                 priceGiftNumber.innerText = salePrice;
                 selectedGiftIndex = specialIndex;
                 sellOrSendFriend.classList.add("hide");
+                giftOfUser.classList.add("centerpos");
                 buyItem.classList.remove("hide");
                 closeGift.classList.add("hide");
             }
@@ -2064,5 +2225,174 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
     //         </div>`;
     // }
     // xpLevelsChild.innerHTML = html;
-    withdraw_button.onclick = () => createMessage(text.withdrawStatus, 1);
+    // withdraw_button.onclick = () => createMessage(text.withdrawStatus, 1);
+
+    stake_btn.onclick = () => {
+        createMessage(lang === 'ru' ? "СКОРО" : "COMING SOON!",1)
+        // stakingPage.classList.add("active");
+    }
+    closePageStaking.onclick = () => {
+        stakingPage.classList.remove("active");
+    }
+
+
+
+
+    const canvas = document.getElementById("canvasUzor");
+    const ctx = canvas.getContext("2d");
+
+   function renderUzor(uzorName){
+       ctx.clearRect(0, 0, canvas.width, canvas.height);
+       const centerX = canvas.width / 2;
+       const centerY = canvas.height / 2;
+       let radius = 50;
+       const count = 18;
+
+       const img = new Image();
+       img.src = `./images/gifts/giftUzor/${uzorName}.webp`;
+
+       img.onload = () => {
+           for(let j = 0; j < 2; j++){
+               radius += 50;
+               for (let i = 0; i < count; i++) {
+                   const angle = (i / count) * 2 * Math.PI;
+                   const x = centerX + radius * Math.cos(angle) - 15;
+                   const y = centerY + radius * Math.sin(angle) - 15;
+
+                   ctx.globalAlpha = 0.2 + 0.3 * Math.sin(angle + Math.PI);
+                   ctx.drawImage(img, x, y, 20, 20);
+               }
+           }
+       };
+   }
+
+   function renderUzorMainPage(imgHref){
+       const m = document.createElement("canvas");
+
+
+       const img = new Image();
+       img.src = imgHref;
+
+       img.onload = () => {
+           const g = m.getContext("2d");
+           const f = m.dpr = window.devicePixelRatio || 1;
+
+
+           const r = [
+               [2, 2, 0.2],
+               [2, 30, 0.2],
+               [120, 2, 0.25],
+               [120, 30, 0.2],
+               [60, 0, 0.1],
+           ];
+
+           r.forEach(([v, y, b]) => {
+               g.globalAlpha = b;
+               g.drawImage(img, v * f, y * f, 30, 20);
+           });
+
+           g.globalAlpha = 1;
+       };
+       return m;
+   }
+    let selectedGiftForBuyStarJack = null;
+    let targetGiftDataObj = {};
+    async function renderMarketByGame(){
+        // const gifts = await f("giftsInfo").then((e) => e.ok ? e.json() : []);
+        await upgradeGiftData();
+        const html = document.createElement("div");
+        html.className = "flex wrap";
+        html.style.justifyContent = "center";
+        giftsDataAvailable = giftsDataAvailable.sort((a, b) => {
+            const getPriority = (gift) => {
+                if (gift.giftLimit === 0) return 0; // нелимитные
+                if (gift.giftLimit - gift.isUsed > 0) return 1; // доступные лимитные
+                return 2; // проданные лимитные
+            };
+
+            return getPriority(a) - getPriority(b);
+        });
+        for(let i = 0; i < giftsDataAvailable.length; i++){
+            let {modelName, giftLimit, isUsed, giftPrice, giftID} = giftsDataAvailable[i];
+            const div = document.createElement("div");
+            const mainPathImg = "./images/gifts/";
+
+            const color =  "black";
+            div.className = "giftsUser";
+            div.innerHTML = `
+                ${giftLimit !== 0 ? giftLimit <= isUsed ? ('<div class="statusGiftTh" style="background: red;"><p>' + text.textSold +'</p></div>') : ('<div class="statusGiftTh" style="background: red;"><p>LIMITED</p></div>') : ''}
+                <img src="${mainPathImg}gift${giftID}.png"  alt="">
+                <p class="price starParent"><span class="starIcon"></span> ${giftPrice}</p>`;
+            div.style.backgroundColor = color;
+            div.onclick = () => {
+                selectedGiftForBuyStarJack = giftID;
+                targetGiftDataObj = giftsDataAvailable[i];
+                giftBuyImg.src = `${mainPathImg}gift${giftID}.png`;
+                aviablityFuckingGift.innerText = `${giftLimit-targetGiftDataObj.isUsed} / ${giftLimit}`;
+                priceBuyGift.innerText = giftPrice;
+                buyGiftModelGame.classList.add("active");
+                blurCloseBuyGift.classList.remove("hide");
+                giftBuyButton.classList.remove("hide")
+                if(giftLimit === 0){
+                    aviablityFuckingGift.classList.add("hide");
+                } else{
+                    aviablityFuckingGift.classList.remove("hide");
+                }
+                if(giftLimit-isUsed <= 0 && giftLimit !== 0){
+                    buyGiftModelGame.classList.add("full");
+                    giftBuyButton.classList.add("hide")
+                } else{
+                    buyGiftModelGame.classList.remove("full");
+                }
+            }
+            // div.appendChild(renderUzorMainPage(`${mainPathImg}/giftUzor/${uzorChanged}.webp`));
+            html.appendChild(div);
+        }// giftsGame.innerHTML = html;
+        giftsGame.innerHTML = "";
+        giftsGame.appendChild(html);
+    }
+    giftBuyButton.onclick = () => {
+        if(!selectedGiftForBuyStarJack){
+            return;
+        }
+        f("buyGift", {giftId: selectedGiftForBuyStarJack}).then((e) => {
+            if(!e.ok){
+                createMessage(text.paymentError, 0);
+            } else{
+                targetGiftDataObj.isUsed++;
+                createMessage(text.paymentSuccess, 1);
+                blurCloseBuyGift.classList.add("hide");
+                buyGiftModelGame.classList.remove("active");
+            }
+        })
+    }
+   let marketPage = "forsale";
+    toMarketPlace.onclick = () => {
+        if(marketPage === "forsale"){
+            return;
+        }
+        marketPage = "forsale";
+        toMarketPlace.classList.add("marketBttActive");
+        toMainGift.classList.remove("marketBttActive");
+        giftsMarket.classList.remove("hide");
+        giftsGame.classList.add("hide");
+        renderMarket();
+    }
+    toMainGift.onclick = () => {
+        if(marketPage === "market"){
+            return;
+        }
+        marketPage = "market";
+        toMarketPlace.classList.remove("marketBttActive");
+        toMainGift.classList.add("marketBttActive");
+        giftsMarket.classList.add("hide");
+        giftsGame.classList.remove("hide");
+        renderMarketByGame();
+    }
+
+    blurCloseBuyGift.onclick = () => {
+        blurCloseBuyGift.classList.add("hide");
+        buyGiftModelGame.classList.remove("active");
+    }
+
 })())

@@ -6,20 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-<!--    <script-->
-<!--            async-->
-<!--            src="https://unpkg.com/@telegram-apps/analytics@latest/dist/index.js"-->
-<!--            onload="initAnalytics()"-->
-<!--            type="text/javascript"-->
-<!--    ></script>-->
-<!--    <script>-->
-<!--        function initAnalytics() {-->
-<!--            window.telegramAnalytics.init({-->
-<!--                token: 'eyJhcHBfbmFtZSI6IlN0YXJKYWNrT3JpZ19ib3QiLCJhcHBfdXJsIjoiaHR0cHM6Ly90Lm1lL1N0YXJKYWNrT3JpZ19ib3QiLCJhcHBfZG9tYWluIjoiaHR0cHM6Ly9oYW1zdGVybW9kLmdpdGh1Yi5pby9TdGFySmFjay5naXRodWIuaW8vIn0=!LngJGLo7WH41JeEze65+RA+u+rPH7T3HjDiFCNTlYXc=', // SDK Auth token received via @DataChief_bot-->
-<!--                appName: 'StarJackOrig_bot', // The analytics identifier you entered in @DataChief_bot-->
-<!--            });-->
-<!--        }-->
-<!--    </script>-->
+    <script
+            async
+            src="https://unpkg.com/@telegram-apps/analytics@latest/dist/index.js"
+            onload="initAnalytics()"
+            type="text/javascript"
+    ></script>
+    <script>
+        function initAnalytics() {
+            window.telegramAnalytics.init({
+                token: 'eyJhcHBfbmFtZSI6IlN0YXJKYWNrT3JpZ19ib3QiLCJhcHBfdXJsIjoiaHR0cHM6Ly90Lm1lL1N0YXJKYWNrT3JpZ19ib3QiLCJhcHBfZG9tYWluIjoiaHR0cHM6Ly9oYW1zdGVybW9kLmdpdGh1Yi5pby9TdGFySmFjay5naXRodWIuaW8vIn0=!LngJGLo7WH41JeEze65+RA+u+rPH7T3HjDiFCNTlYXc=', // SDK Auth token received via @DataChief_bot
+                appName: 'StarJackOrig_bot', // The analytics identifier you entered in @DataChief_bot
+            });
+        }
+    </script>
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
 
@@ -62,8 +62,15 @@
         </div>
     </div>
     <div id="market" >
-        <div class="container ">
+        <div class="container">
+            <div class="marketBttTabContainer">
+                <button class="marketBttTab marketBttActive" id="toMarketPlace">For Sale</button>
+                <button class="marketBttTab" id="toMainGift">Gifts</button>
+            </div>
             <div id="giftsMarket">
+
+            </div>
+            <div id="giftsGame" class="giftsGame">
 
             </div>
         </div>
@@ -79,70 +86,70 @@
                         <img src="" alt="" class="profileAvatarImg" style="width: 40px;border-radius: 50%;margin: 10px"/>
                         <span class="userName"></span>
                     </div>
-                    <div class="starParent">
+                    <div class="starParent"  style="z-index: 2">
                         <span class="userStars">0</span>
                         <span class="starIcon"></span>
                     </div>
                 </div>
 
-                <div class="mainBttTabContainer">
-                    <button class="mainBttTab mainBttActive" id="toCasesPageButton">Cases</button>
-                    <!--                <button class="giveawayBttTab hide" >Paid</button>-->
-                    <button class="mainBttTab" id="toGamesPageButton">Games</button>
-                </div>
+
             </div>
 
-            <div id="cases">
-                <div id="ads">
-                    <div id="animateAds">
-                    </div>
-                </div>
+<!--            <div id="cases">-->
+<!--                <div id="ads">-->
+<!--                    <div id="animateAds">-->
+<!--                    </div>-->
+<!--                </div>-->
 
-                <div id="selectCasePage" class="flex whiteText wrap">
+<!--                <div id="selectCasePage" class="flex whiteText wrap">-->
 
-                </div>
-                <div id="casePage" class="hide">
-                    <div class="">
-                        <p class="textCenter starParent" style="width: 100%;padding: 10px;font-size: 25px;"><span id="casePrice">25</span> <span class="starIcon" style="width: 25px; height: 25px"></span></p>
-                    </div>
-                    <div id="" class="whiteText flex hide">
-                        <div class="typeGame flex align selected">
-                            <p class="textCenter starParent" style="width: 100%">25 <span class="starIcon"></span></p>
-                        </div>
-                        <div class="typeGame flex align">
-                            <p class="textCenter starParent" style="width: 100%">50 <span class="starIcon"></span></p>
-                        </div>
-                        <div class="typeGame flex align">
-                            <p class="textCenter starParent" style="width: 100%">100 <span class="starIcon"></span></p>
-                        </div>
-                    </div>
-                    <div id="roulette" class="flex align">
-                        <img src="" alt="" style="width: 100%" id="imgCase">
-                        <img src=""
-                               id="videoCase"
-                               class="hide" />
-                        <div id="rouletteItems" class="flex animate">
+<!--                </div>-->
+<!--                <div id="casePage" class="hide">-->
+<!--                    <div class="">-->
+<!--                        <p class="textCenter starParent" style="width: 100%;padding: 10px;font-size: 25px;"><span id="casePrice">25</span> <span class="starIcon" style="width: 25px; height: 25px"></span></p>-->
+<!--                    </div>-->
+<!--                    <div id="" class="whiteText flex hide">-->
+<!--                        <div class="typeGame flex align selected">-->
+<!--                            <p class="textCenter starParent" style="width: 100%">25 <span class="starIcon"></span></p>-->
+<!--                        </div>-->
+<!--                        <div class="typeGame flex align">-->
+<!--                            <p class="textCenter starParent" style="width: 100%">50 <span class="starIcon"></span></p>-->
+<!--                        </div>-->
+<!--                        <div class="typeGame flex align">-->
+<!--                            <p class="textCenter starParent" style="width: 100%">100 <span class="starIcon"></span></p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div id="roulette" class="flex align">-->
+<!--                        <img src="" alt="" style="width: 100%" id="imgCase">-->
+<!--                        <img src=""-->
+<!--                               id="videoCase"-->
+<!--                               class="hide" />-->
+<!--                        <div id="rouletteItems" class="flex animate">-->
 
-                        </div>
-                        <div id="RouletteSelector"></div>
-                    </div>
-                    <div class="whiteText flex align" style="justify-content: space-between; margin-top: 20px">
-                        <p id="demoText">Демо режим</p>
+<!--                        </div>-->
+<!--                        <div id="RouletteSelector"></div>-->
+<!--                    </div>-->
+<!--                    <div class="whiteText flex align" style="justify-content: space-between; margin-top: 20px">-->
+<!--                        <p id="demoText">Демо режим</p>-->
 
-                        <label class="switch">
-                            <input type="checkbox" id="demoButton"/>
-                            <span class="slider round"></span>
-                        </label>
-                    </div>
-                    <button id="spinButton">Мне повезёт!</button>
-                    <div id="chance" class="flex align whiteText">
-                        <!--                <div id="chances" class="flex whiteText">-->
+<!--                        <label class="switch">-->
+<!--                            <input type="checkbox" id="demoButton"/>-->
+<!--                            <span class="slider round"></span>-->
+<!--                        </label>-->
+<!--                    </div>-->
+<!--                    <button id="spinButton">Мне повезёт!</button>-->
+<!--                    <div id="chance" class="flex align whiteText">-->
+<!--                        &lt;!&ndash;                <div id="chances" class="flex whiteText">&ndash;&gt;-->
 
-                        <!--                </div>-->
-                    </div>
+<!--                        &lt;!&ndash;                </div>&ndash;&gt;-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+            <div id="ads">
+                <div id="animateAds">
                 </div>
             </div>
-            <div id="games" class="hide">
+            <div id="games" class="">
 
             </div>
         </div>
@@ -242,6 +249,7 @@
 <!--           </div>-->
 
 <!--        </div>-->
+
         <div id="xpContent" style="overflow: hidden">
             <div class="statusGift">SOON</div>
             <div class="flex align" style="justify-content: space-around">
@@ -288,19 +296,23 @@
 
                             <!--                            <div class="promo-result">Здесь появится результат</div>-->
                             <button id="depositButton">Пополнить баланс</button>
-                            <button id="withdraw-button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right w-4 h-4">
-                                <path d="M7 7h10v10"></path>
-                                <path d="M7 17 17 7"></path>
-                            </svg></button>
-
+<!--                            <button id="withdraw-button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right w-4 h-4">-->
+<!--                                <path d="M7 7h10v10"></path>-->
+<!--                                <path d="M7 17 17 7"></path>-->
+<!--                            </svg></button>-->
+                            <div class="textCenter flex" style="justify-content: center">
+                                <button id="stake_btn">🚀 НАЧАТЬ СТЕЙКИНГ</button>
+                            </div>
                         </div>
             <br>
             <div>
-                <div id="nogift" class="textCenter hide"  style="background-color: #181818; border-radius: 20px">
-                    <img src="./images/empty.png" alt="" style="width: 100px;height: 100px"/>
-                    <p id="nogiftP">Нет нераспределённых подарков</p>
+                <div id="giftsPage">
+                    <div id="nogift" class="textCenter hide"  style="background-color: #181818; border-radius: 20px">
+                        <img src="./images/empty.png" alt="" style="width: 100px;height: 100px"/>
+                        <p id="nogiftP">Нет нераспределённых подарков</p>
+                    </div>
+                    <div id="giftsUser" ></div>
                 </div>
-                <div id="giftsUser" ></div>
             </div>
 
         </div>
@@ -370,6 +382,69 @@
     </div>
 
     <div id="blurEffect" class="hide"></div>
+    <div id="stakingPage" class="">
+        <div class="container">
+            <img src="./images/closePage.png" alt="" id="closePageStaking" style="width: 25px">
+            <div class="textCenter">
+                <div class="progress-wrapper">
+                    <svg class="progress-circle" width="88" height="88" viewBox="0 0 88 88">
+                        <circle class="track" cx="44" cy="44" r="40"></circle>
+                        <circle class="progress" cx="44" cy="44" r="40"></circle>
+                    </svg>
+                    <div class="badge">12h</div>
+                    <div class="percent-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" fill="none" viewBox="0 0 88 88" class="icon-svg">
+                            <rect width="88" height="88" fill="#34C759" rx="44" />
+                            <rect width="86.778" height="86.778" x="0.611" y="0.611" stroke="#fff" stroke-opacity="0.08" stroke-width="1.222" rx="43.389"/>
+                            <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-size="36" fill="white">%</text>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="income">
+                    <p>Доход</p>
+                    <h2 class="starParent">29,22 <span class="starIcon" style="width:  26px"></span></h2>
+                    <!--                <span>10,309151878 TON</span>-->
+                </div>
+
+                <div class="buttons">
+                    <button class="btn plus">Внести</button>
+                    <button class="btn minus">Вывести</button>
+                </div>
+        </div>
+
+
+
+        </div>
+        <div style="background-color: #212121">
+            <div class="container">
+                <div class="section-title">Преимущества</div>
+                <div class="feature">
+                    <div class="iconStaking">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 28 28">
+                            <path fill="currentColor" fill-rule="evenodd"
+                                  d="M3.8 14C3.8 8.367 8.367 3.8 14 3.8S24.2 8.367 24.2 14q0 .176-.006.35a7 7 0 0 1 1.556.738q.05-.537.05-1.088c0-6.517-5.283-11.8-11.8-11.8S2.2 7.483 2.2 14 7.483 25.8 14 25.8c.908 0 1.792-.102 2.64-.297a7 7 0 0 1-.938-1.444A10 10 0 0 1 14 24.2C8.367 24.2 3.8 19.633 3.8 14M14 5.2a.8.8 0 0 1 .8.8v8a.8.8 0 0 1-.8.8H8a.8.8 0 0 1 0-1.6h5.2V6a.8.8 0 0 1 .8-.8M28 21a6 6 0 1 1-12 0 6 6 0 0 1 12 0m-2.72-2.455a.7.7 0 0 1 .139.98l-3.398 4.53a.7.7 0 0 1-1.073.056l-1.935-2.089a.7.7 0 0 1 1.027-.951l1.365 1.473 2.894-3.86a.7.7 0 0 1 .98-.14Z"
+                                  clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                    <div class="text">Вкладывайте и выводите средства в любой момент</div>
+                </div>
+
+                <div class="feature">
+                    <div class="iconStaking">
+                        <!-- SVG #2 -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 28 28">
+                            <path fill="currentColor" fill-rule="evenodd"
+                                  d="M11 17a1 1 0 1 0 0-2H6.414L16.707 4.707a1 1 0 0 0-1.414-1.414L5 13.586V9a1 1 0 1 0-2 0v7a1 1 0 0 0 1 1zm6-6a1 1 0 1 0 0 2h4.586L11.293 23.293a1 1 0 0 0 1.414 1.414L23 14.414V19a1 1 0 1 0 2 0v-7a1 1 0 0 0-1-1z"
+                                  clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                    <div class="text">Вознаграждение каждые 24 часов</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
     <div id="depositPage">
         <div>
             <img src="./images/closePage.png" alt="" id="closePageDeposit">
@@ -381,6 +456,24 @@
                 <p style="color: #aaaaaa" id="enterAmountText">Введите сумму пополнения</p>
             </div>
         </div>
+    </div>
+    <div id="blurCloseBuyGift" class="hide"></div>
+    <div id="buyGiftModelGame" class="">
+        <div class="giftBuy-card">
+            <div class="starParent" style="position: absolute; left: 10px; top: 10px;">
+                <span class="userStars">0</span>
+                <span class="starIcon"></span>
+            </div>
+            <img src="./images/gifts/gift1.png" alt="Медвежонок" class="giftBuy-image" id="giftBuyImg">
+            <span id="aviablityFuckingGift">2 из 500</span>
+        </div>
+
+       <div class="textCenter" style="width: 100%; position: absolute; bottom: 10px; left: 0">
+           <button class="giftBuy-button" id="giftBuyButton"><span id="buyGiftForText"></span> <div class="starParent">
+               <span id="priceBuyGift">10</span>
+               <span class="starIcon"></span>
+           </div></button>
+       </div>
     </div>
     <div id="openGamePage" class="hide"></div>
     <div id="maintenance" class="hide"></div>
@@ -419,25 +512,29 @@
             </div>
         </div>
     </div>
+
+
     <div id="giftDesign">
         <div id="blurEffectGift" class="hide"></div>
-        <div id="footerGiftDesign" class="">
+        <div id="footerGiftDesign">
             <div class="headerGift" id="backdropDiv">
+                <canvas id="canvasUzor"></canvas>
                 <div class="starParent hide" style="position: absolute; left: 10px; top: 10px;" id="priceGiftPos">
                     <span id="priceGiftNumber">0</span>
                     <span class="starIcon"></span>
                 </div>
                 <div class="textCenter">
-                    <div id="uzor">
-                        <p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p>
-                    </div>
+<!--                    <div id="uzor">-->
+<!--                        <canvas id="canvasUzor"></canvas>-->
+<!--&lt;!&ndash;                        <p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p>&ndash;&gt;-->
+<!--                    </div>-->
                    <div id="giftOfUserParent">
                        <img src="./images/gifts/gift1.png" alt="" id="giftOfUser"/>
                    </div>
                 </div>
                 <div class="flex giftHeaderButtons" id="sellOrSendFriend">
                     <div id="toFriendModel">
-                        <div>
+                        <div class="textCenter">
                             <img src="./images/icons/send.png" alt="" style="width: 30px; height: 30px; filter: invert(1);" id="imgGiftModel"/>
                             <p id="transfer">Передать</p>
                         </div>
@@ -455,28 +552,30 @@
                 </div>
             </div>
             <div class="card">
-<!--                <div class="row">-->
-<!--                    <div class="label" id="owner">Владелец</div>-->
-<!--                    <div class="value">{this.getUser()?.username} <span>🤖</span></div>-->
-<!--                </div>-->
+                <div class="row">
+                    <div class="label" id="ownerText">Владелец</div>
+                    <div class="value" id="ownerName">{this.getUser()?.username}</div>
+                </div>
                 <div class="row">
                     <div class="label" id="modelText">Модель</div>
-                    <div class="value"><span id="modelTextGift">Silver Blue</span> <span class="tag hide">2%</span></div>
+                    <div class="value"><span id="modelTextGift">Silver Blue</span> <span class="rarity" id="chanceModel">2.2%</span></div>
                 </div>
                 <div class="row">
                     <div class="label" id="fonText">Фон</div>
-                    <div class="value" ><span id="fonTextGift">Silver Blue</span> <span class="tag hide ">1%</span></div>
+                    <div class="value"><span id="fonTextGift">Silver Blue</span>  <span class="rarity" id="chanceFon">2%</span></div>
                 </div>
                 <div class="row">
                     <div class="label" id="uzorText">Узор</div>
-                    <div class="value"><span id="uzorTextGift">Arabian Horse</span> <span class="tag hide">0.5%</span></div>
+                    <div class="value"><span id="uzorTextGift">Arabian Horse</span> <span class="rarity" id="chanceUzor">0.2%</span></div>
                 </div>
-
-                <div class="footer textCenter hide" id="commentGift">
-                    Подарок от <span class="highlight">Удалённый аккаунт</span> для <span class="highlight">{this.getUser()?.username} null</span>, отправлен 01/04/25 с комментарием «The Matrix hacked by Hayk5545».
+                <div class="row" id="isLimitedField">
+                    <div class="label" id="availabilityText">Наличие</div>
+                    <div class="value"><span id="used">0</span>/<span id="limitUsed"></span> <span id="releasedText">выпущено</span></div>
                 </div>
-
-                <button class="ok-button" id="closeGift">OK</button>
+                <div class="footer hide" id="commentGift">
+                    Подарок от <span>маша</span> для <span>артём</span>, отправлен 14 февраля.
+                </div>
+                <button class="button" id="closeGift">OK</button>
                 <button class="ok-button starParent flex hide" id="buyItem">
                     <span id="priceStarToBuy">20</span>
                     <span class="starIcon"></span></button>

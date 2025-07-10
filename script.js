@@ -1,7 +1,7 @@
 ((async () => {
     const test = false;
 
-    const isHotChances = true;
+    const isHotChances = false;
     const maintenance = false;
     const MAINURL = test ? "http://localhost:3000/" : "https://fuckingserverstarjack-production.up.railway.app/";
     function parseQuery(query) {

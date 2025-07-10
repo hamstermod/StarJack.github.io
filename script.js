@@ -1,9 +1,9 @@
 ((async () => {
-    const test = true;
+    const test = false;
 
     const isHotChances = true;
-    const maintenance = true;
-    const MAINURL = test ? "http://localhost:3000/" : "https://server-production-327b.up.railway.app/";
+    const maintenance = false;
+    const MAINURL = test ? "http://localhost:3000/" : "https://fuckingserverstarjack-production.up.railway.app/";
     function parseQuery(query) {
         const params = new URLSearchParams(query);
         const result = {};
@@ -2012,7 +2012,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         }
         let html = document.createElement("div");
         for(let i = 0; i < giftMarket.length; i++){ //hey you HI nigga
-            let {giftId, username, uzor, fon, model, specialIndex, isSale, salePrice} = giftMarket[i];
+            let {giftId, username, uzor, fon, model, specialIndex, isSale, salePrice, id} = giftMarket[i];
             const div = document.createElement("div");
             const mainPathImg = "./images/gifts/";
             const uzorChanged = uzor.replaceAll(" ", "_").toLowerCase();
@@ -2042,7 +2042,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
                 modelTextGift.innerText = model;
                 fonTextGift.innerText = fon;
                 uzorTextGift.innerText = uzor;
-                ownerName.innerText = username;
+                ownerName.innerText = username || "user" + id;
                 chanceModel.innerText = modelChances[model];
                 chanceFon.innerText = backdropChances[fon];
                 chanceUzor.innerText = uzorChances[uzor];

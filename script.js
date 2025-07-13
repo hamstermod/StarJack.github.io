@@ -2197,7 +2197,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
                     taskButtonComplete.onclick = async () => {
                         let res = await f("completeTask", {id: taskId});
                         if(res.ok){
-                            if(type === "story"){
+                            if(type === "story" || type === "bot"){
                                 createMessage(text.taskInProgress, 1);
                             }
                             else{

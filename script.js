@@ -2152,6 +2152,13 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
                 else{
                     description = `Make a story and share the moment!`;
                 }
+            } else if(type === "bot"){
+                if (lang === "ru") {
+                        description = `Перейти боту ${taskTargetName}!`;
+                    } else {
+                        description = `Go bot ${taskTargetName}!`;
+                    }
+
             }
             const divTask = document.createElement("div");
             divTask.className = "task " + (isActive ? "" : "inactive");

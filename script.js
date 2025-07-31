@@ -1822,7 +1822,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         }
     })
     let translateXAds = 0;
-    const aviablesAds = ["ads8.png", "ads7.png"]//["ads1.jpg", "ads2.jpg"];, "ads5.jpg"
+    const aviablesAds = ["ads7.png"]//["ads1.jpg", "ads2.jpg"];, "ads5.jpg"
     function renderAds(){
         let html = "";
         aviablesAds.map((el) => {
@@ -2151,6 +2151,13 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
                 }
                 else{
                     description = `Make a story and share the moment!`;
+                }
+            }else if(type === "bot"){
+                if(lang === "ru"){
+                    description = `PLAY ${taskTargetName}!`
+                }
+                else{
+                    description = `PLAY ${taskTargetName}!`;
                 }
             }
             const divTask = document.createElement("div");

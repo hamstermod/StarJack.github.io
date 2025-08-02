@@ -3,7 +3,7 @@
 
     const isHotChances = true;
     const maintenance = false;
-    const MAINURL = test ? "http://localhost:3000/" : "https://fuckingserverstarjack-production.up.railway.app/";
+    const MAINURL = test ? "http://localhost:3000/" : "https://fck-production.up.railway.app/";
     function parseQuery(query) {
         const params = new URLSearchParams(query);
         const result = {};
@@ -859,41 +859,6 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
     let giftsData = await f("gifts").then((e) => e.json())
     giftsData = giftsData.data;
 
-    // function renderCases(){
-    //     selectCasePage.innerHTML = '';
-    //     for(let i = 0; i < giftsData.length; i++){
-    //         const {caseName, status, isClosed, price, id} = giftsData[i];
-    //         const caseElm = document.createElement("div");
-    //         caseElm.className = "case";
-    //         caseElm.onclick = () => {
-    //             if(isClosed){
-    //                 return;
-    //             }
-    //             headerCases.classList.add("active");
-    //             selectCasePage.classList.add("hide");
-    //             casePage.classList.remove("hide");
-    //             caseId = i;
-    //             casePrice.innerText = price || 0;
-    //             // isEventSquid
-    //             renderRoulette();
-    //         }
-    //         caseElm.innerHTML = `${status ? `<div class="statusGift">${status}</div>`: ''}
-    //                 <div style="width: 120px;" class="textCenter">
-    //                     <div style="min-height: 120px">
-    //                      <img src="./images/cases/case${id}.png" alt="" class="caseImg" />
-    //                     </div>
-    //                     <p style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">${caseName} <span class="caseText"></span></p>
-    //                     <div class="starParent" >
-    //                         <span>${price || 0}</span>
-    //                         <span class="starIcon"></span>
-    //                     </div>
-    //                 </div>`;
-    //         selectCasePage.appendChild(caseElm);
-    //     }
-    //
-    //
-    // }
-    // renderCases();
     closeCases.onclick = () => {
         headerCases.classList.remove("active");
         selectCasePage.classList.remove("hide");
@@ -923,362 +888,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
     let page = "main";
     let giveawayPage = "giveawayFree";
     let mainPage = "cases";
-    async function renderGiveAway(){
-        let dataGiveAway;
-        // = {
-        //     free: [
-        //         {
-        //             id: 1,
-        //             byUser: "Hayk5545",
-        //             imageGift: "https://nft.fragment.com/gift/durovscap-1896",
-        //             price: 0,
-        //             priceBoost: 1,
-        //             users: {},
-        //             ticket: 0,
-        //             year: 2025,
-        //             month: 5,
-        //             day: 5,
-        //             tasks: [
-        //                 {
-        //                     // html: "📨 Подпишитесь на <a href=\"https://t.me/tongolos\" target=\"_blank\">@Hayk5545</a>",
-        //                     description: "followTo",
-        //                     channel: "Hayk5545",
-        //                 },
-        //                 // {
-        //                 //     description: "📨 Подпишитесь на ",
-        //                 //     channel: "Hayk5545",
-        //                 // }
-        //             ]
-        //         }
-        //     ],
-        //     paid: []
-        // }
-        await f("getGiveAway").then((e) => e.json()).then((e) => {
-            dataGiveAway = e;
-        }).catch((e) => {
-            createMessage("Giveaway error", 0);
-        })
-        // console.log(JSON.stringify(dataGiveAway));
-        giveawayCard.innerHTML = '';
-        let html = document.createElement("div");
-        const dataReplace = {
-            giveawayFree: "free",
-            giveawayPay: "paid",
-        };
-       let arr = dataGiveAway//[dataReplace[giveawayPage]];
-       if(giveawayPage === "giveawayEntered"){
-           arr = dataGiveAway.filter((e) => JSON.parse(e.users)[userUIdata.user.username || `user${userUIdata.user.id}`]);
-       }
-       else if(!arr || arr.length === 0){
-           return;
-       }
-        arr.map((el) => {
-            let {byUser, imageGift, price, priceBoost, users, date, tasks, id} = el;
-            users = JSON.parse(users);
-            const giveawayContent = document.createElement("div");
-            giveawayContent.className = "giveaway-content giveaway-card";
-            const innerDiv = document.createElement("div");
-            const giveawayHeader = document.createElement("div");
-            giveawayHeader.className = "giveaway-header";
 
-            const giveawayLink = document.createElement("a");
-            giveawayLink.href = "#";
-            giveawayLink.className = "giveaway-link";
-            giveawayLink.textContent = `@${byUser}`;
-
-            giveawayHeader.textContent = `${text.giveawayBy} `;
-            giveawayHeader.appendChild(giveawayLink);
-            const flexDiv = document.createElement("div");
-            flexDiv.className = "flex";
-
-            const giveawayImage = document.createElement("div");
-            giveawayImage.className = "giveaway-image";
-
-            const lottiePlayer = document.createElement("lottie-player");
-            lottiePlayer.src = `${imageGift}.lottie.json`;
-            lottiePlayer.setAttribute("background", "transparent");
-            lottiePlayer.setAttribute("speed", "1");
-            lottiePlayer.setAttribute("loop", "");
-            lottiePlayer.setAttribute("autoplay", "");
-            lottiePlayer.style.width = "100px";
-
-            giveawayImage.appendChild(lottiePlayer);
-
-// Giveaway info
-            const giveawayInfo = document.createElement("div");
-            giveawayInfo.className = "giveaway-info";
-
-// Info items
-            const ticketsInfo = document.createElement("p");
-            ticketsInfo.className = "giveaway-info-item";
-            ticketsInfo.textContent = `${text.tickets}: ${users[userUIdata.user.username  || `user${userUIdata.user.id}`] || 0}`;
-
-            const totalTicketsInfo = document.createElement("p");
-            totalTicketsInfo.className = "giveaway-info-item";
-            totalTicketsInfo.textContent = `${text.totalTicket}: ${Object.values(users).reduce((a,e) => a + e, 0)}`;
-
-            const participantsInfo = document.createElement("p");
-            participantsInfo.className = "giveaway-info-item";
-            participantsInfo.textContent = `${text.participants}: ${Object.keys(users).length}`;
-
-// Price info
-            const priceContainer = document.createElement("div");
-            priceContainer.className = "giveaway-info-item";
-
-            const priceFlex = document.createElement("div");
-            priceFlex.className = "flex";
-
-            const priceText = document.createElement("p");
-            priceText.className = "flex";
-            priceText.style.marginBottom = "5px";
-            priceText.innerText = text.price + " : "
-            const freeText = document.createElement("p");
-            freeText.className = "flex align";
-            freeText.style.color = "#4cd964";
-            freeText.style.marginLeft = "5px";
-            freeText.innerHTML = price === 0 ? text.free : `<svg width="15" height="15" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" class="_iconTon_w1159_129"><path d="M19.4687 6.33953L11.7971 18.52C11.7037 18.6671 11.5745 18.7882 11.4216 18.8721C11.2686 18.956 11.0969 19 10.9223 19C10.7464 19.0003 10.5732 18.956 10.4193 18.8711C10.2653 18.7862 10.1356 18.6636 10.0423 18.5148L2.5209 6.33437C2.31019 5.99296 2.19906 5.59977 2.19996 5.1989C2.2095 4.60707 2.45412 4.04319 2.88016 3.63099C3.30619 3.21879 3.87883 2.99194 4.47243 3.00022H17.5378C18.7854 3.00022 19.8 3.98085 19.8 5.19374C19.8 5.59631 19.6861 5.99373 19.4687 6.33953ZM4.3689 5.93179L9.96466 14.5355V5.06471H4.95384C4.37407 5.06471 4.11525 5.44664 4.3689 5.93179ZM12.0352 14.5355L17.631 5.93179C17.8898 5.44664 17.6258 5.06471 17.0461 5.06471H12.0352V14.5355Z" fill="#0a84ff"></path></svg> <span style="color: #0a84ff">${price}</span>`;
-
-            priceText.appendChild(freeText);
-            priceFlex.appendChild(priceText);
-            priceContainer.appendChild(priceFlex);
-
-            const timerDiv = document.createElement("div");
-            // const timeDivChild = document.createElement("div");
-            timerDiv.className = "giveaway-complete";
-            timerDiv.style.display = "inline-block";
-            // timerDiv.className = "posRelative";
-            // timerDiv.appendChild(timeDivChild);
-
-            const buyTickets = document.createElement("div");
-            buyTickets.className = "buyTickets textCenter";
-            buyTickets.innerText = text.buyTickets;
-            // timerDiv.appendChild(buyTickets);
-
-            const timerIcon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-            timerIcon.setAttribute("width", "13");
-            timerIcon.setAttribute("height", "12");
-            timerIcon.setAttribute("viewBox", "0 0 13 12");
-            timerIcon.setAttribute("fill", "none");
-            timerIcon.setAttribute("xmlns", "http://www.w3.org/2000/svg");
-            timerIcon.classList.add("_timerIcon_yl712_14");
-
-            const circlePath = document.createElementNS("http://www.w3.org/2000/svg", "path");
-            circlePath.setAttribute("d", "M6.5 11.5C9.53757 11.5 12 9.03757 12 6C12 2.96243 9.53757 0.5 6.5 0.5C3.46243 0.5 1 2.96243 1 6C1 9.03757 3.46243 11.5 6.5 11.5Z");
-            circlePath.setAttribute("stroke", "#F7F7F8");
-            circlePath.setAttribute("stroke-linecap", "round");
-            circlePath.setAttribute("stroke-linejoin", "round");
-            const handPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
-            handPath.setAttribute("d", "M6.5 3.88452V5.99991L8.64923 8.50452");
-            handPath.setAttribute("stroke", "#F7F7F8");
-            handPath.setAttribute("stroke-linecap", "round");
-            handPath.setAttribute("stroke-linejoin", "round");
-
-            timerIcon.appendChild(circlePath);
-            timerIcon.appendChild(handPath);
-            timerIcon.style.marginRight = "2px"
-            const timerText = document.createElement("span");
-            timerText.className = "whiteText";
-            let parsed = date.split("_");
-            const targetDate = new Date(Date.UTC(parsed[4], parsed[3], parsed[2], parsed[1]));
-            const now = new Date();
-            const diffMs = targetDate - now;
-            const diffSec = Math.floor(diffMs / 1000);
-            let hours =  Math.floor(diffSec / 3600);
-            let minute = Math.floor((diffSec % 3600) / 60);
-            let sec = diffSec % 60;
-            let isEnded = sec < 0 && minute < 0 && hours < 0;
-            const button = document.createElement("a");
-            function fn(intervalDay){
-                sec--;
-                if(sec < 0){
-                    sec = 59;
-                    minute--;
-                    if(minute < 0){
-                        minute = 59;
-                        hours--;
-                        if(hours < 0){
-                            intervalDay ? clearInterval(intervalDay): '';
-                            timerText.textContent = text.finished
-                            isEnded = true;
-                            button.classList.add("completedTask");
-                            button.innerText = text.finished;
-                            buyTickets.classList.add('hide');
-                            button.onclick = () => {};
-                            return;
-                        }
-                    }
-                }
-                timerText.textContent = `${hours >= 10 ? hours : "0" + hours}:${minute >= 10 ? minute : "0" + minute}:${sec >= 10 ? sec : "0" + sec}`;
-            }
-            const intervalDay = setInterval((e) => {
-                fn(intervalDay)
-            }, 1000)
-            // fn(intervalDay);
-
-            timerDiv.appendChild(timerIcon);
-            timerDiv.appendChild(timerText);
-
-            priceContainer.appendChild(timerDiv);
-
-// Append all info items
-            giveawayInfo.appendChild(ticketsInfo);
-            giveawayInfo.appendChild(totalTicketsInfo);
-            giveawayInfo.appendChild(participantsInfo);
-            giveawayInfo.appendChild(priceContainer);
-
-// Assemble flex
-            flexDiv.appendChild(giveawayImage);
-            flexDiv.appendChild(giveawayInfo);
-
-
-            innerDiv.appendChild(giveawayHeader);
-            innerDiv.appendChild(flexDiv);
-
-
-            button.href = "#";
-            button.className = "giveaway-button";
-            button.textContent = text.enterGiveAway;
-            enterGiveAway.classList.add("complatedTask")
-            enterGiveAway.onclick = () => {}
-            if(isEnded){
-                button.classList.add("completedTask");
-                button.innerText = text.finished;
-                button.onclick = () => {};
-                // return;
-            }
-            else if(users[userUIdata.user.username  || `user${userUIdata.user.id}`]){
-                button.textContent = text.areInGiveAway;
-                button.classList.add("complatedTask");
-                innerDiv.appendChild(buyTickets)
-            }
-           else{
-                button.onclick = () => {
-                    tasksGiveAway.classList.remove("hide");
-                    enterGiveAway.classList.remove("hide");
-                    buyTicketsElm.classList.add("hide");
-                    buyTicketBoard.classList.add("hide");
-                    tasksGiveAway.innerHTML = '';
-                    let completed = 0;
-                    tasks = JSON.parse(tasks);
-                    tasks.map((el) => {
-                        const div = document.createElement("div");
-                        const a = document.createElement("a");
-                        a.href = el.link;
-                        a.target = "_blank";
-                        a.style.fontSize = "15px";
-                        a.textContent = `@${el.channel}`;
-                        div.className = "action";
-                        div.innerText = text[el.description];
-                        function check(){
-                            div.classList.add("complatedTask");
-                            completed++;
-                            if(completed >= tasks.length){
-                                enterGiveAway.classList.remove("complatedTask")
-                                enterGiveAway.onclick = () => {
-                                    f("enterGiveAway", {id}).then(() => {
-                                        setTimeout(() => {
-                                            renderGiveAway();
-                                        }, 1000)
-                                    })
-                                    blurEffectGiveAway.classList.add("hide");
-                                    model.classList.add("hide");
-                                }
-                            }
-                        }
-                        a.onclick = () => {
-                            setTimeout(() => {
-                                if(el.description === "followTo"){
-                                    f("isInTheChannel", {channel: `@${el.channel}`, id: userUIdata.user.id}).then((el) => el.json()).then((el) => {
-                                        if(el.data){
-                                            check();
-                                        } else{
-                                            createMessage(text.errorIsNotSubscribe, 0);
-                                        }
-                                    })
-                                }else{
-                                    check();
-                                }
-
-                            }, 2000)
-                        }
-                        div.appendChild(a);
-                        tasksGiveAway.appendChild(div);
-                    })
-
-
-
-                    const lottiePlayer2 = document.createElement("lottie-player");
-                    lottiePlayer2.src = `${imageGift}.lottie.json`;
-                    lottiePlayer2.setAttribute("background", "transparent");
-                    lottiePlayer2.setAttribute("speed", "1");
-                    lottiePlayer2.setAttribute("loop", "");
-                    lottiePlayer2.setAttribute("autoplay", "");
-                    lottiePlayer2.style.width = "100px";
-                    modelImg.innerHTML = '';
-                    modelImg.appendChild(lottiePlayer2)
-                    blurEffectGiveAway.classList.remove("hide");
-                    model.classList.remove("hide");
-                }
-            }
-            buyTickets.onclick = () => {
-                let count = 1;
-               function updateCount(){
-                   buyTicketsStar.innerText = count * priceBoost;
-                   ticketsCount.innerText = count;
-               }
-
-                updateCount();
-                decrementTicketCount.onclick = () => {
-                    if(count <= 1){
-                        return;
-                    }
-                    count--;
-                    updateCount()
-                }
-                incrementTicketCount.onclick = () => {
-                    count++;
-                    updateCount()
-                }
-                buyTicketsElm.onclick = () => {
-                    f("buyTickets", {id, tickets: count}).then((el) => {
-                        if(el.ok) {
-                            createMessage(text.giftWithdraw, 1);
-                            setTimeout(() => {
-                                renderGiveAway();
-                            }, 1000)
-                        }
-                    })
-                    model.classList.add('hide');
-                    blurEffectGiveAway.classList.add("hide");
-                }
-                tasksGiveAway.classList.add("hide");
-                enterGiveAway.classList.add("hide");
-                buyTicketsElm.classList.remove("hide");
-                buyTicketBoard.classList.remove("hide");
-
-                const lottiePlayer2 = document.createElement("lottie-player");
-                lottiePlayer2.src = `${imageGift}.lottie.json`;
-                lottiePlayer2.setAttribute("background", "transparent");
-                lottiePlayer2.setAttribute("speed", "1");
-                lottiePlayer2.setAttribute("loop", "");
-                lottiePlayer2.setAttribute("autoplay", "");
-                lottiePlayer2.style.width = "100px";
-                modelImg.innerHTML = '';
-                modelImg.appendChild(lottiePlayer2)
-                blurEffectGiveAway.classList.remove("hide");
-                model.classList.remove("hide");
-            }
-
-            giveawayContent.appendChild(innerDiv);
-            giveawayContent.appendChild(button);
-
-// Append to body or specific container
-            html.appendChild(giveawayContent);
-
-        })
-        giveawayCard.appendChild(html)
-    }
-    renderGiveAway();
     function closePages(){
         tasks.classList.add('hide');
         main.classList.add('hide');
@@ -1328,7 +938,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
                 svg: `<svg xmlns="http://www.w3.org/2000/svg" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 419 511.67"><path d="M314.98 303.62c57.47 0 104.02 46.59 104.02 104.03 0 57.47-46.58 104.02-104.02 104.02-57.47 0-104.02-46.58-104.02-104.02 0-57.47 46.58-104.03 104.02-104.03zM41.73 59.27h23.93v24.38H41.73c-4.54 0-8.7 1.76-11.8 4.61l-.45.49c-3.14 3.13-5.1 7.48-5.1 12.24v315.53c0 4.75 1.96 9.1 5.1 12.24 3.13 3.15 7.48 5.11 12.25 5.11h142.62c1.68 8.44 4.17 16.6 7.36 24.38H41.73c-11.41 0-21.86-4.71-29.42-12.26C4.72 438.44 0 427.99 0 416.52V100.99c0-11.48 4.7-21.92 12.25-29.47l.79-.72c7.5-7.13 17.62-11.53 28.69-11.53zm297.55 217.37V100.99c0-4.74-1.96-9.09-5.12-12.24-3.11-3.15-7.47-5.1-12.24-5.1h-23.91V59.27h23.91c11.45 0 21.86 4.72 29.42 12.26 7.61 7.56 12.32 18.02 12.32 29.46V283.6c-7.79-3.06-15.95-5.41-24.38-6.96zm-206.75-8.07c-7.13 0-12.92-5.79-12.92-12.92s5.79-12.93 12.92-12.93h142.83c7.13 0 12.92 5.8 12.92 12.93s-5.79 12.92-12.92 12.92H132.53zM89.5 241.22c7.98 0 14.44 6.46 14.44 14.44 0 7.97-6.46 14.43-14.44 14.43-7.97 0-14.44-6.46-14.44-14.43 0-7.98 6.47-14.44 14.44-14.44zm0 78.62c7.98 0 14.44 6.46 14.44 14.44 0 7.97-6.46 14.43-14.44 14.43-7.97 0-14.44-6.46-14.44-14.43 0-7.98 6.47-14.44 14.44-14.44zm43.04 27.35c-7.13 0-12.93-5.79-12.93-12.92s5.8-12.93 12.93-12.93h80.96a133.608 133.608 0 0 0-17.26 25.85h-63.7zM89.5 162.6c7.98 0 14.44 6.46 14.44 14.44 0 7.98-6.46 14.44-14.44 14.44-7.97 0-14.44-6.46-14.44-14.44 0-7.98 6.47-14.44 14.44-14.44zm43.03 27.37c-7.13 0-12.92-5.8-12.92-12.93s5.79-12.92 12.92-12.92h142.83c7.13 0 12.92 5.79 12.92 12.92s-5.79 12.93-12.92 12.93H132.53zM93 39.4h46.13C141.84 17.18 159.77 0 181.52 0c21.62 0 39.45 16.95 42.34 38.94l46.76.46c2.61 0 4.7 2.09 4.7 4.71v51.84c0 2.6-2.09 4.7-4.7 4.7H93.05c-2.56 0-4.71-2.1-4.71-4.7V44.11A4.638 4.638 0 0 1 93 39.4zm88.03-19.25c12.3 0 22.26 9.98 22.26 22.27 0 12.3-9.96 22.26-22.26 22.26-12.29 0-22.26-9.96-22.26-22.26 0-12.29 9.97-22.27 22.26-22.27zm118.39 346.9c-.04-4.59-.46-7.86 5.23-7.79l18.45.23c5.95-.04 7.53 1.86 7.46 7.43v25.16h25.02c4.59-.03 7.86-.46 7.78 5.24l-.22 18.44c.03 5.96-1.86 7.54-7.43 7.48h-25.15v25.14c.07 5.57-1.51 7.46-7.46 7.43l-18.45.22c-5.69.09-5.27-3.2-5.23-7.79v-25h-25.16c-5.59.06-7.47-1.52-7.44-7.48l-.22-18.44c-.09-5.7 3.2-5.27 7.79-5.24h25.03v-25.03z"/></svg>`,
                 text: text.tasksText,
                 ref: "tasks",
-                status: "NEW",
+                status: "",
                 fnc: () => {
                     renderTasks();
                 }
@@ -1359,10 +969,10 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
 <path fill="#aaaaaa" opacity="1.000000" stroke="none" d=" M164.360352,144.482025   C158.990448,130.697998 152.426331,118.083344 142.512817,107.397224   C138.677917,103.263458 138.740372,98.332695 142.245529,94.955780   C145.725372,91.603264 150.814636,91.781288 154.665207,95.793335   C166.268768,107.883469 174.258041,122.189873 179.739426,137.924408   C181.312836,142.440903 179.451385,146.653000 175.644608,148.517700   C171.620041,150.489075 168.108170,149.318344 164.360352,144.482025  z"/>
 <path fill="#aaaaaa" opacity="1.000000" stroke="none" d=" M426.711121,428.666138   C433.646576,429.282166 436.252838,431.837219 436.314362,438.077393   C436.412964,448.075806 436.417419,458.076691 436.311737,468.074951   C436.247345,474.164490 433.129486,477.296295 426.998901,477.307220   C395.501007,477.363281 364.002838,477.359680 332.504944,477.290253   C326.889404,477.277893 323.781891,474.207916 323.707703,468.642303   C323.572205,458.478027 323.600861,448.310303 323.681458,438.144958   C323.733704,431.556702 326.814331,428.682312 333.752869,428.675903   C364.584320,428.647491 395.415802,428.663483 426.711121,428.666138  M397.499969,445.338257   C381.533081,445.340057 365.566010,445.298737 349.599335,445.359009   C339.159912,445.398438 340.691956,444.065216 340.242645,454.702667   C340.031738,459.696991 341.882721,460.797913 346.538666,460.748749   C367.492859,460.527435 388.451019,460.719330 409.407166,460.629944   C421.095184,460.580078 419.349548,462.423492 419.731018,450.281433   C419.861511,446.127686 418.218811,445.123199 414.464172,445.287384   C409.152130,445.519684 403.822174,445.341431 397.499969,445.338257  z"/>
 </svg>`,
-                text:  text.giveaway,
+                text:  "AIRDROP",
                 ref: "giveaway",
                 fnc: async () => {
-                    renderGiveAway();
+
                 }
             },
             {
@@ -1840,31 +1450,7 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
             translateXAds = 0;
         }
     }, 5000)
-    blurEffectGiveAway.onclick = () => {
-        model.classList.add('hide');
-        blurEffectGiveAway.classList.add("hide");
-    }
-    closePageGiveaway.onclick = () => {
-        model.classList.add('hide');
-        blurEffectGiveAway.classList.add("hide");
-    }
 
-    // toCasesPageButton.onclick = () => {
-    //     toCasesPageButton.classList.add("mainBttActive");
-    //     games.classList.add("hide");
-    //
-    //     toGamesPageButton.classList.remove("mainBttActive");
-    //     cases.classList.remove("hide");
-    //
-    // }
-    // toGamesPageButton.onclick = () => {
-    //     toCasesPageButton.classList.remove("mainBttActive");
-    //     games.classList.remove("hide");
-    //
-    //     toGamesPageButton.classList.add("mainBttActive");
-    //     cases.classList.add("hide");
-    //     renderGames();
-    // }
     renderGames();
     renderListLang();
 
@@ -2401,5 +1987,22 @@ Simply enter the <strong>user ID</strong> of the person you want to send it to, 
         blurCloseBuyGift.classList.add("hide");
         buyGiftModelGame.classList.remove("active");
     }
+
+    const targetDate = new Date("2025-08-26");
+
+    function updateCountdown() {
+        const now = new Date();
+        const diffTime = targetDate - now;
+
+        const diffDays = Math.max(Math.ceil(diffTime / (1000 * 60 * 60 * 24)), 0);
+
+        const daysElement = document.getElementById("days");
+        if (daysElement) {
+            daysElement.textContent = diffDays.toString();
+        }
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 60 * 1000);
 
 })())

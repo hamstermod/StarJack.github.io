@@ -1,6 +1,5 @@
 ((async () => {
     const test = false;
-
     const isHotChances = true;
     const maintenance = false;
     const MAINURL = test ? "http://localhost:3000/" : "https://fck-production.up.railway.app/";

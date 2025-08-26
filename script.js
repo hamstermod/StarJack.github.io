@@ -2,7 +2,7 @@
     const test = false;
 
     const isHotChances = true;
-    const maintenance = false;
+    const maintenance = true;
     const MAINURL = test ? "http://localhost:3000/" : "https://fck-production.up.railway.app/";
     function parseQuery(query) {
         const params = new URLSearchParams(query);

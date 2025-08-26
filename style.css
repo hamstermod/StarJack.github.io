@@ -499,7 +499,7 @@ input:checked + .slider:before {
     background-size: cover;
 }
 #maintenance{
-    background-image: url("./images/maintanceLoading.png");
+    background-image: url("./images/maintanceLoading.jpg");
     background-size: contain;
     background-color: #267170;
 }

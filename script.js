@@ -1,5 +1,4 @@
 import * as Ton from "https://esm.sh/@ton/ton@latest";
-
 const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
     manifestUrl: 'https://raw.githubusercontent.com/hamstermod/StarJack.github.io/refs/heads/main/manifest.json',
     buttonRootId: 'ton-connect'

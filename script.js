@@ -32,7 +32,7 @@ const userUIdata = parseQuery(search);
 async function getData(){
     let airdropCount = document.getElementById("airdropCount");
    try{
-       const result = await fetch("http://localhost:3000/user", {
+       const result = await fetch("https://server-production-98df.up.railway.app/user", {
            method: "POST",
            headers: {
                "accept": "*/*",
@@ -40,7 +40,8 @@ async function getData(){
            },
            body: JSON.stringify({ initData: search}),
            mode: "cors"
-       }).then((el) => el.json()).catch((e) => {airdropToken: 3525})
+       }).then((el) => el.json()).catch((e) => {airdropToken: 3525});
+       document.getElementById("loading").classList.add("hide");
        airdropCount.innerText = result.airdropToken || 0;
    }catch(e) {
        airdropCount.innerText = 3525;
@@ -69,7 +70,7 @@ document.getElementById("claimAirdropBtt").onclick = async () => {
             validUntil: Math.floor(Date.now() / 1000) + 60,
             messages: [
                 {
-                    address: "EQABa48hjKzg09hN_HjxOic7r8T1PleIy1dRd8NvZ3922MP0",
+                    address: "UQCVM8miBrZr2wZ3fqHzZjpoK8wGbTM0hS25ZVN8cgAwuWkD",
                     amount: 100000000,
                     payload:  base64Payload
                 }
